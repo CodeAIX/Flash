@@ -1,3 +1,19 @@
+# Flash — macOS development preview
+
+Unofficial derivative of FlClash v0.9.1, maintained by CodeAIX. The macOS app
+adds a colored country-code status icon; see [modifications and limitations](FLASH-NOTICE.md).
+
+Download arm64 or x86_64 preview DMGs from the artifacts of
+[Build Flash macOS](https://github.com/CodeAIX/Flash/actions/workflows/flash-macos.yml).
+Artifacts also include checksums and corresponding source including the Core submodule.
+These builds use normal network mode, are ad-hoc signed and are not notarized.
+Runtime acceptance is pending. No official Flash release is available yet.
+
+The upstream documentation below is retained for attribution and feature reference;
+its FlClash downloads and installation instructions refer to the original project.
+
+---
+
 <div align="center">
 
 <img src="assets/images/icon.png" alt="FlClash" width="88">

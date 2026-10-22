@@ -5,6 +5,9 @@ import 'package:flutter/foundation.dart' show visibleForTesting;
 import 'package:tray/tray.dart';
 
 import 'app_localizations.dart';
+import 'service_probe.dart';
+import 'package:fl_clash/providers/outbound_ip.dart';
+import 'package:fl_clash/providers/routed_probe.dart';
 import 'l10n_labels.dart';
 import 'app_ports.dart';
 import 'constant.dart';
@@ -84,19 +87,42 @@ class AppTray implements TrayPort {
     if (_isShutDown) {
       return;
     }
+    final flash =
+        isMacOS &&
+        !trayState.safeMode &&
+        const bool.fromEnvironment('FLASH_STATUS_ICON', defaultValue: true);
+    final entry = flash
+        ? read(outboundIpProbeProvider).entryOf(routedOutbound)
+        : null;
+    final running = trayState.isStart && !trayState.suspended;
+    final status = !running
+        ? 'stopped'
+        : switch (entry?.phase) {
+            ProbePhase.fresh =>
+              trayState.tunEnable || trayState.systemProxy ? 'route' : 'entry',
+            ProbePhase.failed => 'failed',
+            _ => 'unknown',
+          };
+    final country = running && entry?.phase == ProbePhase.fresh
+        ? entry?.value?.countryCode.toUpperCase() ?? '--'
+        : '--';
     await Tray.instance.show(
       TraySpec(
-        icon: TrayIcon.asset(
-          getTrayIcon(
-            isStart: trayState.isStart && !trayState.suspended,
-            tunEnable: trayState.tunEnable,
-            safeMode: trayState.safeMode,
-          ),
-          isTemplate: isMacOS,
-          size: isMacOS ? 18 : 16,
-        ),
+        icon: flash
+            ? TrayIcon.status(country, status)
+            : TrayIcon.asset(
+                getTrayIcon(
+                  isStart: trayState.isStart && !trayState.suspended,
+                  tunEnable: trayState.tunEnable,
+                  safeMode: trayState.safeMode,
+                ),
+                isTemplate: isMacOS,
+                size: isMacOS ? 18 : 16,
+              ),
         toolTip: trayState.safeMode
             ? currentAppLocalizations.safeModeAppTitle(appName)
+            : flash
+            ? 'Flash • $country • $status • Core rule probe; OS entry unverified'
             : appName,
         menu: _buildMenu(trayState: trayState, read: read),
       ),

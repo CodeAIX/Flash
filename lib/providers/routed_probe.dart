@@ -91,6 +91,8 @@ mixin RoutedProbe<K, V>
   @protected
   bool isFailure(V value) => false;
 
+  bool get runsInBackground => false;
+
   @protected
   RoutedProbeState<K, V> buildProbe() {
     _route = ref.read(routeTrackerProvider);
@@ -183,7 +185,9 @@ mixin RoutedProbe<K, V>
 
   void _launch() {
     _scheduled = false;
-    if (!ref.mounted || !_route.live || !ref.read(appVisibleProvider)) {
+    if (!ref.mounted ||
+        !_route.live ||
+        (!runsInBackground && !ref.read(appVisibleProvider))) {
       return;
     }
     final route = _route;

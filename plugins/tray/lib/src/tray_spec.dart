@@ -8,8 +8,17 @@ final class TrayIcon {
     this.isTemplate = false,
     this.size = 18,
     this.position = TrayIconPosition.leading,
-  });
+  }) : country = null,
+       status = null;
 
+  const TrayIcon.status(this.country, this.status)
+    : asset = '',
+      isTemplate = false,
+      size = 18,
+      position = TrayIconPosition.leading;
+
+  final String? country;
+  final String? status;
   final String asset;
   final bool isTemplate;
   final int size;

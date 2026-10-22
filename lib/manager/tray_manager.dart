@@ -8,6 +8,9 @@ import 'package:fl_clash/enum/enum.dart';
 import 'package:fl_clash/providers/action.dart';
 import 'package:fl_clash/providers/app.dart';
 import 'package:fl_clash/providers/state.dart';
+import 'package:fl_clash/providers/outbound_ip.dart';
+import 'package:fl_clash/providers/route_state.dart';
+import 'package:fl_clash/common/service_probe.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tray/tray.dart';
@@ -23,6 +26,8 @@ class TrayManager extends ConsumerStatefulWidget {
 
 class _TrayManagerState extends ConsumerState<TrayManager> {
   StreamSubscription<TrayEvent>? _subscription;
+  Timer? _flashTimer;
+  bool _flashWatching = false;
   bool _isUpdating = false;
   bool _hasPendingUpdate = false;
 
@@ -40,6 +45,15 @@ class _TrayManagerState extends ConsumerState<TrayManager> {
         _requestUpdate();
       }
     });
+    if (system.isMacOS &&
+        const bool.fromEnvironment('FLASH_STATUS_ICON', defaultValue: true)) {
+      scheduleMicrotask(_syncFlashWatch);
+      ref.listenManual(
+        trayStateProvider,
+        (_, _) => scheduleMicrotask(_syncFlashWatch),
+      );
+      ref.listenManual(outboundIpProbeProvider, (_, _) => _requestUpdate());
+    }
     if (system.isMacOS) {
       ref.listenManual(trayDelaysProvider, (prev, next) {
         if (!const DeepCollectionEquality().equals(prev, next)) {
@@ -56,6 +70,25 @@ class _TrayManagerState extends ConsumerState<TrayManager> {
           );
         }
       });
+    }
+  }
+
+  void _syncFlashWatch() {
+    if (!mounted) return;
+    final tray = ref.read(trayStateProvider);
+    final wanted = !tray.safeMode && tray.isStart && !tray.suspended;
+    if (wanted == _flashWatching) return;
+    _flashWatching = wanted;
+    if (wanted) {
+      ref.read(routeTrackerProvider.notifier).attachBackground();
+      ref.read(outboundIpProbeProvider.notifier).watch(routedOutbound);
+      _flashTimer = Timer.periodic(const Duration(seconds: 60), (_) {
+        ref.read(outboundIpProbeProvider.notifier).refresh([routedOutbound]);
+      });
+    } else {
+      _flashTimer?.cancel();
+      ref.read(outboundIpProbeProvider.notifier).unwatch(routedOutbound);
+      ref.read(routeTrackerProvider.notifier).detachBackground();
     }
   }
 
@@ -115,6 +148,11 @@ class _TrayManagerState extends ConsumerState<TrayManager> {
 
   @override
   void dispose() {
+    _flashTimer?.cancel();
+    if (_flashWatching) {
+      ref.read(outboundIpProbeProvider.notifier).unwatch(routedOutbound);
+      ref.read(routeTrackerProvider.notifier).detachBackground();
+    }
     _subscription?.cancel();
     super.dispose();
   }

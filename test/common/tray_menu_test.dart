@@ -11,6 +11,8 @@ import 'package:fl_clash/l10n/l10n.dart';
 import 'package:fl_clash/models/models.dart';
 import 'package:fl_clash/providers/action.dart';
 import 'package:fl_clash/providers/state.dart';
+import 'package:fl_clash/providers/outbound_ip.dart';
+import 'package:fl_clash/providers/routed_probe.dart';
 import 'package:fl_clash/state.dart';
 import 'package:flutter/foundation.dart';
 import 'package:material_ui/material_ui.dart';
@@ -230,13 +232,49 @@ void main() {
     expect(showCalls, hasLength(1));
 
     final arguments = showCalls.single.arguments as Map;
-    expect(arguments['toolTip'], appName);
+    expect(
+      arguments['toolTip'],
+      contains('Core rule probe; OS entry unverified'),
+    );
     expect(arguments['menu'], isNotEmpty);
-    final reps = ((arguments['icon'] as Map)['reps'] as List).cast<Map>();
-    expect(reps.map((rep) => rep['scale']), containsAll([1.0, 2.0, 3.0, 4.0]));
-    expect(reps.map((rep) => rep['bytes']), everyElement(isNotEmpty));
-    expect((arguments['icon'] as Map)['isTemplate'], isTrue);
+    final icon = arguments['icon'] as Map;
+    expect(icon['country'], '--');
+    expect(icon['status'], 'unknown');
+    expect(icon['isTemplate'], isFalse);
   });
+
+  test(
+    'status distinguishes stopped, failed, no entry and rule success',
+    () async {
+      for (final (running, enabled, phase, expected) in [
+        (false, true, ProbePhase.fresh, 'stopped'),
+        (true, true, ProbePhase.failed, 'failed'),
+        (true, false, ProbePhase.fresh, 'entry'),
+        (true, true, ProbePhase.fresh, 'route'),
+      ]) {
+        container.dispose();
+        container = ProviderContainer(
+          overrides: [
+            outboundIpProbeProvider.overrideWithBuild(
+              (_, _) => RoutedProbeState({
+                '': ProbeEntry(
+                  phase: phase,
+                  value: const IpInfo(ip: '2.2.2.2', countryCode: 'JP'),
+                ),
+              }),
+            ),
+          ],
+        );
+        await update(_trayState(isStart: running, systemProxy: enabled));
+        final icon = (showCall()!.arguments as Map)['icon'] as Map;
+        expect(icon['status'], expected);
+        expect(
+          icon['country'],
+          running && phase == ProbePhase.fresh ? 'JP' : '--',
+        );
+      }
+    },
+  );
 
   test('skips the platform call when the tray state is unchanged', () async {
     await update(_trayState(isStart: true));

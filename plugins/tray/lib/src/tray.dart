@@ -202,6 +202,9 @@ final class Tray {
     };
     switch (defaultTargetPlatform) {
       case TargetPlatform.macOS:
+        if (icon.country != null) {
+          return {...resolved, 'country': icon.country, 'status': icon.status};
+        }
         resolved['reps'] = await _loadRepresentations(icon.asset);
       case TargetPlatform.linux:
         resolved['path'] = _largestBundledVariant(icon.asset);
