@@ -63,8 +63,8 @@ jobs:
           app=build/macos/Build/Products/Release/Flash.app
           test -d "$app"
           test "$(/usr/libexec/PlistBuddy -c 'Print CFBundleIdentifier' "$app/Contents/Info.plist")" = com.codeaix.flash
-          lipo -verify_arch "$FLASH_ARCH" "$app/Contents/MacOS/Flash"
-          lipo -verify_arch "$FLASH_ARCH" "$app/Contents/MacOS/FlClashCore"
+          lipo "$app/Contents/MacOS/Flash" -verify_arch "$FLASH_ARCH"
+          lipo "$app/Contents/MacOS/FlClashCore" -verify_arch "$FLASH_ARCH"
           cp LICENSE FLASH-NOTICE.md "$app/Contents/Resources/"
           codesign --force --deep --sign - "$app"
           codesign --verify --deep --strict "$app"
