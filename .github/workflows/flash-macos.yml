@@ -36,6 +36,7 @@ jobs:
           cache-dependency-path: core/go.sum
       - uses: Swatinem/rust-cache@v2
         with:
+          cache-on-failure: true
           workspaces: plugins/rust_api/rust
           cache-directories: .dart_tool/hooks_runner
       - uses: subosito/flutter-action@v2
@@ -53,7 +54,7 @@ jobs:
         if: matrix.arch == 'x86_64'
         run: plutil -replace FLTEnableImpeller -bool NO macos/Runner/Info.plist
       - name: Build Flash
-        run: flutter build macos --release --no-codesign --dart-define=SAFE_MODE=false --dart-define=FLASH_STATUS_ICON=true
+        run: flutter build macos --release --dart-define=SAFE_MODE=false --dart-define=FLASH_STATUS_ICON=true
       - name: Package development preview
         env:
           FLASH_ARCH: ${{ matrix.arch }}
