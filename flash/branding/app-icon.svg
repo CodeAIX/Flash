@@ -15,7 +15,7 @@
       <stop offset="1" stop-color="#97EABB"/>
     </linearGradient>
   </defs>
-  <path fill="#FCFCFC" d="M324 100H700C924 100 924 100 924 324V700C924 924 924 924 700 924H324C100 924 100 924 100 700V324C100 100 100 100 324 100Z"/>
+  <image href="tiles/tile_1024.png" width="1024" height="1024"/>
   <g transform="translate(180 192) scale(2.6666666667)">
     <g stroke-width="46.32" stroke-linecap="round">
       <line x1="59.68" y1="100.95" x2="180.02" y2="31.47" stroke="url(#emerald)"/>

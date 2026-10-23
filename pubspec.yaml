@@ -1,7 +1,7 @@
 name: fl_clash
 description: Flash, an unofficial FlClash derivative with macOS country and IP quality status icons.
 publish_to: 'none'
-version: 1.9.1+2026102303
+version: 1.9.1+2026102304
 environment:
   sdk: '>=3.10.0 <4.0.0'
 

@@ -77,3 +77,12 @@ flash/branding/app-icon.svg; tool/flash/generate_icon.py renders all sizes.
 The app icon and status-bar icon are separate resources. This revision retains
 the revision 2 backup, signing-entitlement and stable-channel repairs, confirmed
 by the user. The upstream glyph geometry and license attribution are preserved.
+
+## 1.9.1 revision 4
+
+Application build 2026102304 corrects the app-icon tile geometry. The original
+FlClash per-size macOS backgrounds, alpha masks, margins and subtle shadows are
+retained in flash/branding/tiles, with source hashes in provenance.json. The
+approved green vector glyph is composited on those tiles. This replaces the
+revision 3 approximate corner path while retaining its green palette and glyph
+geometry. Original GPL attribution applies to the inherited tile resources.

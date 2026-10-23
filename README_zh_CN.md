@@ -15,7 +15,7 @@ Flash 是基于 [FlClash](https://github.com/chen08209/FlClash) 的非官方衍�
 
 ## Flash 特性
 
-应用图标采用白底、翡翠绿到薄荷绿渐变，保留上游两条斜杠与圆点的图形结构。矢量源与生成方法见 [flash/branding](flash/branding)。
+应用图标采用白底、翡翠绿到薄荷绿渐变，保留上游两条斜杠与圆点的图形结构，以及原版 macOS 底板的圆角曲率、边距与轻微投影。矢量源与生成方法见 [flash/branding](flash/branding)。
 
 状态图标采用圆角矩形，内嵌当前规则出口的 IP 国家代码。**底色看代理入口，字色看 IP 质量**，两个维度分别判断。
 
