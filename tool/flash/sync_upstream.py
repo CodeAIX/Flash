@@ -8,7 +8,6 @@ import re
 import shutil
 import subprocess
 import tempfile
-import time
 
 ROOT = Path(__file__).resolve().parents[2]
 
@@ -84,7 +83,10 @@ def main():
         manifest.update(tag=tag, commit=upstream_commit, flash_version=flash_version)
         (destination / 'flash/upstream.json').write_text(json.dumps(manifest, indent=2) + '\n')
         spec = destination / 'pubspec.yaml'
-        spec.write_text(re.sub(r'^version: .*$', f'version: {flash_version}+{int(time.time())}', spec.read_text(), flags=re.M))
+        current_build = int(re.search(r'^version: .*\+(\d+)$', (ROOT / 'pubspec.yaml').read_text(), re.M)[1])
+        upstream_build = re.search(r'^version: .*\+(\d+)$', spec.read_text(), re.M)
+        build = max(current_build + 1, int(upstream_build[1]) if upstream_build else 0)
+        spec.write_text(re.sub(r'^version: .*$', f'version: {flash_version}+{build}', spec.read_text(), flags=re.M))
         patch = run('git', 'diff', '--binary', '--full-index', tag, '--', *paths, cwd=destination).stdout
         (destination / 'flash/runtime.patch').write_text(patch)
         run('git', 'add', '-A', cwd=destination)
