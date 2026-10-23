@@ -3,11 +3,13 @@ import 'package:fl_clash/models/models.dart';
 import 'package:fl_clash/providers/providers.dart';
 import 'package:flutter/foundation.dart' show visibleForTesting;
 import 'package:tray/tray.dart';
+import 'package:riverpod/riverpod.dart';
 
 import 'app_localizations.dart';
 import 'service_probe.dart';
 import 'package:fl_clash/providers/outbound_ip.dart';
 import 'package:fl_clash/providers/routed_probe.dart';
+import 'package:fl_clash/providers/ip_quality.dart';
 import 'l10n_labels.dart';
 import 'app_ports.dart';
 import 'constant.dart';
@@ -95,21 +97,34 @@ class AppTray implements TrayPort {
         ? read(outboundIpProbeProvider).entryOf(routedOutbound)
         : null;
     final running = trayState.isStart && !trayState.suspended;
+    final ip = running && entry?.phase == ProbePhase.fresh
+        ? entry?.value?.ip
+        : null;
+    final qualityResult = ip != null ? read(ipQualityProvider(ip)) : null;
+    final quality =
+        qualityResult != null &&
+            !qualityResult.isLoading &&
+            !qualityResult.hasError
+        ? qualityResult.value
+        : null;
+    final excellent =
+        quality?.ip == ip && quality?.level == IpQualityLevel.good;
     final status = !running
         ? 'stopped'
-        : switch (entry?.phase) {
-            ProbePhase.fresh =>
-              trayState.tunEnable || trayState.systemProxy ? 'route' : 'entry',
-            ProbePhase.failed => 'failed',
-            _ => 'unknown',
-          };
+        : entry?.phase == ProbePhase.failed
+        ? 'failed'
+        : trayState.tunEnable
+        ? 'tun'
+        : trayState.systemProxy
+        ? 'route'
+        : 'entry';
     final country = running && entry?.phase == ProbePhase.fresh
         ? entry?.value?.countryCode.toUpperCase() ?? '--'
         : '--';
     await Tray.instance.show(
       TraySpec(
         icon: flash
-            ? TrayIcon.status(country, status)
+            ? TrayIcon.status(country, status, isHighQuality: excellent)
             : TrayIcon.asset(
                 getTrayIcon(
                   isStart: trayState.isStart && !trayState.suspended,

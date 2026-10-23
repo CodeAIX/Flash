@@ -1,130 +1,57 @@
-<div align="center">
+# Flash
 
-<img src="assets/images/icon.png" alt="FlClash" width="88">
-
-# FlClash
-
-基于 ClashMeta 的多平台代理客户端，简单易用，开源无广告。
-
-[English](README.md) · **简体中文**
-
-[![Release](https://img.shields.io/github/v/release/chen08209/FlClash?style=flat-square&label=release)](https://github.com/chen08209/FlClash/releases/latest)
-[![Downloads](https://img.shields.io/github/downloads/chen08209/FlClash/total?style=flat-square&logo=github)](https://github.com/chen08209/FlClash/releases)
-[![License](https://img.shields.io/github/license/chen08209/FlClash?style=flat-square)](LICENSE)
-[![Telegram](https://img.shields.io/badge/Telegram-channel-26A5E4?style=flat-square&logo=telegram&logoColor=white)](https://t.me/FlClash)
-
-[官网](https://chen08209.github.io/FlClash/zh) · [下载](#下载) · [更新日志](CHANGELOG.md) · [从源码构建](#从源码构建)
-
-</div>
-
-<p align="center">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="snapshots/preview-dark.png">
-    <img alt="FlClash 在 MacBook 与手机上的仪表盘" src="snapshots/preview.png" width="92%">
-  </picture>
-</p>
-
-## 功能
-
-- **一个应用覆盖 Android、Windows、macOS 和 Linux**，桌面端同时提供 x64 与 ARM64 版本。
-- **mihomo（Clash.Meta）内核**：规则分流、代理组、延迟测试、系统代理与 TUN 模式。
-- **配置管理**：通过订阅链接或文件导入配置，内置编辑器，支持覆写脚本以及自定义规则、代理和代理组。
-- **实时查看**连接、请求、DNS 查询和日志。
-- **Material You 设计，融合 Apple 式交互**：支持动态取色、浅色与深色主题，连续曲率圆角，弹出面板可在几档高度间吸附，布局随屏幕从手机到桌面自适应。
-- **备份与恢复**：通过 WebDAV 或本地文件。
-- **平台细节**：Android 上有快捷设置磁贴、分应用代理和 Android TV 支持；桌面端有托盘菜单和全局快捷键。
-- **开源无广告**，以 GPL-3.0 协议发布。
+Flash 是基于 [FlClash](https://github.com/chen08209/FlClash) 的非官方衍生客户端，由 CodeAIX 维护。保留 FlClash 的代理内核、配置、订阅、规则、节点与原有交互，新增 macOS 状态栏可视化。Flash 不提供代理节点或订阅服务。
 
 ## 下载
 
-从 [GitHub Releases](https://github.com/chen08209/FlClash/releases/latest) 获取最新版本，或打开
-[官网](https://chen08209.github.io/FlClash/zh#download)，它会自动为你的设备选好安装包。
+从 [Flash Releases](https://github.com/CodeAIX/Flash/releases/latest) 下载 macOS 安装包：
 
-| 平台 | 安装包 | 说明 |
-| --- | --- | --- |
-| Android | `arm64-v8a`、`armeabi-v7a`、`x86_64` 三种 APK | 绝大多数手机选 `arm64-v8a`。也可以通过下方的 F-Droid 仓库安装。 |
-| Windows 10 及以上 | 安装版（`.exe`）或便携版（`.zip`），分 x64 与 ARM64 | 骁龙等 ARM 架构笔记本选 ARM64。 |
-| macOS 12 及以上 | Apple Silicon 与 Intel 两种 DMG | 也可以通过 Homebrew 安装。 |
-| Linux | `.deb`、`.rpm` 和 AppImage，分 x64 与 ARM64 | 托盘依赖见下方说明。 |
+- `arm64`：Apple Silicon（M 系列）。
+- `x86_64`：Intel Mac。
 
-<p>
-  <a href="https://chen08209.github.io/FlClash-fdroid-repo/repo?fingerprint=789D6D32668712EF7672F9E58DEEB15FBD6DCEEC5AE7A4371EA72F2AAE8A12FD"><img alt="Get it on F-Droid" src="snapshots/get-it-on-fdroid.svg" height="56"></a>
-  <a href="https://github.com/chen08209/FlClash/releases/latest"><img alt="Get it on GitHub" src="snapshots/get-it-on-github.svg" height="56"></a>
-</p>
+打开 DMG，将 Flash 拖入 Applications。安装包采用 ad-hoc 签名，尚未经过 Apple 公证。每个版本附 SHA-256 校验、准确源码及内核子模块源码。
 
-**Homebrew**
+## Flash 特性
 
-```bash
-brew tap chen08209/tap
-brew install --cask flclash
-```
+状态图标采用圆角矩形，内嵌当前规则出口的 IP 国家代码。
 
-**Linux 托盘图标**
+| 图标 | 含义 |
+| --- | --- |
+| 绿色底色 | TUN 已配置开启，优先于系统代理状态 |
+| 蓝色底色 | TUN 关闭、系统代理已配置开启 |
+| 橙色底色 | TUN 与系统代理均未配置开启 |
+| 白色国家代码 | 当前 IP 的 FlClash 内嵌质量评级为“优秀” |
+| 黑色国家代码 | 其他评级，或质量未知、查询中、查询失败 |
+| 灰底原版风格符号 | 代理停止或暂停 |
+| 中性底红色 F | 出口查询异常 |
 
-`.deb` 安装包会自动安装所需依赖。使用 AppImage 或 `.rpm` 时，需要先安装 AyatanaAppIndicator 库，托盘图标才能显示：
+未知国家显示 `--`。底色表示入口配置，字色表示 IP 质量；均不等于所有应用、规则或 AI 服务的连通性保证。国家代码只描述该次规则出口查询。
 
-```bash
-sudo apt-get install libayatana-appindicator3-1   # Debian 与 Ubuntu
-sudo dnf install libayatana-appindicator-gtk3     # Fedora
-```
+Flash 复用 FlClash 内核、出口与 IP 质量检测，不增加第二个代理内核。运行期间保持后台状态监测，定期刷新；切换出口后不会沿用前一个 IP 的质量结果。保留原有托盘菜单、节点操作与速度显示。
 
-## 使用
+目前仅分发 macOS 版本。Windows 与 Android 的 Flash 品牌和状态显示适配尚未完成。
 
-**通过链接导入配置。** 打开下面格式的链接，即可把订阅导入 FlClash。`clashmeta://` 和 `flclash://` 开头的链接同样可用。
+## 与 FlClash 的关系及版本
 
-```text
-clash://install-config?url=<经过 URL 编码的订阅链接>
-```
+Flash 不是 FlClash 官方发行版。上游功能、核心实现及主要界面归功于 FlClash、mihomo 和各第三方项目；原版权和 [GPL-3.0 许可证](LICENSE) 保留，修改说明见 [FLASH-NOTICE.md](FLASH-NOTICE.md)。
 
-**Android 自动化。** Tasker、MacroDroid 等应用可以用下面的 Action 启动 Activity，从而启动、停止或切换代理：
+Flash 版本按上游正式版的 major 加 1，minor、patch 保持一致：`0.9.1 → 1.9.1`、`0.9.2 → 1.9.2`、`0.10.0 → 1.10.0`。这不是 SemVer 的 `+` 构建元数据语法。对应上游版本、commit 与 Flash 版本记录在 [flash/upstream.json](flash/upstream.json)。
 
-```text
-com.follow.clash.action.START
-com.follow.clash.action.STOP
-com.follow.clash.action.TOGGLE
-```
+## 独立定制与自动更新
 
-在电脑上也可以通过 adb 触发：
+Flash 定制以 [flash/runtime.patch](flash/runtime.patch) 和文件清单维护，文档、品牌声明及工作流作为覆盖文件保留。更新器每天检查上游正式 Release，排除预发布；从固定 tag 重建源码并尝试应用定制补丁。
 
-```bash
-adb shell am start -a com.follow.clash.action.TOGGLE
-```
+补丁冲突即停止，不丢弃 Flash 改动。兼容时创建候选分支和 PR，显式触发检查、测试及 macOS 双架构构建；全部通过才合并并发布对应版本。构建成功不代替网络行为的人工验收。上游若修改托盘、provider、平台身份或工具链，仍可能需要人工适配。
 
 ## 从源码构建
 
-需要 [Flutter](https://docs.flutter.dev/get-started/install) 3.47（正式版构建使用 3.47.6）、[Go](https://go.dev/dl/) 1.27，
-以及通过 rustup 安装的 [Rust](https://rustup.rs/)。桌面端需要在对应系统上构建，Android 在任意系统上都能构建。
+使用源码包内固定版本的 Flutter、Go、Rust 要求；本次基线为 Flutter 3.47.6、Go 1.27、Rust 1.99.0，以及 Xcode 26 SDK 或兼容更新版本。
 
-```bash
-git clone --recursive https://github.com/chen08209/FlClash.git
-cd FlClash
+```sh
+git clone --recursive https://github.com/CodeAIX/Flash.git
+cd Flash
 flutter pub get
-dart setup.dart android   # 或 windows、macos、linux
+flutter build macos --release --dart-define=FLASH_STATUS_ICON=true
 ```
 
-安装包输出到 `dist/`。Go 内核和 Rust 库会在 Flutter 构建过程中一并编译。
-
-| 平台 | 额外依赖 |
-| --- | --- |
-| Android | 带 NDK 的 Android SDK。加上 `--arch arm64` 可以只构建单个 ABI。 |
-| Windows | 编译内核用的 GCC（MinGW-w64），以及打包安装程序用的 [Inno Setup](https://jrsoftware.org/isinfo.php) 6。 |
-| macOS | Xcode 与 Node.js。脚本会通过 npm 安装 `appdmg`。 |
-| Linux | Debian 或 Ubuntu。脚本会用 apt 安装构建所需的软件包，并下载 `appimagetool`。 |
-
-其余选项可以运行 `dart setup.dart --help` 查看，例如用 `--targets` 只构建部分安装包格式。
-
-## 支持
-
-给仓库点一个 Star 是支持项目最简单的方式。问题讨论和更新通知请关注 [Telegram 频道](https://t.me/FlClash)，
-Bug 与功能建议请提交到 [GitHub Issues](https://github.com/chen08209/FlClash/issues)。
-
-<a href="https://star-history.com/#chen08209/FlClash&Date">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=chen08209/FlClash&type=Date&theme=dark">
-    <img alt="Star history" src="https://api.star-history.com/svg?repos=chen08209/FlClash&type=Date" width="640">
-  </picture>
-</a>
-
-## 许可证
-
-FlClash 以 [GPL-3.0 协议](LICENSE)发布。
+本地调试请使用 `--dart-define=SAFE_MODE=true`，以免接管现有代理环境。使用 `--dart-define=FLASH_STATUS_ICON=false` 可回退原版模板托盘图标。

@@ -12,6 +12,7 @@ import 'package:fl_clash/models/models.dart';
 import 'package:fl_clash/providers/action.dart';
 import 'package:fl_clash/providers/state.dart';
 import 'package:fl_clash/providers/outbound_ip.dart';
+import 'package:fl_clash/providers/ip_quality.dart';
 import 'package:fl_clash/providers/routed_probe.dart';
 import 'package:fl_clash/state.dart';
 import 'package:flutter/foundation.dart';
@@ -239,7 +240,7 @@ void main() {
     expect(arguments['menu'], isNotEmpty);
     final icon = arguments['icon'] as Map;
     expect(icon['country'], '--');
-    expect(icon['status'], 'unknown');
+    expect(icon['status'], 'tun');
     expect(icon['isTemplate'], isFalse);
   });
 
@@ -255,6 +256,9 @@ void main() {
         container.dispose();
         container = ProviderContainer(
           overrides: [
+            ipQualityProvider(
+              '2.2.2.2',
+            ).overrideWithValue(const AsyncLoading()),
             outboundIpProbeProvider.overrideWithBuild(
               (_, _) => RoutedProbeState({
                 '': ProbeEntry(
@@ -275,6 +279,92 @@ void main() {
       }
     },
   );
+
+  test('quality changes text independently of the entry background', () async {
+    const good = IpQuality(
+      ip: '2.2.2.2',
+      source: IpQualitySource.identMe,
+      type: IpType.residential,
+    );
+    for (final (quality, phase, enabled, expected)
+        in <(AsyncValue<IpQuality>, ProbePhase, bool, String)>[
+          (const AsyncData(good), ProbePhase.fresh, true, 'route'),
+          (
+            AsyncData(good.copyWith(type: IpType.hosting)),
+            ProbePhase.fresh,
+            true,
+            'route',
+          ),
+          (
+            AsyncData(good.copyWith(isAbuser: true)),
+            ProbePhase.fresh,
+            true,
+            'route',
+          ),
+          (
+            AsyncData(good.copyWith(ip: '3.3.3.3')),
+            ProbePhase.fresh,
+            true,
+            'route',
+          ),
+          (const AsyncLoading(), ProbePhase.fresh, true, 'route'),
+          (
+            AsyncError(StateError('failed'), StackTrace.empty),
+            ProbePhase.fresh,
+            true,
+            'route',
+          ),
+          (const AsyncData(good), ProbePhase.probing, true, 'route'),
+          (const AsyncData(good), ProbePhase.failed, true, 'failed'),
+          (const AsyncData(good), ProbePhase.fresh, false, 'entry'),
+        ]) {
+      container.dispose();
+      container = ProviderContainer(
+        overrides: [
+          ipQualityProvider('2.2.2.2').overrideWithValue(quality),
+          outboundIpProbeProvider.overrideWithBuild(
+            (_, _) => RoutedProbeState({
+              '': ProbeEntry(
+                phase: phase,
+                value: const IpInfo(ip: '2.2.2.2', countryCode: 'JP'),
+              ),
+            }),
+          ),
+        ],
+      );
+      await update(_trayState(isStart: true, systemProxy: enabled));
+      expect(
+        ((showCall()!.arguments as Map)['icon'] as Map)['status'],
+        expected,
+      );
+      final value = quality.isLoading || quality.hasError
+          ? null
+          : quality.value;
+      expect(
+        ((showCall()!.arguments as Map)['icon'] as Map)['isHighQuality'],
+        phase == ProbePhase.fresh &&
+            value?.ip == '2.2.2.2' &&
+            value?.level == IpQualityLevel.good,
+      );
+    }
+  });
+
+  test('TUN takes priority over system proxy for the background', () async {
+    for (final (tun, proxy, expected) in [
+      (true, true, 'tun'),
+      (true, false, 'tun'),
+      (false, true, 'route'),
+      (false, false, 'entry'),
+    ]) {
+      await update(
+        _trayState(isStart: true, tunEnable: tun, systemProxy: proxy),
+      );
+      final icon = (showCall()!.arguments as Map)['icon'] as Map;
+      expect(icon['status'], expected);
+      expect(icon['country'], '--');
+      expect(icon['isHighQuality'], isFalse);
+    }
+  });
 
   test('skips the platform call when the tray state is unchanged', () async {
     await update(_trayState(isStart: true));

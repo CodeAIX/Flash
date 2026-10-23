@@ -203,7 +203,12 @@ final class Tray {
     switch (defaultTargetPlatform) {
       case TargetPlatform.macOS:
         if (icon.country != null) {
-          return {...resolved, 'country': icon.country, 'status': icon.status};
+          return {
+            ...resolved,
+            'country': icon.country,
+            'status': icon.status,
+            'isHighQuality': icon.isHighQuality,
+          };
         }
         resolved['reps'] = await _loadRepresentations(icon.asset);
       case TargetPlatform.linux:

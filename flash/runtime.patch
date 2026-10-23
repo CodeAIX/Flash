@@ -1,0 +1,928 @@
+diff --git a/lib/common/constant.dart b/lib/common/constant.dart
+index 3eaaff88216cd017de7502a7a12c70cc96a3fb50..99fc1fe9347d04686ccb96afeabab5ad49d6ba1b 100644
+--- a/lib/common/constant.dart
++++ b/lib/common/constant.dart
+@@ -9,7 +9,7 @@ import 'package:fl_clash/enum/enum.dart';
+ import 'package:fl_clash/models/models.dart';
+ import 'package:material_ui/material_ui.dart';
+ 
+-const appName = 'FlClash';
++const appName = 'Flash';
+ const appHelperService = 'FlClashHelperService';
+ const coreManifestName = 'manifest.json';
+ const browserUa =
+@@ -108,7 +108,7 @@ const configKey = 'config';
+ const systemDnsRecordKey = 'system_dns_record';
+ const bootRecordKey = 'boot_record';
+ const defaultSystemDnsFallback = '223.5.5.5';
+-const repository = 'chen08209/FlClash';
++const repository = 'CodeAIX/Flash';
+ const maxMobileWidth = 600;
+ const maxLaptopWidth = 840;
+ const defaultTestUrl = 'https://www.gstatic.com/generate_204';
+diff --git a/lib/common/tray.dart b/lib/common/tray.dart
+index 8c8aa776d0dfb8acfaaa62b16c91e5efeea33ea9..428df9f06ac5f134f50e277fb64865aae7259bce 100644
+--- a/lib/common/tray.dart
++++ b/lib/common/tray.dart
+@@ -3,8 +3,13 @@ import 'package:fl_clash/models/models.dart';
+ import 'package:fl_clash/providers/providers.dart';
+ import 'package:flutter/foundation.dart' show visibleForTesting;
+ import 'package:tray/tray.dart';
++import 'package:riverpod/riverpod.dart';
+ 
+ import 'app_localizations.dart';
++import 'service_probe.dart';
++import 'package:fl_clash/providers/outbound_ip.dart';
++import 'package:fl_clash/providers/routed_probe.dart';
++import 'package:fl_clash/providers/ip_quality.dart';
+ import 'l10n_labels.dart';
+ import 'app_ports.dart';
+ import 'constant.dart';
+@@ -84,19 +89,55 @@ class AppTray implements TrayPort {
+     if (_isShutDown) {
+       return;
+     }
++    final flash =
++        isMacOS &&
++        !trayState.safeMode &&
++        const bool.fromEnvironment('FLASH_STATUS_ICON', defaultValue: true);
++    final entry = flash
++        ? read(outboundIpProbeProvider).entryOf(routedOutbound)
++        : null;
++    final running = trayState.isStart && !trayState.suspended;
++    final ip = running && entry?.phase == ProbePhase.fresh
++        ? entry?.value?.ip
++        : null;
++    final qualityResult = ip != null ? read(ipQualityProvider(ip)) : null;
++    final quality =
++        qualityResult != null &&
++            !qualityResult.isLoading &&
++            !qualityResult.hasError
++        ? qualityResult.value
++        : null;
++    final excellent =
++        quality?.ip == ip && quality?.level == IpQualityLevel.good;
++    final status = !running
++        ? 'stopped'
++        : entry?.phase == ProbePhase.failed
++        ? 'failed'
++        : trayState.tunEnable
++        ? 'tun'
++        : trayState.systemProxy
++        ? 'route'
++        : 'entry';
++    final country = running && entry?.phase == ProbePhase.fresh
++        ? entry?.value?.countryCode.toUpperCase() ?? '--'
++        : '--';
+     await Tray.instance.show(
+       TraySpec(
+-        icon: TrayIcon.asset(
+-          getTrayIcon(
+-            isStart: trayState.isStart && !trayState.suspended,
+-            tunEnable: trayState.tunEnable,
+-            safeMode: trayState.safeMode,
+-          ),
+-          isTemplate: isMacOS,
+-          size: isMacOS ? 18 : 16,
+-        ),
++        icon: flash
++            ? TrayIcon.status(country, status, isHighQuality: excellent)
++            : TrayIcon.asset(
++                getTrayIcon(
++                  isStart: trayState.isStart && !trayState.suspended,
++                  tunEnable: trayState.tunEnable,
++                  safeMode: trayState.safeMode,
++                ),
++                isTemplate: isMacOS,
++                size: isMacOS ? 18 : 16,
++              ),
+         toolTip: trayState.safeMode
+             ? currentAppLocalizations.safeModeAppTitle(appName)
++            : flash
++            ? 'Flash • $country • $status • Core rule probe; OS entry unverified'
+             : appName,
+         menu: _buildMenu(trayState: trayState, read: read),
+       ),
+diff --git a/lib/manager/tray_manager.dart b/lib/manager/tray_manager.dart
+index 57094292db4666e6f13153cd03f37cee8ee4f9dc..85a8150f9e3d25da362cb3e16c43f8a1656a3c55 100755
+--- a/lib/manager/tray_manager.dart
++++ b/lib/manager/tray_manager.dart
+@@ -8,6 +8,12 @@ import 'package:fl_clash/enum/enum.dart';
+ import 'package:fl_clash/providers/action.dart';
+ import 'package:fl_clash/providers/app.dart';
+ import 'package:fl_clash/providers/state.dart';
++import 'package:fl_clash/providers/outbound_ip.dart';
++import 'package:fl_clash/providers/ip_quality.dart';
++import 'package:fl_clash/providers/routed_probe.dart';
++import 'package:fl_clash/models/models.dart';
++import 'package:fl_clash/providers/route_state.dart';
++import 'package:fl_clash/common/service_probe.dart';
+ import 'package:material_ui/material_ui.dart';
+ import 'package:flutter_riverpod/flutter_riverpod.dart';
+ import 'package:tray/tray.dart';
+@@ -23,6 +29,12 @@ class TrayManager extends ConsumerStatefulWidget {
+ 
+ class _TrayManagerState extends ConsumerState<TrayManager> {
+   StreamSubscription<TrayEvent>? _subscription;
++  Timer? _flashTimer;
++  ProviderSubscription<AsyncValue<IpQuality>>? _qualitySubscription;
++  String? _qualityIp;
++  bool _flashWatching = false;
++  OutboundIpProbe? _flashProbe;
++  RouteTracker? _flashRoute;
+   bool _isUpdating = false;
+   bool _hasPendingUpdate = false;
+ 
+@@ -40,6 +52,18 @@ class _TrayManagerState extends ConsumerState<TrayManager> {
+         _requestUpdate();
+       }
+     });
++    if (system.isMacOS &&
++        const bool.fromEnvironment('FLASH_STATUS_ICON', defaultValue: true)) {
++      scheduleMicrotask(_syncFlashWatch);
++      ref.listenManual(
++        trayStateProvider,
++        (_, _) => scheduleMicrotask(_syncFlashWatch),
++      );
++      ref.listenManual(outboundIpProbeProvider, (_, _) {
++        scheduleMicrotask(_syncFlashQuality);
++        _requestUpdate();
++      });
++    }
+     if (system.isMacOS) {
+       ref.listenManual(trayDelaysProvider, (prev, next) {
+         if (!const DeepCollectionEquality().equals(prev, next)) {
+@@ -59,6 +83,53 @@ class _TrayManagerState extends ConsumerState<TrayManager> {
+     }
+   }
+ 
++  void _syncFlashWatch() {
++    if (!mounted) return;
++    final tray = ref.read(trayStateProvider);
++    _syncFlashQuality();
++    final wanted = !tray.safeMode && tray.isStart && !tray.suspended;
++    if (wanted == _flashWatching) return;
++    _flashWatching = wanted;
++    if (wanted) {
++      _flashRoute = ref.read(routeTrackerProvider.notifier);
++      _flashProbe = ref.read(outboundIpProbeProvider.notifier);
++      _flashRoute!.attachBackground();
++      _flashProbe!.watch(routedOutbound);
++      _flashTimer = Timer.periodic(const Duration(seconds: 60), (_) {
++        ref.read(outboundIpProbeProvider.notifier).refresh([routedOutbound]);
++      });
++    } else {
++      _flashTimer?.cancel();
++      _flashProbe?.unwatch(routedOutbound);
++      _flashRoute?.detachBackground();
++      _flashProbe = null;
++      _flashRoute = null;
++    }
++  }
++
++  void _syncFlashQuality() {
++    if (!mounted) return;
++    final tray = ref.read(trayStateProvider);
++    final entry = ref.read(outboundIpProbeProvider).entryOf(routedOutbound);
++    final ip =
++        !tray.safeMode &&
++            tray.isStart &&
++            !tray.suspended &&
++            entry.phase == ProbePhase.fresh
++        ? entry.value?.ip
++        : null;
++    if (ip == _qualityIp) return;
++    _qualitySubscription?.close();
++    _qualitySubscription = null;
++    _qualityIp = ip;
++    if (ip != null) {
++      _qualitySubscription = ref.listenManual(
++        ipQualityProvider(ip),
++        (_, _) => _requestUpdate(),
++      );
++    }
++  }
++
+   /// A delay test changes the menu per proxy, so updates in flight coalesce.
+   void _requestUpdate() {
+     if (_isUpdating) {
+@@ -115,6 +186,14 @@ class _TrayManagerState extends ConsumerState<TrayManager> {
+ 
+   @override
+   void dispose() {
++    _qualitySubscription?.close();
++    _flashTimer?.cancel();
++    if (_flashWatching) {
++      _flashProbe?.unwatch(routedOutbound);
++      _flashRoute?.detachBackground();
++      _flashProbe = null;
++      _flashRoute = null;
++    }
+     _subscription?.cancel();
+     super.dispose();
+   }
+diff --git a/lib/providers/generated/action.g.dart b/lib/providers/generated/action.g.dart
+index 9c492ab1ff87b85a37e4929cf03e7fac35cbb941..06f85e66a6ec7e0e5d9474b47aad89d608da89be 100644
+--- a/lib/providers/generated/action.g.dart
++++ b/lib/providers/generated/action.g.dart
+@@ -40,7 +40,7 @@ final class CommonActionProvider extends $NotifierProvider<CommonAction, void> {
+   }
+ }
+ 
+-String _$commonActionHash() => r'54ce5b04654db2574cc10d9e364eacb8c7137a36';
++String _$commonActionHash() => r'ebc6190a3eb9e76d46795bca1bc6c74e5594fdae';
+ 
+ abstract class _$CommonAction extends $Notifier<void> {
+   void build();
+@@ -91,7 +91,7 @@ final class SetupActionProvider extends $NotifierProvider<SetupAction, void> {
+   }
+ }
+ 
+-String _$setupActionHash() => r'25138994408b232d6a5501660da7a75d0515a9b9';
++String _$setupActionHash() => r'd864262229e1d70a53e99032eecebf1d612b1bb4';
+ 
+ abstract class _$SetupAction extends $Notifier<void> {
+   void build();
+@@ -244,7 +244,7 @@ final class SystemActionProvider extends $NotifierProvider<SystemAction, void> {
+   }
+ }
+ 
+-String _$systemActionHash() => r'0415cd015950dbd6b21a3f14c0b1ced5c2333812';
++String _$systemActionHash() => r'8289c73c9e50a4303646e6b5324dc65093ef1447';
+ 
+ abstract class _$SystemAction extends $Notifier<void> {
+   void build();
+@@ -450,7 +450,7 @@ final class ProfilesActionProvider
+   }
+ }
+ 
+-String _$profilesActionHash() => r'5489060d78e082015815ed1bcb8bfda159111acb';
++String _$profilesActionHash() => r'3c1e8d82dca0bea932665f2c18a5688f4db2fecc';
+ 
+ abstract class _$ProfilesAction extends $Notifier<void> {
+   void build();
+diff --git a/lib/providers/generated/app.g.dart b/lib/providers/generated/app.g.dart
+index cd60988a580135b2d8849cf24d11dd706dbf410b..b71c2299e77c0725b7f92a826ac41b27e3705581 100644
+--- a/lib/providers/generated/app.g.dart
++++ b/lib/providers/generated/app.g.dart
+@@ -185,7 +185,7 @@ final class RequestsProvider
+   }
+ }
+ 
+-String _$requestsHash() => r'ceb041f2418513a5307b64bc9b5b58cae41e6eec';
++String _$requestsHash() => r'fe172892ec899bd6fd53dcbfebf65cd9e856efa7';
+ 
+ abstract class _$Requests extends $Notifier<FixedList<TrackerInfo>> {
+   FixedList<TrackerInfo> build();
+diff --git a/lib/providers/generated/outbound_ip.g.dart b/lib/providers/generated/outbound_ip.g.dart
+index 0ae95be141d8ad023b94afea4f08af3595800dab..ab48ff6dc8c495ceb2a0dad3a88796ec65e44ab8 100644
+--- a/lib/providers/generated/outbound_ip.g.dart
++++ b/lib/providers/generated/outbound_ip.g.dart
+@@ -50,7 +50,7 @@ final class OutboundIpProbeProvider
+   }
+ }
+ 
+-String _$outboundIpProbeHash() => r'45e0bfbd2cc271da44c09759f52ddf7925a14ce3';
++String _$outboundIpProbeHash() => r'10c1b64859bbbcf895a93a7d50da09a6eb5f6472';
+ 
+ /// Keyed by the outbound a lookup pins: a node name, `DIRECT`, or
+ /// [routedOutbound] for whatever the rules pick right now.
+diff --git a/lib/providers/generated/route_state.g.dart b/lib/providers/generated/route_state.g.dart
+index 46a160c5dffcb2d8a50fb06969284c6f4d8e5d95..51988a4ec2959e793aea7899db2a59ba5e683b1e 100644
+--- a/lib/providers/generated/route_state.g.dart
++++ b/lib/providers/generated/route_state.g.dart
+@@ -41,7 +41,7 @@ final class RouteTrackerProvider
+   }
+ }
+ 
+-String _$routeTrackerHash() => r'2a734c235b8b702b6767cac8f4ce96a8ccc458a9';
++String _$routeTrackerHash() => r'e6ab1de2e8300d9c3afc706b2e450e7a460cc882';
+ 
+ abstract class _$RouteTracker extends $Notifier<RouteState> {
+   RouteState build();
+diff --git a/lib/providers/outbound_ip.dart b/lib/providers/outbound_ip.dart
+index 23db089901cbe0521b0b97371bb2c4bc84ae1d0a..bade47d7182697b1a192aff54ad26cb80fd2ab0e 100644
+--- a/lib/providers/outbound_ip.dart
++++ b/lib/providers/outbound_ip.dart
+@@ -1,4 +1,5 @@
+ import 'package:fl_clash/common/service_probe.dart';
++import 'package:fl_clash/common/system.dart';
+ import 'package:fl_clash/models/models.dart';
+ import 'package:riverpod_annotation/riverpod_annotation.dart';
+ 
+@@ -14,6 +15,11 @@ part 'generated/outbound_ip.g.dart';
+ class OutboundIpProbe extends _$OutboundIpProbe
+     with RoutedProbe<String, IpInfo> {
+   @override
++  bool get runsInBackground =>
++      system.isMacOS &&
++      const bool.fromEnvironment('FLASH_STATUS_ICON', defaultValue: true);
++
++  @override
+   RoutedProbeState<String, IpInfo> build() => buildProbe();
+ 
+   @override
+diff --git a/lib/providers/route_state.dart b/lib/providers/route_state.dart
+index 44ce73ed4b3fb68b739c45055b80e2439b2e385c..2bfd2c943fb7448d1173dd1d91dbfac4c20c01f9 100644
+--- a/lib/providers/route_state.dart
++++ b/lib/providers/route_state.dart
+@@ -162,6 +162,7 @@ class RouteTracker extends _$RouteTracker {
+   ];
+ 
+   int _watchers = 0;
++  int _backgroundWatchers = 0;
+   int _generation = 0;
+   bool _syncing = false;
+   bool _resubscribe = false;
+@@ -177,7 +178,7 @@ class RouteTracker extends _$RouteTracker {
+     ref.listen(appVisibleProvider, (_, visible) {
+       if (visible) {
+         _subscribe();
+-      } else if (_watchers > 0) {
++      } else if (_watchers > 0 && _backgroundWatchers == 0) {
+         _unsubscribe();
+       }
+     });
+@@ -195,10 +196,27 @@ class RouteTracker extends _$RouteTracker {
+ 
+   bool get _ready =>
+       _watchers > 0 &&
+-      ref.read(appVisibleProvider) &&
++      (ref.read(appVisibleProvider) || _backgroundWatchers > 0) &&
+       ref.read(initProvider) &&
+       ref.read(coreStatusProvider) == CoreStatus.connected;
+ 
++  void attachBackground() {
++    _backgroundWatchers++;
++    attach();
++    if (_watchers > 1) {
++      _subscribe();
++    }
++  }
++
++  void detachBackground() {
++    if (_backgroundWatchers == 0) return;
++    _backgroundWatchers--;
++    detach();
++    if (_backgroundWatchers == 0 && !ref.read(appVisibleProvider)) {
++      _unsubscribe();
++    }
++  }
++
+   void attach() {
+     if (++_watchers == 1) {
+       _subscribe();
+diff --git a/lib/providers/routed_probe.dart b/lib/providers/routed_probe.dart
+index b6b5f7cb0a7434d3be48bcb0ac6383f23c4f8c30..108182c99d789b86743d78ce11db41f6167531dd 100644
+--- a/lib/providers/routed_probe.dart
++++ b/lib/providers/routed_probe.dart
+@@ -91,6 +91,8 @@ mixin RoutedProbe<K, V>
+   @protected
+   bool isFailure(V value) => false;
+ 
++  bool get runsInBackground => false;
++
+   @protected
+   RoutedProbeState<K, V> buildProbe() {
+     _route = ref.read(routeTrackerProvider);
+@@ -183,7 +185,9 @@ mixin RoutedProbe<K, V>
+ 
+   void _launch() {
+     _scheduled = false;
+-    if (!ref.mounted || !_route.live || !ref.read(appVisibleProvider)) {
++    if (!ref.mounted ||
++        !_route.live ||
++        (!runsInBackground && !ref.read(appVisibleProvider))) {
+       return;
+     }
+     final route = _route;
+diff --git a/macos/Runner.xcodeproj/project.pbxproj b/macos/Runner.xcodeproj/project.pbxproj
+index 645231d59ef2bd4d5267fc3cb47dc058f8520bd5..b0580e59888445ac3b1864abc845cc5625535d9d 100644
+--- a/macos/Runner.xcodeproj/project.pbxproj
++++ b/macos/Runner.xcodeproj/project.pbxproj
+@@ -521,7 +521,7 @@
+ 				CODE_SIGN_STYLE = Automatic;
+ 				COMBINE_HIDPI_IMAGES = YES;
+ 				INFOPLIST_FILE = Runner/Info.plist;
+-				INFOPLIST_KEY_CFBundleDisplayName = FlClash;
++				INFOPLIST_KEY_CFBundleDisplayName = Flash;
+ 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
+ 				LD_RUNPATH_SEARCH_PATHS = (
+ 					"$(inherited)",
+@@ -655,13 +655,13 @@
+ 				CODE_SIGN_STYLE = Automatic;
+ 				COMBINE_HIDPI_IMAGES = YES;
+ 				INFOPLIST_FILE = Runner/Info.plist;
+-				INFOPLIST_KEY_CFBundleDisplayName = FlClash;
++				INFOPLIST_KEY_CFBundleDisplayName = Flash;
+ 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
+ 				LD_RUNPATH_SEARCH_PATHS = (
+ 					"$(inherited)",
+ 					"@executable_path/../Frameworks",
+ 				);
+-				PRODUCT_BUNDLE_IDENTIFIER = com.follow.clash.debug;
++				PRODUCT_BUNDLE_IDENTIFIER = com.codeaix.flash.debug;
+ 				PROVISIONING_PROFILE_SPECIFIER = "";
+ 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+ 				SWIFT_VERSION = 5.0;
+@@ -678,7 +678,7 @@
+ 				CODE_SIGN_STYLE = Automatic;
+ 				COMBINE_HIDPI_IMAGES = YES;
+ 				INFOPLIST_FILE = Runner/Info.plist;
+-				INFOPLIST_KEY_CFBundleDisplayName = FlClash;
++				INFOPLIST_KEY_CFBundleDisplayName = Flash;
+ 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
+ 				LD_RUNPATH_SEARCH_PATHS = (
+ 					"$(inherited)",
+diff --git a/macos/Runner/Configs/AppInfo.xcconfig b/macos/Runner/Configs/AppInfo.xcconfig
+index 776ce24c63aac9f67afb6924fb59baf4f8804db2..ec4efa9f4921065fb6655fc77d18804017578b9a 100755
+--- a/macos/Runner/Configs/AppInfo.xcconfig
++++ b/macos/Runner/Configs/AppInfo.xcconfig
+@@ -5,10 +5,10 @@
+ // 'flutter create' template.
+ 
+ // The application's name. By default this is also the title of the Flutter window.
+-PRODUCT_NAME = FlClash
++PRODUCT_NAME = Flash
+ 
+ // The application's bundle identifier
+-PRODUCT_BUNDLE_IDENTIFIER = com.follow.clash
++PRODUCT_BUNDLE_IDENTIFIER = com.codeaix.flash
+ 
+ // The copyright displayed in application information
+ PRODUCT_COPYRIGHT = Copyright © 2023 com.follow. All rights reserved.
+diff --git a/plugins/tray/lib/src/tray.dart b/plugins/tray/lib/src/tray.dart
+index 5bd30926d57cbdf8a41e014b29acd15365be7159..4f0f7faf218ddd5bd821cd4eac54c643e1831bb5 100644
+--- a/plugins/tray/lib/src/tray.dart
++++ b/plugins/tray/lib/src/tray.dart
+@@ -202,6 +202,14 @@ final class Tray {
+     };
+     switch (defaultTargetPlatform) {
+       case TargetPlatform.macOS:
++        if (icon.country != null) {
++          return {
++            ...resolved,
++            'country': icon.country,
++            'status': icon.status,
++            'isHighQuality': icon.isHighQuality,
++          };
++        }
+         resolved['reps'] = await _loadRepresentations(icon.asset);
+       case TargetPlatform.linux:
+         resolved['path'] = _largestBundledVariant(icon.asset);
+diff --git a/plugins/tray/lib/src/tray_codec.dart b/plugins/tray/lib/src/tray_codec.dart
+index dd200611d232bcdcfd1e6366082e3f64b51915b4..30e81f2a1f44ad6dd96bb3e2b35ba7bade2dea90 100644
+--- a/plugins/tray/lib/src/tray_codec.dart
++++ b/plugins/tray/lib/src/tray_codec.dart
+@@ -27,6 +27,9 @@ abstract final class TrayCodec {
+     final menu = _encodeItems(spec.menu, itemsById, _IdAllocator());
+     final icon = <String, Object?>{
+       'asset': spec.icon.asset,
++      if (spec.icon.country != null) 'country': spec.icon.country,
++      if (spec.icon.status != null) 'status': spec.icon.status,
++      if (spec.icon.country != null) 'isHighQuality': spec.icon.isHighQuality,
+       'isTemplate': spec.icon.isTemplate,
+       'size': spec.icon.size,
+       'position': spec.icon.position.name,
+diff --git a/plugins/tray/lib/src/tray_spec.dart b/plugins/tray/lib/src/tray_spec.dart
+index ad91c0e7274d13540f83eee487ee1a93cd8f9e29..45afd315466bcb00fbdafed880c4b5e623dbcb10 100644
+--- a/plugins/tray/lib/src/tray_spec.dart
++++ b/plugins/tray/lib/src/tray_spec.dart
+@@ -8,8 +8,19 @@ final class TrayIcon {
+     this.isTemplate = false,
+     this.size = 18,
+     this.position = TrayIconPosition.leading,
+-  });
++  }) : country = null,
++       status = null,
++       isHighQuality = false;
+ 
++  const TrayIcon.status(this.country, this.status, {this.isHighQuality = false})
++    : asset = '',
++      isTemplate = false,
++      size = 18,
++      position = TrayIconPosition.leading;
++
++  final bool isHighQuality;
++  final String? country;
++  final String? status;
+   final String asset;
+   final bool isTemplate;
+   final int size;
+diff --git a/plugins/tray/macos/tray/Sources/tray/FlashStatusImage.swift b/plugins/tray/macos/tray/Sources/tray/FlashStatusImage.swift
+new file mode 100644
+index 0000000000000000000000000000000000000000..b1b177f45a5a192821c844aaf323659905fa67fb
+--- /dev/null
++++ b/plugins/tray/macos/tray/Sources/tray/FlashStatusImage.swift
+@@ -0,0 +1,81 @@
++import AppKit
++
++final class FlashStatusImage {
++    static func make(country: String, status: String, isHighQuality: Bool = false) -> NSImage {
++        let colors: [String: NSColor] = [
++            "tun": .systemGreen, "route": .systemBlue, "entry": .systemOrange,
++            "unknown": .systemGray, "stopped": .systemGray,
++        ]
++        let label = status == "failed" ? "F" :
++            (country.range(of: "^[A-Z]{2}$", options: .regularExpression) != nil ? country : "--")
++        let size = NSSize(width: 26, height: 18)
++        let image = NSImage(size: size, flipped: false) { rect in
++            let failed = status == "failed"
++            let background = failed ? NSColor.systemGray.withAlphaComponent(0.18) :
++                (colors[status] ?? .systemGray)
++            background.setFill()
++            outline(rect.insetBy(dx: 0, dy: 1)).fill()
++            if status == "stopped" {
++                drawLogo(in: rect)
++                return true
++            }
++            let attributes: [NSAttributedString.Key: Any] = [
++                .font: NSFont.monospacedSystemFont(ofSize: 11, weight: .bold),
++                .foregroundColor: failed ? NSColor.systemRed : (isHighQuality ? NSColor.white : NSColor.black),
++            ]
++            let text = label as NSString
++            let measured = text.size(withAttributes: attributes)
++            text.draw(at: NSPoint(x: (rect.width - measured.width) / 2,
++                                 y: (rect.height - measured.height) / 2), withAttributes: attributes)
++            return true
++        }
++        image.isTemplate = false
++        return image
++    }
++
++    private static func outline(_ rect: NSRect) -> NSBezierPath {
++        let radius: CGFloat = 4
++        let path = NSBezierPath()
++        path.move(to: NSPoint(x: rect.minX + radius, y: rect.minY))
++        path.line(to: NSPoint(x: rect.maxX - radius, y: rect.minY))
++        path.curve(to: NSPoint(x: rect.maxX, y: rect.minY + radius),
++                   controlPoint1: NSPoint(x: rect.maxX, y: rect.minY),
++                   controlPoint2: NSPoint(x: rect.maxX, y: rect.minY))
++        path.line(to: NSPoint(x: rect.maxX, y: rect.maxY - radius))
++        path.curve(to: NSPoint(x: rect.maxX - radius, y: rect.maxY),
++                   controlPoint1: NSPoint(x: rect.maxX, y: rect.maxY),
++                   controlPoint2: NSPoint(x: rect.maxX, y: rect.maxY))
++        path.line(to: NSPoint(x: rect.minX + radius, y: rect.maxY))
++        path.curve(to: NSPoint(x: rect.minX, y: rect.maxY - radius),
++                   controlPoint1: NSPoint(x: rect.minX, y: rect.maxY),
++                   controlPoint2: NSPoint(x: rect.minX, y: rect.maxY))
++        path.line(to: NSPoint(x: rect.minX, y: rect.minY + radius))
++        path.curve(to: NSPoint(x: rect.minX + radius, y: rect.minY),
++                   controlPoint1: NSPoint(x: rect.minX, y: rect.minY),
++                   controlPoint2: NSPoint(x: rect.minX, y: rect.minY))
++        path.close()
++        return path
++    }
++
++    private static func drawLogo(in rect: NSRect) {
++        // Geometry shared with the upstream assets_source/images/icon/glyph.svg.
++        let scale: CGFloat = 14 / 240
++        func point(_ x: CGFloat, _ y: CGFloat) -> NSPoint {
++            NSPoint(x: rect.midX - 7 + x * scale, y: rect.midY + 7 - y * scale)
++        }
++        NSColor.white.setStroke()
++        let bars = NSBezierPath()
++        bars.lineWidth = 46.32 * scale
++        bars.lineCapStyle = .round
++        bars.move(to: point(59.68, 100.95))
++        bars.line(to: point(180.02, 31.47))
++        bars.move(to: point(90.56, 154.43))
++        bars.line(to: point(150.74, 119.69))
++        bars.stroke()
++        NSColor.white.setFill()
++        let center = point(121.44, 207.92)
++        let radius = 23.16 * scale
++        NSBezierPath(ovalIn: NSRect(x: center.x - radius, y: center.y - radius,
++                                   width: radius * 2, height: radius * 2)).fill()
++    }
++}
+diff --git a/plugins/tray/macos/tray/Sources/tray/TrayPlugin.swift b/plugins/tray/macos/tray/Sources/tray/TrayPlugin.swift
+index a8036f319807450b65099de860974fbde417d90b..82156d770cd74d0ba1d29ec86b6283af1b1dbb21 100644
+--- a/plugins/tray/macos/tray/Sources/tray/TrayPlugin.swift
++++ b/plugins/tray/macos/tray/Sources/tray/TrayPlugin.swift
+@@ -96,6 +96,10 @@ public class TrayPlugin: NSObject, FlutterPlugin {
+     }
+ 
+     private func makeImage(_ icon: [String: Any]) -> NSImage? {
++        if let country = icon["country"] as? String {
++            return FlashStatusImage.make(country: country, status: icon["status"] as? String ?? "unknown",
++                                         isHighQuality: icon["isHighQuality"] as? Bool ?? false)
++        }
+         let size = icon["size"] as? Int ?? 18
+         let pointSize = NSSize(width: size, height: size)
+         let image = NSImage(size: pointSize)
+diff --git a/plugins/tray/test/tray_icon_test.dart b/plugins/tray/test/tray_icon_test.dart
+index da7dd95371d5175663510442e27160f72ee3895b..fbcb3633b902a1d7bae30de5089e7f86c465e356 100644
+--- a/plugins/tray/test/tray_icon_test.dart
++++ b/plugins/tray/test/tray_icon_test.dart
+@@ -38,6 +38,40 @@ void main() {
+     debugDefaultTargetPlatformOverride = null;
+   });
+ 
++  test(
++    'macOS status payload is colored and changes are not suppressed',
++    () async {
++      debugDefaultTargetPlatformOverride = TargetPlatform.macOS;
++      await Tray.instance.show(
++        const TraySpec(icon: TrayIcon.status('US', 'route')),
++      );
++      expect(lastIcon()['country'], 'US');
++      expect(lastIcon()['isTemplate'], false);
++      expect(lastIcon().containsKey('reps'), false);
++      await Tray.instance.show(
++        const TraySpec(icon: TrayIcon.status('--', 'failed')),
++      );
++      expect(calls.length, 2);
++      expect(lastIcon()['status'], 'failed');
++    },
++  );
++
++  test(
++    'quality-only changes reach native even when country and entry stay the same',
++    () async {
++      debugDefaultTargetPlatformOverride = TargetPlatform.macOS;
++      await Tray.instance.show(
++        const TraySpec(icon: TrayIcon.status('US', 'tun')),
++      );
++      expect(lastIcon()['isHighQuality'], isFalse);
++      await Tray.instance.show(
++        const TraySpec(icon: TrayIcon.status('US', 'tun', isHighQuality: true)),
++      );
++      expect(calls.length, 2);
++      expect(lastIcon()['isHighQuality'], isTrue);
++    },
++  );
++
+   test('variant assets follow the Flutter resolution layout', () {
+     expect(Tray.variantAsset(_asset, 1.0), _asset);
+     expect(
+diff --git a/test/common/tray_menu_test.dart b/test/common/tray_menu_test.dart
+index 4848d3d0d8860c6e93e4520f86a2c2798fde4fb1..d52a6dc9d5861dc331d6bd7aae442f0a6a2dd12d 100644
+--- a/test/common/tray_menu_test.dart
++++ b/test/common/tray_menu_test.dart
+@@ -11,6 +11,9 @@ import 'package:fl_clash/l10n/l10n.dart';
+ import 'package:fl_clash/models/models.dart';
+ import 'package:fl_clash/providers/action.dart';
+ import 'package:fl_clash/providers/state.dart';
++import 'package:fl_clash/providers/outbound_ip.dart';
++import 'package:fl_clash/providers/ip_quality.dart';
++import 'package:fl_clash/providers/routed_probe.dart';
+ import 'package:fl_clash/state.dart';
+ import 'package:flutter/foundation.dart';
+ import 'package:material_ui/material_ui.dart';
+@@ -230,12 +233,137 @@ void main() {
+     expect(showCalls, hasLength(1));
+ 
+     final arguments = showCalls.single.arguments as Map;
+-    expect(arguments['toolTip'], appName);
++    expect(
++      arguments['toolTip'],
++      contains('Core rule probe; OS entry unverified'),
++    );
+     expect(arguments['menu'], isNotEmpty);
+-    final reps = ((arguments['icon'] as Map)['reps'] as List).cast<Map>();
+-    expect(reps.map((rep) => rep['scale']), containsAll([1.0, 2.0, 3.0, 4.0]));
+-    expect(reps.map((rep) => rep['bytes']), everyElement(isNotEmpty));
+-    expect((arguments['icon'] as Map)['isTemplate'], isTrue);
++    final icon = arguments['icon'] as Map;
++    expect(icon['country'], '--');
++    expect(icon['status'], 'tun');
++    expect(icon['isTemplate'], isFalse);
++  });
++
++  test(
++    'status distinguishes stopped, failed, no entry and rule success',
++    () async {
++      for (final (running, enabled, phase, expected) in [
++        (false, true, ProbePhase.fresh, 'stopped'),
++        (true, true, ProbePhase.failed, 'failed'),
++        (true, false, ProbePhase.fresh, 'entry'),
++        (true, true, ProbePhase.fresh, 'route'),
++      ]) {
++        container.dispose();
++        container = ProviderContainer(
++          overrides: [
++            ipQualityProvider(
++              '2.2.2.2',
++            ).overrideWithValue(const AsyncLoading()),
++            outboundIpProbeProvider.overrideWithBuild(
++              (_, _) => RoutedProbeState({
++                '': ProbeEntry(
++                  phase: phase,
++                  value: const IpInfo(ip: '2.2.2.2', countryCode: 'JP'),
++                ),
++              }),
++            ),
++          ],
++        );
++        await update(_trayState(isStart: running, systemProxy: enabled));
++        final icon = (showCall()!.arguments as Map)['icon'] as Map;
++        expect(icon['status'], expected);
++        expect(
++          icon['country'],
++          running && phase == ProbePhase.fresh ? 'JP' : '--',
++        );
++      }
++    },
++  );
++
++  test('quality changes text independently of the entry background', () async {
++    const good = IpQuality(
++      ip: '2.2.2.2',
++      source: IpQualitySource.identMe,
++      type: IpType.residential,
++    );
++    for (final (quality, phase, enabled, expected)
++        in <(AsyncValue<IpQuality>, ProbePhase, bool, String)>[
++          (const AsyncData(good), ProbePhase.fresh, true, 'route'),
++          (
++            AsyncData(good.copyWith(type: IpType.hosting)),
++            ProbePhase.fresh,
++            true,
++            'route',
++          ),
++          (
++            AsyncData(good.copyWith(isAbuser: true)),
++            ProbePhase.fresh,
++            true,
++            'route',
++          ),
++          (
++            AsyncData(good.copyWith(ip: '3.3.3.3')),
++            ProbePhase.fresh,
++            true,
++            'route',
++          ),
++          (const AsyncLoading(), ProbePhase.fresh, true, 'route'),
++          (
++            AsyncError(StateError('failed'), StackTrace.empty),
++            ProbePhase.fresh,
++            true,
++            'route',
++          ),
++          (const AsyncData(good), ProbePhase.probing, true, 'route'),
++          (const AsyncData(good), ProbePhase.failed, true, 'failed'),
++          (const AsyncData(good), ProbePhase.fresh, false, 'entry'),
++        ]) {
++      container.dispose();
++      container = ProviderContainer(
++        overrides: [
++          ipQualityProvider('2.2.2.2').overrideWithValue(quality),
++          outboundIpProbeProvider.overrideWithBuild(
++            (_, _) => RoutedProbeState({
++              '': ProbeEntry(
++                phase: phase,
++                value: const IpInfo(ip: '2.2.2.2', countryCode: 'JP'),
++              ),
++            }),
++          ),
++        ],
++      );
++      await update(_trayState(isStart: true, systemProxy: enabled));
++      expect(
++        ((showCall()!.arguments as Map)['icon'] as Map)['status'],
++        expected,
++      );
++      final value = quality.isLoading || quality.hasError
++          ? null
++          : quality.value;
++      expect(
++        ((showCall()!.arguments as Map)['icon'] as Map)['isHighQuality'],
++        phase == ProbePhase.fresh &&
++            value?.ip == '2.2.2.2' &&
++            value?.level == IpQualityLevel.good,
++      );
++    }
++  });
++
++  test('TUN takes priority over system proxy for the background', () async {
++    for (final (tun, proxy, expected) in [
++      (true, true, 'tun'),
++      (true, false, 'tun'),
++      (false, true, 'route'),
++      (false, false, 'entry'),
++    ]) {
++      await update(
++        _trayState(isStart: true, tunEnable: tun, systemProxy: proxy),
++      );
++      final icon = (showCall()!.arguments as Map)['icon'] as Map;
++      expect(icon['status'], expected);
++      expect(icon['country'], '--');
++      expect(icon['isHighQuality'], isFalse);
++    }
+   });
+ 
+   test('skips the platform call when the tray state is unchanged', () async {
+diff --git a/test/manager/tray_manager_test.dart b/test/manager/tray_manager_test.dart
+index 50e80d5c519e076959c193523a58e05f9a9ce862..d27fbd5ae4913d1c57eb40f41226b588ba82d2dd 100644
+--- a/test/manager/tray_manager_test.dart
++++ b/test/manager/tray_manager_test.dart
+@@ -1,4 +1,10 @@
+ import 'dart:async';
++import 'dart:io';
++import 'package:fl_clash/enum/enum.dart';
++import 'package:fl_clash/models/models.dart';
++import 'package:fl_clash/providers/ip_quality.dart';
++import 'package:fl_clash/providers/outbound_ip.dart';
++import 'package:fl_clash/providers/routed_probe.dart';
+ 
+ import 'package:fl_clash/common/app_localizations.dart';
+ import 'package:fl_clash/l10n/l10n.dart';
+@@ -81,6 +87,69 @@ void main() {
+     container.dispose();
+   });
+ 
++  testWidgets(
++    'quality completion refreshes the tray and disposal releases its listener',
++    (tester) async {
++      final answer = Completer<IpQuality>();
++      var released = false;
++      container = ProviderContainer(
++        overrides: [
++          profilesProvider.overrideWith(TestProfiles.new),
++          systemActionProvider.overrideWith(_RecordingSystemAction.new),
++          trayStateProvider.overrideWith(
++            (ref) => const TrayState(
++              mode: Mode.rule,
++              port: 7890,
++              autoLaunch: false,
++              systemProxy: true,
++              tunEnable: false,
++              isStart: true,
++              groups: [],
++              selectedMap: {},
++              showTrayTitle: false,
++              safeMode: false,
++            ),
++          ),
++          outboundIpProbeProvider.overrideWithBuild(
++            (_, _) => const RoutedProbeState({
++              '': ProbeEntry(
++                phase: ProbePhase.fresh,
++                value: IpInfo(ip: '2.2.2.2', countryCode: 'JP'),
++              ),
++            }),
++          ),
++          ipQualityProvider('2.2.2.2').overrideWith((ref) {
++            ref.onCancel(() => released = true);
++            return answer.future;
++          }),
++        ],
++      );
++      globalState.container = container;
++      await tester.pumpWidget(
++        UncontrolledProviderScope(
++          container: container,
++          child: const MaterialApp(home: TrayManager(child: SizedBox.shrink())),
++        ),
++      );
++      await tester.pump();
++      final before = _RecordingSystemAction.updateTrayCount;
++      answer.complete(
++        const IpQuality(
++          ip: '2.2.2.2',
++          source: IpQualitySource.identMe,
++          type: IpType.residential,
++        ),
++      );
++      await tester.pump();
++      await tester.pump();
++      expect(_RecordingSystemAction.updateTrayCount, greaterThan(before));
++      await tester.pumpWidget(const SizedBox.shrink());
++      await tester.pump();
++      expect(released, isTrue);
++    },
++    skip: !Platform.isMacOS,
++  );
++
+   Future<void> emitTrayEvent(String event, [Object? arguments]) async {
+     await TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+         .handlePlatformMessage(
+diff --git a/test/providers/route_state_test.dart b/test/providers/route_state_test.dart
+index aaa8e870e9a9735f17002ea1e1492b811db72d3c..363c4080ca8e4c8cf4418c7915f6084d2aec7afa 100644
+--- a/test/providers/route_state_test.dart
++++ b/test/providers/route_state_test.dart
+@@ -252,6 +252,23 @@ void main() {
+       },
+     );
+ 
++    test(
++      'a tray watch stays live while hidden and releases on disposal',
++      () async {
++        final container = build();
++        container.read(appVisibleProvider.notifier).value = false;
++        final tracker = trackerOf(container);
++        tracker.attachBackground();
++        await pumpEventQueue();
++        expect(stateOf(container).live, isTrue);
++        verify(() => core.watchRoute(true)).called(greaterThanOrEqualTo(1));
++        tracker.detachBackground();
++        await pumpEventQueue();
++        expect(stateOf(container).live, isFalse);
++        verify(() => core.watchRoute(false)).called(greaterThanOrEqualTo(1));
++      },
++    );
++
+     test('a read asked for while one is on the way runs after it', () async {
+       final reads = <Completer<RouteSnapshot?>>[];
+       when(() => core.watchRoute(true)).thenAnswer((_) {
