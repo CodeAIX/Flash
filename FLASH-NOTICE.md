@@ -7,7 +7,8 @@ Modified 2026-10-23 by CodeAIX for macOS status presentation.
 
 The original GPL-3.0 LICENSE and upstream copyright notices are retained.
 FlClash, mihomo, Flutter and the bundled third-party projects remain credited
-under their respective notices. No AiGuard source or artwork was copied.
+under their respective notices. No AiGuard source or artwork was copied. The Flash app icon recolors the credited
+FlClash glyph with emerald, jade and mint gradients on a white tile.
 When distributing a binary, provide its exact corresponding source, submodule
 revisions and build scripts under the applicable licenses.
 
@@ -47,7 +48,7 @@ The first preview retains upstream menus, group actions and speed title.
 Build with --dart-define=FLASH_STATUS_ICON=false to restore upstream template
 icons and disable the tray background subscription. A persisted UI option,
 backoff, independent OS path verification and real-network acceptance remain
-follow-up work; normal-network runtime acceptance remains pending.
+follow-up work; status-icon behavior and the revision 2 backup/channel fixes have been user-tested.
 
 ## GitHub builds and releases
 
@@ -67,3 +68,12 @@ APP_ENV=stable. Remote restore prefers /Flash/<file> and only on HTTP 404/409
 tries the legacy /FlClash/<file> without modifying the remote backup. Authentication
 and other server errors remain errors. The original v1.9.1 release is retained;
 v1.9.1+2026102302 uses application build 2026102302.
+
+## 1.9.1 revision 3
+
+Application build 2026102303 adds the approved green-gradient app icon to the
+macOS application catalog and the in-app About view. The vector master is
+flash/branding/app-icon.svg; tool/flash/generate_icon.py renders all sizes.
+The app icon and status-bar icon are separate resources. This revision retains
+the revision 2 backup, signing-entitlement and stable-channel repairs, confirmed
+by the user. The upstream glyph geometry and license attribution are preserved.

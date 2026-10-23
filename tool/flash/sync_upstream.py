@@ -43,7 +43,7 @@ def main():
     manifest = json.loads((ROOT / 'flash/upstream.json').read_text())
     paths = (ROOT / 'flash/runtime-paths.txt').read_text().splitlines()
     if args.validate_overlay:
-        changed = set(run('git', 'diff', '--name-only', manifest['commit'], '--', 'lib', 'macos', 'plugins/tray', 'test').stdout.splitlines())
+        changed = set(run('git', 'diff', '--name-only', manifest['commit'], '--', 'lib', 'macos', 'plugins/tray', 'test', 'assets/images/icon.png').stdout.splitlines())
         missing = changed.difference(paths)
         if missing:
             raise RuntimeError(f'Runtime changes missing from the overlay path list: {sorted(missing)}')

@@ -1,5 +1,7 @@
 # Flash
 
+![Flash 应用图标](macos/Runner/Assets.xcassets/AppIcon.appiconset/app_icon_128.png)
+
 Flash 是基于 [FlClash](https://github.com/chen08209/FlClash) 的非官方衍生客户端，由 CodeAIX 维护。保留 FlClash 的代理内核、配置、订阅、规则、节点与原有交互，新增 macOS 状态栏可视化。Flash 不提供代理节点或订阅服务。
 
 ## 下载
@@ -12,6 +14,8 @@ Flash 是基于 [FlClash](https://github.com/chen08209/FlClash) 的非官方衍�
 打开 DMG，将 Flash 拖入 Applications。安装包采用 ad-hoc 签名，尚未经过 Apple 公证。每个版本附 SHA-256 校验、准确源码及内核子模块源码。
 
 ## Flash 特性
+
+应用图标采用白底、翡翠绿到薄荷绿渐变，保留上游两条斜杠与圆点的图形结构。矢量源与生成方法见 [flash/branding](flash/branding)。
 
 状态图标采用圆角矩形，内嵌当前规则出口的 IP 国家代码。**底色看代理入口，字色看 IP 质量**，两个维度分别判断。
 
