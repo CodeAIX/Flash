@@ -6,6 +6,8 @@ import 'dart:typed_data';
 import 'package:dio/dio.dart';
 import 'package:fl_clash/common/constant.dart';
 import 'package:fl_clash/common/request.dart';
+import 'package:fl_clash/state.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 class _StalledHttpClient extends Fake implements HttpClient {
@@ -72,6 +74,30 @@ void main() {
   group('latestRelease', () {
     Request requestAnswering(Map<String, ResponseBody Function()> byHost) {
       return Request()..dio.httpClientAdapter = _HostAdapter(byHost);
+    }
+
+    for (final build in ['2026102301', '2026102302']) {
+      test('compares repair release against installed build $build', () async {
+        globalState.packageInfo = PackageInfo(
+          appName: 'Flash',
+          packageName: 'com.codeaix.flash',
+          version: '1.9.1',
+          buildNumber: build,
+        );
+        final request = requestAnswering({
+          'api.github.com': () => ResponseBody.fromString(
+            '{"tag_name":"v1.9.1+2026102302"}',
+            200,
+            headers: {
+              Headers.contentTypeHeader: [Headers.jsonContentType],
+            },
+          ),
+        });
+        expect(
+          await request.checkForUpdate(),
+          build == '2026102301' ? isNotNull : isNull,
+        );
+      });
     }
 
     test('reads the release from the API', () async {

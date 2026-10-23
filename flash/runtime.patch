@@ -46,6 +46,20 @@ index e3632c50c7c701ae71f036379f0eb5f2319debb4..7950924cae5941bb3a7d006793fe8fb7
      await io.File(localPath).safeWriteAsBytes(bytes);
    }
  }
+diff --git a/lib/common/request.dart b/lib/common/request.dart
+index cf7ca860e32144223fc0854bed8bc781b8293be9..6bea356e3d43e859bb6894e10b237935765a4a82 100644
+--- a/lib/common/request.dart
++++ b/lib/common/request.dart
+@@ -89,7 +89,8 @@ class Request {
+   Future<Map<String, dynamic>?> checkForUpdate() async {
+     final release = await latestRelease();
+     final remoteVersion = release['tag_name'] as String;
+-    final version = globalState.packageInfo.version;
++    final package = globalState.packageInfo;
++    final version = '${package.version}+${package.buildNumber}';
+     final hasUpdate =
+         compareVersions(remoteVersion.replaceAll('v', ''), version) > 0;
+     return hasUpdate ? release : null;
 diff --git a/lib/common/tray.dart b/lib/common/tray.dart
 index 8c8aa776d0dfb8acfaaa62b16c91e5efeea33ea9..428df9f06ac5f134f50e277fb64865aae7259bce 100644
 --- a/lib/common/tray.dart
@@ -751,6 +765,50 @@ index 78825c3794bcd17edcfe5dd935d7b6a2308148ab..76e2c5874dfe884627e4fc710ad41648
      test('download reports the status the server sent', () async {
        await expectLater(
          buildClient().download(join(root.path, 'missing.zip')),
+diff --git a/test/common/request_test.dart b/test/common/request_test.dart
+index 2f98e2aba1fef7cfadc0c2b7f907ae69f675887a..3e097717e89542987f0873cfce22f3e869a7d8b8 100644
+--- a/test/common/request_test.dart
++++ b/test/common/request_test.dart
+@@ -6,6 +6,8 @@ import 'dart:typed_data';
+ import 'package:dio/dio.dart';
+ import 'package:fl_clash/common/constant.dart';
+ import 'package:fl_clash/common/request.dart';
++import 'package:fl_clash/state.dart';
++import 'package:package_info_plus/package_info_plus.dart';
+ import 'package:flutter_test/flutter_test.dart';
+ 
+ class _StalledHttpClient extends Fake implements HttpClient {
+@@ -74,6 +76,30 @@ void main() {
+       return Request()..dio.httpClientAdapter = _HostAdapter(byHost);
+     }
+ 
++    for (final build in ['2026102301', '2026102302']) {
++      test('compares repair release against installed build $build', () async {
++        globalState.packageInfo = PackageInfo(
++          appName: 'Flash',
++          packageName: 'com.codeaix.flash',
++          version: '1.9.1',
++          buildNumber: build,
++        );
++        final request = requestAnswering({
++          'api.github.com': () => ResponseBody.fromString(
++            '{"tag_name":"v1.9.1+2026102302"}',
++            200,
++            headers: {
++              Headers.contentTypeHeader: [Headers.jsonContentType],
++            },
++          ),
++        });
++        expect(
++          await request.checkForUpdate(),
++          build == '2026102301' ? isNotNull : isNull,
++        );
++      });
++    }
++
+     test('reads the release from the API', () async {
+       final request = requestAnswering({
+         'api.github.com': () => ResponseBody.fromString(
 diff --git a/test/common/tray_menu_test.dart b/test/common/tray_menu_test.dart
 index 4848d3d0d8860c6e93e4520f86a2c2798fde4fb1..d52a6dc9d5861dc331d6bd7aae442f0a6a2dd12d 100644
 --- a/test/common/tray_menu_test.dart

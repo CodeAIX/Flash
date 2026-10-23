@@ -21,3 +21,5 @@ test/manager/tray_manager_test.dart
 test/providers/route_state_test.dart
 lib/common/dav_client.dart
 test/common/dav_client_test.dart
+lib/common/request.dart
+test/common/request_test.dart

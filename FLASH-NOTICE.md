@@ -66,4 +66,4 @@ Runner release entitlements, verified after signing. Stable builds set
 APP_ENV=stable. Remote restore prefers /Flash/<file> and only on HTTP 404/409
 tries the legacy /FlClash/<file> without modifying the remote backup. Authentication
 and other server errors remain errors. The original v1.9.1 release is retained;
-v1.9.1-r2 uses application build 2026102302.
+v1.9.1+2026102302 uses application build 2026102302.
