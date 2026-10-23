@@ -84,6 +84,7 @@ def main():
             shutil.copytree(ROOT / relative, destination / relative, dirs_exist_ok=True)
         for relative in ['README.md', 'README_zh_CN.md', 'FLASH-NOTICE.md', '.gitattributes']:
             shutil.copy2(ROOT / relative, destination / relative)
+        manifest.pop('release_revision', None)
         manifest.update(tag=tag, commit=upstream_commit, flash_version=flash_version)
         (destination / 'flash/upstream.json').write_text(json.dumps(manifest, indent=2) + '\n')
         spec = destination / 'pubspec.yaml'

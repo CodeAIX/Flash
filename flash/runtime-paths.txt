@@ -19,3 +19,5 @@ plugins/tray/test/tray_icon_test.dart
 test/common/tray_menu_test.dart
 test/manager/tray_manager_test.dart
 test/providers/route_state_test.dart
+lib/common/dav_client.dart
+test/common/dav_client_test.dart

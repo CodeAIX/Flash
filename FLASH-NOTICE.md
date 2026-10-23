@@ -58,3 +58,12 @@ source revision record, and a source archive including the pinned Core submodule
 Published builds are not a claim of completed runtime acceptance.
 Inherited publishing workflows are retained under `.github/upstream-workflows/`
 as references and do not execute for Flash.
+
+## 1.9.1 revision 2
+
+The macOS packaging signature retains nested entitlements and explicitly applies
+Runner release entitlements, verified after signing. Stable builds set
+APP_ENV=stable. Remote restore prefers /Flash/<file> and only on HTTP 404/409
+tries the legacy /FlClash/<file> without modifying the remote backup. Authentication
+and other server errors remain errors. The original v1.9.1 release is retained;
+v1.9.1-r2 uses application build 2026102302.

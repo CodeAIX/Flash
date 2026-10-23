@@ -20,6 +20,32 @@ index 3eaaff88216cd017de7502a7a12c70cc96a3fb50..99fc1fe9347d04686ccb96afeabab5ad
  const maxMobileWidth = 600;
  const maxLaptopWidth = 840;
  const defaultTestUrl = 'https://www.gstatic.com/generate_204';
+diff --git a/lib/common/dav_client.dart b/lib/common/dav_client.dart
+index e3632c50c7c701ae71f036379f0eb5f2319debb4..7950924cae5941bb3a7d006793fe8fb7be43faf9 100644
+--- a/lib/common/dav_client.dart
++++ b/lib/common/dav_client.dart
+@@ -43,7 +43,20 @@ class DAVClient {
+   }
+ 
+   Future<void> download(String localPath) async {
+-    final bytes = await _transport.get(backupFile);
++    List<int> bytes;
++    try {
++      bytes = await _transport.get(backupFile);
++    } on DAVException catch (error) {
++      if (error.statusCode != 404 && error.statusCode != 409) rethrow;
++      try {
++        bytes = await _transport.get('/FlClash/$fileName');
++      } on DAVException catch (legacyError) {
++        if (legacyError.statusCode != 404 && legacyError.statusCode != 409) {
++          rethrow;
++        }
++        throw error;
++      }
++    }
+     await io.File(localPath).safeWriteAsBytes(bytes);
+   }
+ }
 diff --git a/lib/common/tray.dart b/lib/common/tray.dart
 index 8c8aa776d0dfb8acfaaa62b16c91e5efeea33ea9..428df9f06ac5f134f50e277fb64865aae7259bce 100644
 --- a/lib/common/tray.dart
@@ -656,6 +682,75 @@ index da7dd95371d5175663510442e27160f72ee3895b..fbcb3633b902a1d7bae30de5089e7f86
    test('variant assets follow the Flutter resolution layout', () {
      expect(Tray.variantAsset(_asset, 1.0), _asset);
      expect(
+diff --git a/test/common/dav_client_test.dart b/test/common/dav_client_test.dart
+index 78825c3794bcd17edcfe5dd935d7b6a2308148ab..76e2c5874dfe884627e4fc710ad416480f4a7b50 100644
+--- a/test/common/dav_client_test.dart
++++ b/test/common/dav_client_test.dart
+@@ -288,6 +288,64 @@ void main() {
+       expect(File(target).readAsBytesSync(), payload);
+     });
+ 
++    test('Flash backup takes priority over the legacy backup', () async {
++      server.files['/Flash/backup.zip'] = [1];
++      server.files['/FlClash/backup.zip'] = [2];
++      final target = join(root.path, 'priority.zip');
++      await buildClient().download(target);
++      expect(File(target).readAsBytesSync(), [1]);
++      expect(server.requests.map((r) => r.path), ['/Flash/backup.zip']);
++    });
++
++    for (final status in [404, 409]) {
++      test('reads legacy backup after Flash GET returns $status', () async {
++        server.responses.add((
++          method: 'GET',
++          status: status,
++          headers: const {},
++        ));
++        server.files['/FlClash/backup.zip'] = [4, 5, 6];
++        final target = join(root.path, 'legacy-$status.zip');
++        await buildClient().download(target);
++        expect(File(target).readAsBytesSync(), [4, 5, 6]);
++        expect(server.requests.map((r) => r.method), ['GET', 'GET']);
++        expect(server.requests.map((r) => r.path), [
++          '/Flash/backup.zip',
++          '/FlClash/backup.zip',
++        ]);
++      });
++    }
++
++    test('restore does not fall back on authentication errors', () async {
++      server.responses.add((method: 'GET', status: 403, headers: const {}));
++      server.files['/FlClash/backup.zip'] = [2];
++      await expectLater(
++        buildClient().download(join(root.path, 'denied.zip')),
++        throwsA(isA<DAVException>().having((e) => e.statusCode, 'status', 403)),
++      );
++      expect(server.requests, hasLength(1));
++    });
++
++    test('legacy fallback keeps the configured WebDAV base path', () async {
++      server.files['/dav/FlClash/backup.zip'] = [7];
++      final target = join(root.path, 'base-legacy.zip');
++      await buildClient(path: '/dav/').download(target);
++      expect(File(target).readAsBytesSync(), [7]);
++      expect(server.requests.map((r) => r.path), [
++        '/dav/Flash/backup.zip',
++        '/dav/FlClash/backup.zip',
++      ]);
++    });
++
++    test('failed fallback preserves the original conflict', () async {
++      server.responses.add((method: 'GET', status: 409, headers: const {}));
++      await expectLater(
++        buildClient().download(join(root.path, 'conflict.zip')),
++        throwsA(isA<DAVException>().having((e) => e.statusCode, 'status', 409)),
++      );
++      expect(server.requests.map((r) => r.method), ['GET', 'GET']);
++    });
++
+     test('download reports the status the server sent', () async {
+       await expectLater(
+         buildClient().download(join(root.path, 'missing.zip')),
 diff --git a/test/common/tray_menu_test.dart b/test/common/tray_menu_test.dart
 index 4848d3d0d8860c6e93e4520f86a2c2798fde4fb1..d52a6dc9d5861dc331d6bd7aae442f0a6a2dd12d 100644
 --- a/test/common/tray_menu_test.dart
