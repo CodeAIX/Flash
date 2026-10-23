@@ -86,3 +86,10 @@ retained in flash/branding/tiles, with source hashes in provenance.json. The
 approved green vector glyph is composited on those tiles. This replaces the
 revision 3 approximate corner path while retaining its green palette and glyph
 geometry. Original GPL attribution applies to the inherited tile resources.
+
+## 1.9.1 revision 5
+
+Application build 2026102305 softens the native status badge corners (4 to 6 pt)
+and increases country-code / error text from 11 pt Bold to 12.5 pt Heavy.
+The 26 × 18 pt icon footprint and all state/color semantics are retained.
+The revision 4 application-icon tile and the earlier backup repairs remain.

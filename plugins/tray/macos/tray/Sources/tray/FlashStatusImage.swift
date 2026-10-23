@@ -20,7 +20,7 @@ final class FlashStatusImage {
                 return true
             }
             let attributes: [NSAttributedString.Key: Any] = [
-                .font: NSFont.monospacedSystemFont(ofSize: 11, weight: .bold),
+                .font: NSFont.monospacedSystemFont(ofSize: 12.5, weight: .heavy),
                 .foregroundColor: failed ? NSColor.systemRed : (isHighQuality ? NSColor.white : NSColor.black),
             ]
             let text = label as NSString
@@ -34,7 +34,7 @@ final class FlashStatusImage {
     }
 
     private static func outline(_ rect: NSRect) -> NSBezierPath {
-        let radius: CGFloat = 4
+        let radius: CGFloat = 6
         let path = NSBezierPath()
         path.move(to: NSPoint(x: rect.minX + radius, y: rect.minY))
         path.line(to: NSPoint(x: rect.maxX - radius, y: rect.minY))

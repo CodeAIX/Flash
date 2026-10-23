@@ -9139,7 +9139,7 @@ index ad91c0e7274d13540f83eee487ee1a93cd8f9e29..45afd315466bcb00fbdafed880c4b5e6
    final int size;
 diff --git a/plugins/tray/macos/tray/Sources/tray/FlashStatusImage.swift b/plugins/tray/macos/tray/Sources/tray/FlashStatusImage.swift
 new file mode 100644
-index 0000000000000000000000000000000000000000..b1b177f45a5a192821c844aaf323659905fa67fb
+index 0000000000000000000000000000000000000000..5d74dec68ca5d28fc1025b1114a7bdc415a69cb4
 --- /dev/null
 +++ b/plugins/tray/macos/tray/Sources/tray/FlashStatusImage.swift
 @@ -0,0 +1,81 @@
@@ -9165,7 +9165,7 @@ index 0000000000000000000000000000000000000000..b1b177f45a5a192821c844aaf3236599
 +                return true
 +            }
 +            let attributes: [NSAttributedString.Key: Any] = [
-+                .font: NSFont.monospacedSystemFont(ofSize: 11, weight: .bold),
++                .font: NSFont.monospacedSystemFont(ofSize: 12.5, weight: .heavy),
 +                .foregroundColor: failed ? NSColor.systemRed : (isHighQuality ? NSColor.white : NSColor.black),
 +            ]
 +            let text = label as NSString
@@ -9179,7 +9179,7 @@ index 0000000000000000000000000000000000000000..b1b177f45a5a192821c844aaf3236599
 +    }
 +
 +    private static func outline(_ rect: NSRect) -> NSBezierPath {
-+        let radius: CGFloat = 4
++        let radius: CGFloat = 6
 +        let path = NSBezierPath()
 +        path.move(to: NSPoint(x: rect.minX + radius, y: rect.minY))
 +        path.line(to: NSPoint(x: rect.maxX - radius, y: rect.minY))
