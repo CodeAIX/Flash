@@ -79,7 +79,7 @@ def main():
         shutil.rmtree(destination / '.github/workflows', ignore_errors=True)
         for relative in ['.github/workflows', '.github/upstream-workflows', 'flash', 'tool/flash']:
             shutil.copytree(ROOT / relative, destination / relative, dirs_exist_ok=True)
-        for relative in ['README.md', 'README_zh_CN.md', 'FLASH-NOTICE.md']:
+        for relative in ['README.md', 'README_zh_CN.md', 'FLASH-NOTICE.md', '.gitattributes']:
             shutil.copy2(ROOT / relative, destination / relative)
         manifest.update(tag=tag, commit=upstream_commit, flash_version=flash_version)
         (destination / 'flash/upstream.json').write_text(json.dumps(manifest, indent=2) + '\n')
