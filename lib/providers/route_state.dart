@@ -146,6 +146,7 @@ class RouteTracker extends _$RouteTracker {
   ];
 
   int _watchers = 0;
+  int _backgroundWatchers = 0;
   int _generation = 0;
   bool _syncing = false;
   bool _resubscribe = false;
@@ -161,7 +162,7 @@ class RouteTracker extends _$RouteTracker {
     ref.listen(appVisibleProvider, (_, visible) {
       if (visible) {
         _subscribe();
-      } else if (_watchers > 0) {
+      } else if (_watchers > 0 && _backgroundWatchers == 0) {
         _unsubscribe();
       }
     });
@@ -179,9 +180,26 @@ class RouteTracker extends _$RouteTracker {
 
   bool get _ready =>
       _watchers > 0 &&
-      ref.read(appVisibleProvider) &&
+      (ref.read(appVisibleProvider) || _backgroundWatchers > 0) &&
       ref.read(initProvider) &&
       ref.read(coreStatusProvider) == CoreStatus.connected;
+
+  void attachBackground() {
+    _backgroundWatchers++;
+    attach();
+    if (_watchers > 1) {
+      _subscribe();
+    }
+  }
+
+  void detachBackground() {
+    if (_backgroundWatchers == 0) return;
+    _backgroundWatchers--;
+    detach();
+    if (_backgroundWatchers == 0 && !ref.read(appVisibleProvider)) {
+      _unsubscribe();
+    }
+  }
 
   void attach() {
     if (++_watchers == 1) {

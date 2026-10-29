@@ -38,6 +38,40 @@ void main() {
     debugDefaultTargetPlatformOverride = null;
   });
 
+  test(
+    'macOS status payload is colored and changes are not suppressed',
+    () async {
+      debugDefaultTargetPlatformOverride = TargetPlatform.macOS;
+      await Tray.instance.show(
+        const TraySpec(icon: TrayIcon.status('US', 'route')),
+      );
+      expect(lastIcon()['country'], 'US');
+      expect(lastIcon()['isTemplate'], false);
+      expect(lastIcon().containsKey('reps'), false);
+      await Tray.instance.show(
+        const TraySpec(icon: TrayIcon.status('--', 'failed')),
+      );
+      expect(calls.length, 2);
+      expect(lastIcon()['status'], 'failed');
+    },
+  );
+
+  test(
+    'quality-only changes reach native even when country and entry stay the same',
+    () async {
+      debugDefaultTargetPlatformOverride = TargetPlatform.macOS;
+      await Tray.instance.show(
+        const TraySpec(icon: TrayIcon.status('US', 'tun')),
+      );
+      expect(lastIcon()['isHighQuality'], isFalse);
+      await Tray.instance.show(
+        const TraySpec(icon: TrayIcon.status('US', 'tun', isHighQuality: true)),
+      );
+      expect(calls.length, 2);
+      expect(lastIcon()['isHighQuality'], isTrue);
+    },
+  );
+
   test('variant assets follow the Flutter resolution layout', () {
     expect(Tray.variantAsset(_asset, 1.0), _asset);
     expect(

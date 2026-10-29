@@ -27,6 +27,9 @@ abstract final class TrayCodec {
     final menu = _encodeItems(spec.menu, itemsById, _IdAllocator());
     final icon = <String, Object?>{
       'asset': spec.icon.asset,
+      if (spec.icon.country != null) 'country': spec.icon.country,
+      if (spec.icon.status != null) 'status': spec.icon.status,
+      if (spec.icon.country != null) 'isHighQuality': spec.icon.isHighQuality,
       'isTemplate': spec.icon.isTemplate,
       'size': spec.icon.size,
       'position': spec.icon.position.name,

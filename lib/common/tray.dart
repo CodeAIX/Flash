@@ -3,8 +3,13 @@ import 'package:fl_clash/models/models.dart';
 import 'package:fl_clash/providers/providers.dart';
 import 'package:flutter/foundation.dart' show visibleForTesting;
 import 'package:tray/tray.dart';
+import 'package:riverpod/riverpod.dart';
 
 import 'app_localizations.dart';
+import 'service_probe.dart';
+import 'package:fl_clash/providers/outbound_ip.dart';
+import 'package:fl_clash/providers/routed_probe.dart';
+import 'package:fl_clash/providers/ip_quality.dart';
 import 'l10n_labels.dart';
 import 'app_ports.dart';
 import 'constant.dart';
@@ -38,6 +43,10 @@ class AppTray implements TrayPort {
   }) {
     return AppTray._internal(isMacOS: isMacOS, isWindows: isWindows);
   }
+
+  bool get _usesFlashStatusIcon =>
+      isMacOS &&
+      const bool.fromEnvironment('FLASH_STATUS_ICON', defaultValue: true);
 
   String get _trayIconSuffix {
     return isWindows ? 'ico' : 'png';
@@ -93,20 +102,53 @@ class AppTray implements TrayPort {
     if (_isShutDown) {
       return;
     }
+    final flash = _usesFlashStatusIcon && !trayState.safeMode;
+    final entry = flash
+        ? read(outboundIpProbeProvider).entryOf(routedOutbound)
+        : null;
+    final running = trayState.isStart && !trayState.suspended;
+    final ip = running && entry?.phase == ProbePhase.fresh
+        ? entry?.value?.ip
+        : null;
+    final qualityResult = ip != null ? read(ipQualityProvider(ip)) : null;
+    final quality =
+        qualityResult != null &&
+            !qualityResult.isLoading &&
+            !qualityResult.hasError
+        ? qualityResult.value
+        : null;
+    final excellent =
+        quality?.ip == ip && quality?.level == IpQualityLevel.good;
+    final status = !running
+        ? 'stopped'
+        : entry?.phase == ProbePhase.failed
+        ? 'failed'
+        : trayState.tunEnable
+        ? 'tun'
+        : trayState.systemProxy
+        ? 'route'
+        : 'entry';
+    final country = running && entry?.phase == ProbePhase.fresh
+        ? entry?.value?.countryCode.toUpperCase() ?? '--'
+        : '--';
     await Tray.instance.show(
       TraySpec(
-        icon: TrayIcon.asset(
-          getTrayIcon(
-            isStart: trayState.isStart && !trayState.suspended,
-            tunEnable: trayState.tunEnable,
-            safeMode: trayState.safeMode,
-            monochrome: trayState.monochromeTrayIcon,
-          ),
-          isTemplate: _isTemplate(trayState.monochromeTrayIcon),
-          size: isMacOS ? 18 : 16,
-        ),
+        icon: flash
+            ? TrayIcon.status(country, status, isHighQuality: excellent)
+            : TrayIcon.asset(
+                getTrayIcon(
+                  isStart: trayState.isStart && !trayState.suspended,
+                  tunEnable: trayState.tunEnable,
+                  safeMode: trayState.safeMode,
+                  monochrome: trayState.monochromeTrayIcon,
+                ),
+                isTemplate: _isTemplate(trayState.monochromeTrayIcon),
+                size: isMacOS ? 18 : 16,
+              ),
         toolTip: trayState.safeMode
             ? currentAppLocalizations.safeModeAppTitle(appName)
+            : flash
+            ? 'Flash • $country • $status • Core rule probe; OS entry unverified'
             : appName,
         menu: _buildMenu(trayState: trayState, read: read),
       ),
@@ -164,11 +206,12 @@ class AppTray implements TrayPort {
           checked: trayState.showTrayTitle,
           onSelected: commonAction.updateSpeedStatistics,
         ),
-        TrayMenuCheckbox(
-          label: appLocalizations.monochromeIcon,
-          checked: trayState.monochromeTrayIcon,
-          onSelected: commonAction.updateMonochromeTrayIcon,
-        ),
+        if (!_usesFlashStatusIcon)
+          TrayMenuCheckbox(
+            label: appLocalizations.monochromeIcon,
+            checked: trayState.monochromeTrayIcon,
+            onSelected: commonAction.updateMonochromeTrayIcon,
+          ),
       ],
       const TrayMenuSeparator(),
       for (final mode in Mode.values)

@@ -95,6 +95,10 @@ public class TrayPlugin: NSObject, FlutterPlugin {
     }
 
     private func makeImage(_ icon: [String: Any]) -> NSImage? {
+        if let country = icon["country"] as? String {
+            return FlashStatusImage.make(country: country, status: icon["status"] as? String ?? "unknown",
+                                         isHighQuality: icon["isHighQuality"] as? Bool ?? false)
+        }
         let size = icon["size"] as? Int ?? 18
         let pointSize = NSSize(width: size, height: size)
         let image = NSImage(size: pointSize)
