@@ -22,3 +22,5 @@ macOS packaging currently pins Flutter 3.47.6 and Go 1.27.1 and chooses an insta
 ## v0.9.2 integration
 
 The fork-wide Actions suspension was lifted by the maintainer on 2026-10-29. The resumed scheduled sync correctly stopped on overlay conflicts. This upgrade keeps the approved Flash PNGs, combines upstream fallback tray behavior with Flash badges, and regenerates provider outputs. The upstream monochrome option is hidden while Flash badges are active, since badge color conveys entry state. Future source conflicts still require review; automatic publication is gated by both macOS builds.
+
+Reconstructed candidates retain the current Flash release commit as an ancestor with an `ours` strategy merge after the upstream-plus-overlay tree is committed. This preserves the reviewed candidate tree while allowing the gated PR to merge without reapplying the previous Flash overlay as a competing branch.
