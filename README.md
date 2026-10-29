@@ -62,6 +62,10 @@ Flash 新远程备份写入 WebDAV 地址下的 `/Flash/<文件名>`，默认 `b
 
 旧版 1.9.1 的打包步骤丢失文件选择权限，导致本地保存报 `ENTITLEMENT_REQUIRED_WRITE`、恢复时无法打开选择窗口；修订版恢复签名中的文件读写权限，并增加打包后校验。正式构建指定 `APP_ENV=stable`，去除默认 `pre` 标识。
 
+## FlClash 0.9.2 适配
+
+Flash 1.9.2 基于 FlClash v0.9.2，继承其 IP 质量三天缓存、内核和界面更新，保留 Flash 的绿色应用图标、状态栏颜色与国家码规则，以及本地/WebDAV 备份修复。Flash 国家码徽标固定使用状态颜色，因此不展示上游的“单色图标”开关；其他托盘菜单保留。
+
 ## 独立定制与自动更新
 
 Flash 定制以 [flash/runtime.patch](flash/runtime.patch) 和文件清单维护，文档、品牌声明及工作流作为覆盖文件保留。更新器每天检查上游正式 Release，排除预发布；从固定 tag 重建源码并尝试应用定制补丁。

@@ -36,6 +36,11 @@ def reconstruct(tag, destination, paths):
             raise RuntimeError(f'Overlay lost {relative}')
 
 
+def retain_release_history(destination, base):
+    run('git', 'merge', '--strategy=ours', '--no-ff', base,
+        '-m', 'chore(upstream): retain flash release history', cwd=destination)
+
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--validate-overlay', action='store_true')
@@ -96,6 +101,7 @@ def main():
         (destination / 'flash/runtime.patch').write_text(patch)
         run('git', 'add', '-A', cwd=destination)
         run('git', 'commit', '-m', f'feat(upstream): integrate {tag} as Flash {flash_version}', cwd=destination)
+        retain_release_history(destination, run('git', 'rev-parse', 'HEAD').stdout.strip())
         run('git', 'push', 'origin', f'HEAD:refs/heads/{branch}', cwd=destination)
         body = temporary / 'pr.md'
         body.write_text(f'Upgrade to {manifest["repository"]} {tag} ({upstream_commit}).\n\nThe Flash overlay applied without unresolved conflicts. Publication requires analysis, tests and both macOS builds. A failed check leaves this PR open.\n')

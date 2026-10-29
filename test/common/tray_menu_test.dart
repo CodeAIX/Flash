@@ -51,6 +51,7 @@ TrayState _trayState({
   bool systemProxy = false,
   bool autoLaunch = false,
   bool showTrayTitle = false,
+  bool monochromeTrayIcon = true,
   bool safeMode = false,
   Mode mode = Mode.rule,
   List<Group> groups = const [],
@@ -66,6 +67,7 @@ TrayState _trayState({
     groups: groups,
     selectedMap: const {},
     showTrayTitle: showTrayTitle,
+    monochromeTrayIcon: monochromeTrayIcon,
     safeMode: safeMode,
     hotKeys: hotKeys,
   );
@@ -366,6 +368,28 @@ void main() {
     }
   });
 
+  test(
+    'Flash badge keeps its entry colors with either monochrome preference',
+    () async {
+      for (final monochrome in [true, false]) {
+        await update(
+          _trayState(
+            isStart: true,
+            tunEnable: true,
+            monochromeTrayIcon: monochrome,
+          ),
+        );
+        final icon = (showCall()!.arguments as Map)['icon'] as Map;
+        expect(icon['status'], 'tun');
+        expect(icon['country'], '--');
+        expect(
+          _labels(showCall()),
+          isNot(contains(currentAppLocalizations.monochromeIcon)),
+        );
+      }
+    },
+  );
+
   test('skips the platform call when the tray state is unchanged', () async {
     await update(_trayState(isStart: true));
     await update(_trayState(isStart: true));
@@ -518,6 +542,10 @@ void main() {
       expect(
         _labels(showCall()),
         isNot(contains(currentAppLocalizations.speedStatistics)),
+      );
+      expect(
+        _labels(showCall()),
+        isNot(contains(currentAppLocalizations.monochromeIcon)),
       );
       expect(_labels(showCall()), isNot(contains(HotAction.delayTest.label)));
     });
