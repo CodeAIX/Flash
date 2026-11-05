@@ -115,7 +115,7 @@ mixin RoutedProbe<K, V>
   Duration get throttleDuration => probeThrottleDuration;
 
   @protected
-  Future<RouteCheck?> checkRoutes(List<List<RouteHit>> routes) => ref
+  Future<RouteCheck> checkRoutes(List<List<RouteHit>> routes) => ref
       .read(coreHandlerProvider)
       .checkRoutes(CheckRoutesParams(routes: routes));
 
@@ -435,7 +435,9 @@ mixin RoutedProbe<K, V>
       _reverify = true;
       return;
     }
-    if (!ref.mounted || !_route.live || !ref.read(appVisibleProvider)) {
+    if (!ref.mounted ||
+        !_route.live ||
+        (!runsInBackground && !ref.read(appVisibleProvider))) {
       return;
     }
     final stamps = <K, RouteStamp>{};

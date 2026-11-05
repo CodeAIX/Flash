@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:fl_clash/common/flash_monitor.dart';
+
 import 'package:collection/collection.dart';
 import 'package:fl_clash/common/common.dart';
 import 'package:fl_clash/common/tray.dart';
@@ -13,8 +15,7 @@ import 'package:fl_clash/providers/ip_quality.dart';
 import 'package:fl_clash/providers/routed_probe.dart';
 import 'package:fl_clash/models/models.dart';
 import 'package:fl_clash/providers/route_state.dart';
-import 'package:fl_clash/common/service_probe.dart';
-import 'package:material_ui/material_ui.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:tray/tray.dart';
 
@@ -33,6 +34,7 @@ class _TrayManagerState extends ConsumerState<TrayManager> {
   ProviderSubscription<AsyncValue<IpQuality>>? _qualitySubscription;
   String? _qualityIp;
   bool _flashWatching = false;
+  String? _flashTarget;
   OutboundIpProbe? _flashProbe;
   RouteTracker? _flashRoute;
   bool _isUpdating = false;
@@ -54,6 +56,11 @@ class _TrayManagerState extends ConsumerState<TrayManager> {
     });
     if (system.isMacOS &&
         const bool.fromEnvironment('FLASH_STATUS_ICON', defaultValue: true)) {
+      ref.listenManual(flashMonitorTargetProvider, (_, _) {
+        scheduleMicrotask(_syncFlashWatch);
+        _requestUpdate();
+      });
+      ref.listenManual(groupsProvider, (_, _) => _requestUpdate());
       scheduleMicrotask(_syncFlashWatch);
       ref.listenManual(
         trayStateProvider,
@@ -88,20 +95,26 @@ class _TrayManagerState extends ConsumerState<TrayManager> {
     final tray = ref.read(trayStateProvider);
     _syncFlashQuality();
     final wanted = !tray.safeMode && tray.isStart && !tray.suspended;
-    if (wanted == _flashWatching) return;
+    final target = ref.read(flashMonitorTargetProvider);
+    if (wanted == _flashWatching && target == _flashTarget) return;
+    if (_flashWatching) {
+      _flashTimer?.cancel();
+      _flashProbe?.unwatch(_flashTarget!);
+      _flashRoute?.detachBackground();
+    }
     _flashWatching = wanted;
+    _flashTarget = target;
     if (wanted) {
       _flashRoute = ref.read(routeTrackerProvider.notifier);
       _flashProbe = ref.read(outboundIpProbeProvider.notifier);
       _flashRoute!.attachBackground();
-      _flashProbe!.watch(routedOutbound);
+      _flashProbe!.watch(target);
+      _flashProbe!.refresh([target]);
       _flashTimer = Timer.periodic(const Duration(seconds: 60), (_) {
-        ref.read(outboundIpProbeProvider.notifier).refresh([routedOutbound]);
+        ref.read(outboundIpProbeProvider.notifier).refresh([target]);
       });
     } else {
       _flashTimer?.cancel();
-      _flashProbe?.unwatch(routedOutbound);
-      _flashRoute?.detachBackground();
       _flashProbe = null;
       _flashRoute = null;
     }
@@ -110,7 +123,9 @@ class _TrayManagerState extends ConsumerState<TrayManager> {
   void _syncFlashQuality() {
     if (!mounted) return;
     final tray = ref.read(trayStateProvider);
-    final entry = ref.read(outboundIpProbeProvider).entryOf(routedOutbound);
+    final entry = ref
+        .read(outboundIpProbeProvider)
+        .entryOf(ref.read(flashMonitorTargetProvider));
     final ip =
         !tray.safeMode &&
             tray.isStart &&
@@ -189,7 +204,7 @@ class _TrayManagerState extends ConsumerState<TrayManager> {
     _qualitySubscription?.close();
     _flashTimer?.cancel();
     if (_flashWatching) {
-      _flashProbe?.unwatch(routedOutbound);
+      _flashProbe?.unwatch(_flashTarget!);
       _flashRoute?.detachBackground();
       _flashProbe = null;
       _flashRoute = null;

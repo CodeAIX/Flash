@@ -1,3 +1,5 @@
+import 'dart:async';
+import 'flash_monitor.dart';
 import 'package:fl_clash/enum/enum.dart';
 import 'package:fl_clash/models/models.dart';
 import 'package:fl_clash/providers/providers.dart';
@@ -6,7 +8,6 @@ import 'package:tray/tray.dart';
 import 'package:riverpod/riverpod.dart';
 
 import 'app_localizations.dart';
-import 'service_probe.dart';
 import 'package:fl_clash/providers/outbound_ip.dart';
 import 'package:fl_clash/providers/routed_probe.dart';
 import 'package:fl_clash/providers/ip_quality.dart';
@@ -104,7 +105,9 @@ class AppTray implements TrayPort {
     }
     final flash = _usesFlashStatusIcon && !trayState.safeMode;
     final entry = flash
-        ? read(outboundIpProbeProvider).entryOf(routedOutbound)
+        ? read(
+            outboundIpProbeProvider,
+          ).entryOf(read(flashMonitorTargetProvider))
         : null;
     final running = trayState.isStart && !trayState.suspended;
     final ip = running && entry?.phase == ProbePhase.fresh
@@ -148,7 +151,7 @@ class AppTray implements TrayPort {
         toolTip: trayState.safeMode
             ? currentAppLocalizations.safeModeAppTitle(appName)
             : flash
-            ? 'Flash • $country • $status • Core rule probe; OS entry unverified'
+            ? 'Flash • ${read(flashMonitorTargetProvider).isEmpty ? currentAppLocalizations.flashMonitorRules : read(flashMonitorTargetProvider)} • ${ip ?? '—'} • $country • $status'
             : appName,
         menu: _buildMenu(trayState: trayState, read: read),
       ),
@@ -191,6 +194,22 @@ class AppTray implements TrayPort {
     );
 
     return [
+      if (_usesFlashStatusIcon && !trayState.safeMode) ...[
+        TrayMenuSubmenu(
+          label:
+              '${appLocalizations.flashMonitorTarget}: ${read(flashMonitorTargetProvider).isEmpty ? currentAppLocalizations.flashMonitorRules : read(flashMonitorTargetProvider)}',
+          items: flashMonitorMenu(
+            read(groupsProvider),
+            read(flashMonitorTargetProvider),
+            (target) {
+              unawaited(
+                read(flashMonitorTargetProvider.notifier).select(target),
+              );
+            },
+          ),
+        ),
+        const TrayMenuSeparator(),
+      ],
       showItem,
       TrayMenuCheckbox(
         label: trayState.isStart

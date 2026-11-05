@@ -6,13 +6,12 @@ import 'package:fl_clash/providers/ip_quality.dart';
 import 'package:fl_clash/providers/outbound_ip.dart';
 import 'package:fl_clash/providers/routed_probe.dart';
 
-import 'package:fl_clash/common/app_localizations.dart';
 import 'package:fl_clash/l10n/l10n.dart';
 import 'package:fl_clash/manager/locale_manager.dart';
 import 'package:fl_clash/manager/tray_manager.dart';
 import 'package:fl_clash/providers/providers.dart';
 import 'package:fl_clash/state.dart';
-import 'package:material_ui/material_ui.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -20,6 +19,7 @@ import 'package:intl/intl.dart';
 import 'package:tray/tray.dart';
 
 import '../helpers/test_profiles.dart';
+import '../helpers/test_app.dart';
 
 const _trayChannel = MethodChannel('tray');
 const _windowChannel = MethodChannel('window');
@@ -128,7 +128,7 @@ void main() {
       await tester.pumpWidget(
         UncontrolledProviderScope(
           container: container,
-          child: const MaterialApp(home: TrayManager(child: SizedBox.shrink())),
+          child: const TestApp(child: TrayManager(child: SizedBox.shrink())),
         ),
       );
       await tester.pump();
@@ -175,7 +175,7 @@ void main() {
     await tester.pumpWidget(
       UncontrolledProviderScope(
         container: container,
-        child: const MaterialApp(home: TrayManager(child: SizedBox.shrink())),
+        child: const HostApp(home: TrayManager(child: SizedBox.shrink())),
       ),
     );
     await tester.pump();
@@ -188,14 +188,8 @@ void main() {
     await tester.pumpWidget(
       UncontrolledProviderScope(
         container: container,
-        child: MaterialApp(
+        child: HostApp(
           locale: locale,
-          localizationsDelegates: const [
-            AppLocalizations.delegate,
-            AppUiLocalizations.delegate,
-            ...GlobalMaterialLocalizations.delegates,
-          ],
-          supportedLocales: AppLocalizations.delegate.supportedLocales,
           home: const LocaleManager(
             child: TrayManager(child: SizedBox.shrink()),
           ),
