@@ -1,3 +1,4 @@
+import 'package:fl_clash/common/flash_monitor.dart';
 import 'dart:convert';
 import 'dart:io';
 
@@ -16,8 +17,8 @@ import 'package:fl_clash/providers/ip_quality.dart';
 import 'package:fl_clash/providers/routed_probe.dart';
 import 'package:fl_clash/state.dart';
 import 'package:flutter/foundation.dart';
-import 'package:material_ui/material_ui.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:intl/intl.dart';
 import 'package:riverpod/riverpod.dart';
@@ -237,7 +238,7 @@ void main() {
     final arguments = showCalls.single.arguments as Map;
     expect(
       arguments['toolTip'],
-      contains('Core rule probe; OS entry unverified'),
+      contains(currentAppLocalizations.flashMonitorRules),
     );
     expect(arguments['menu'], isNotEmpty);
     final icon = arguments['icon'] as Map;
@@ -279,6 +280,47 @@ void main() {
           running && phase == ProbePhase.fresh ? 'JP' : '--',
         );
       }
+    },
+  );
+
+  test(
+    'selected monitor supplies country and quality instead of routed IP',
+    () async {
+      container.dispose();
+      container = ProviderContainer(
+        overrides: [
+          outboundIpProbeProvider.overrideWithBuild(
+            (_, _) => const RoutedProbeState({
+              '': ProbeEntry(
+                phase: ProbePhase.fresh,
+                value: IpInfo(ip: '1.1.1.1', countryCode: 'US'),
+              ),
+              'Manual': ProbeEntry(
+                phase: ProbePhase.fresh,
+                value: IpInfo(ip: '2.2.2.2', countryCode: 'JP'),
+              ),
+            }),
+          ),
+          ipQualityProvider('2.2.2.2').overrideWithValue(
+            const AsyncData(
+              IpQuality(
+                ip: '2.2.2.2',
+                source: IpQualitySource.identMe,
+                type: IpType.residential,
+              ),
+            ),
+          ),
+        ],
+      );
+      await container
+          .read(flashMonitorTargetProvider.notifier)
+          .select('Manual');
+      await update(_trayState(isStart: true, tunEnable: true));
+      final icon = (showCall()!.arguments as Map)['icon'] as Map;
+      expect(icon['country'], 'JP');
+      expect(icon['isHighQuality'], true);
+      expect(icon['status'], 'tun');
+      expect(_labels(showCall()).first, contains('Manual'));
     },
   );
 
@@ -424,9 +466,9 @@ void main() {
       ),
     );
 
-    final submenu = _items(
-      showCall(),
-    ).firstWhere((item) => item['type'] == 'submenu');
+    final submenu = _items(showCall()).firstWhere(
+      (item) => item['type'] == 'submenu' && item['label'] == 'Proxy',
+    );
     expect(submenu['label'], 'Proxy');
     final children = (submenu['items'] as List).cast<Map<Object?, Object?>>();
     expect(children.map((item) => item['label']), contains('A'));
@@ -506,7 +548,9 @@ void main() {
     );
 
     final items = _items(showCall());
-    final index = items.indexWhere((item) => item['type'] == 'submenu');
+    final index = items.indexWhere(
+      (item) => item['type'] == 'submenu' && item['label'] == 'Proxy',
+    );
     expect(items[index + 1]['label'], HotAction.delayTest.label);
     expect(items[index + 1]['detail'], '⌃⇧D');
   });

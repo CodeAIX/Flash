@@ -1,3 +1,108 @@
+diff --git a/arb/intl_en.arb b/arb/intl_en.arb
+index cbda0e3be9bbc7121847cb304fdf53977fa6a86e..5bd643f88fb84efeccdd7d56af7774065a8a0878 100644
+--- a/arb/intl_en.arb
++++ b/arb/intl_en.arb
+@@ -1076,5 +1076,9 @@
+   "fakeipFilterDesc": "These domains get real IPs instead of Fake-IPs. In whitelist mode, only they get Fake-IPs.",
+   "fallbackFilterGeositeDesc": "Domains in these GeoSite categories are resolved by Fallback directly.",
+   "fallbackFilterIpcidrDesc": "When Nameserver returns an IP in these ranges, the Fallback answer is used.",
+-  "fallbackFilterDomainDesc": "These domains are resolved by Fallback directly."
++  "fallbackFilterDomainDesc": "These domains are resolved by Fallback directly.",
++  "flashMonitorTarget": "Monitor target",
++  "flashMonitorRules": "Follow routing rules",
++  "flashMonitorGroup": "Monitor this group; current",
++  "flashMonitorUnavailable": "Unavailable in current profile"
+ }
+diff --git a/arb/intl_es.arb b/arb/intl_es.arb
+index 417db6b6ea59d216140df1f147e2ebd508a74543..4160e9f89aadfcc8e80d0c5a650f0049f4b7eaf0 100644
+--- a/arb/intl_es.arb
++++ b/arb/intl_es.arb
+@@ -1076,5 +1076,9 @@
+   "fakeipFilterDesc": "Estos dominios reciben su IP real en lugar de una Fake-IP. En modo whitelist, solo ellos reciben Fake-IP.",
+   "fallbackFilterGeositeDesc": "Los dominios de estas categorías GeoSite se resuelven directamente con Fallback.",
+   "fallbackFilterIpcidrDesc": "Si Nameserver devuelve una IP de estos rangos, se usa la respuesta de Fallback.",
+-  "fallbackFilterDomainDesc": "Estos dominios se resuelven directamente con Fallback."
++  "fallbackFilterDomainDesc": "Estos dominios se resuelven directamente con Fallback.",
++  "flashMonitorTarget": "Destino de supervisión",
++  "flashMonitorRules": "Seguir las reglas",
++  "flashMonitorGroup": "Supervisar este grupo; actual",
++  "flashMonitorUnavailable": "No disponible en este perfil"
+ }
+diff --git a/arb/intl_fr.arb b/arb/intl_fr.arb
+index aa4e778341e413a03fc3775189164207c05bbab6..6447a37af7bc5ec308aedccb6b36876eaa6cd5cd 100644
+--- a/arb/intl_fr.arb
++++ b/arb/intl_fr.arb
+@@ -1076,5 +1076,9 @@
+   "fakeipFilterDesc": "Ces domaines reçoivent leur vraie IP au lieu d’une Fake-IP. En mode whitelist, eux seuls reçoivent une Fake-IP.",
+   "fallbackFilterGeositeDesc": "Les domaines de ces catégories GeoSite sont résolus directement par Fallback.",
+   "fallbackFilterIpcidrDesc": "Si Nameserver renvoie une IP de ces plages, la réponse de Fallback est utilisée.",
+-  "fallbackFilterDomainDesc": "Ces domaines sont résolus directement par Fallback."
++  "fallbackFilterDomainDesc": "Ces domaines sont résolus directement par Fallback.",
++  "flashMonitorTarget": "Cible de surveillance",
++  "flashMonitorRules": "Suivre les règles",
++  "flashMonitorGroup": "Surveiller ce groupe ; actuel",
++  "flashMonitorUnavailable": "Indisponible dans ce profil"
+ }
+diff --git a/arb/intl_ja.arb b/arb/intl_ja.arb
+index d6ff2b33f73da48b7ade4dc2afc509e84e9bb74c..2d48fc79d37e713fa038dddacca5d57bd0b794e0 100644
+--- a/arb/intl_ja.arb
++++ b/arb/intl_ja.arb
+@@ -1076,5 +1076,9 @@
+   "fakeipFilterDesc": "これらのドメインには Fake-IP ではなく実際の IP を返します。whitelist モードでは、これらだけが Fake-IP を使います。",
+   "fallbackFilterGeositeDesc": "これらの GeoSite カテゴリのドメインは、直接 Fallback で解決します。",
+   "fallbackFilterIpcidrDesc": "Nameserver がこれらの範囲の IP を返したときは、Fallback の結果を使います。",
+-  "fallbackFilterDomainDesc": "これらのドメインは、直接 Fallback で解決します。"
++  "fallbackFilterDomainDesc": "これらのドメインは、直接 Fallback で解決します。",
++  "flashMonitorTarget": "監視対象",
++  "flashMonitorRules": "ルーティングルールに従う",
++  "flashMonitorGroup": "このグループを監視・現在",
++  "flashMonitorUnavailable": "現在の設定では利用不可"
+ }
+diff --git a/arb/intl_ko.arb b/arb/intl_ko.arb
+index ead8d29f808379bd3f639dd132914a663c53b20a..fae2d76e6b0757aafb5395d086e62d1946854c16 100644
+--- a/arb/intl_ko.arb
++++ b/arb/intl_ko.arb
+@@ -1076,5 +1076,9 @@
+   "fakeipFilterDesc": "이 도메인에는 Fake-IP 대신 실제 IP를 반환합니다. whitelist 모드에서는 이 도메인만 Fake-IP를 사용합니다.",
+   "fallbackFilterGeositeDesc": "이 GeoSite 분류의 도메인은 바로 Fallback으로 확인합니다.",
+   "fallbackFilterIpcidrDesc": "Nameserver가 이 범위의 IP를 반환하면 Fallback 결과를 사용합니다.",
+-  "fallbackFilterDomainDesc": "이 도메인은 바로 Fallback으로 확인합니다."
++  "fallbackFilterDomainDesc": "이 도메인은 바로 Fallback으로 확인합니다.",
++  "flashMonitorTarget": "모니터링 대상",
++  "flashMonitorRules": "라우팅 규칙 따르기",
++  "flashMonitorGroup": "이 그룹 모니터링 · 현재",
++  "flashMonitorUnavailable": "현재 프로필에서 사용 불가"
+ }
+diff --git a/arb/intl_ru.arb b/arb/intl_ru.arb
+index 58e77e7135f96546cb8c59298f506d84027cb09a..8391d8b160bfb4e619cbb1744976e799bf9fe844 100644
+--- a/arb/intl_ru.arb
++++ b/arb/intl_ru.arb
+@@ -1076,5 +1076,9 @@
+   "fakeipFilterDesc": "Эти домены получают реальные IP вместо Fake-IP. В режиме whitelist Fake-IP получают только они.",
+   "fallbackFilterGeositeDesc": "Домены из этих категорий GeoSite сразу разрешаются через Fallback.",
+   "fallbackFilterIpcidrDesc": "Если Nameserver возвращает IP из этих диапазонов, используется ответ Fallback.",
+-  "fallbackFilterDomainDesc": "Эти домены сразу разрешаются через Fallback."
++  "fallbackFilterDomainDesc": "Эти домены сразу разрешаются через Fallback.",
++  "flashMonitorTarget": "Объект мониторинга",
++  "flashMonitorRules": "Следовать правилам",
++  "flashMonitorGroup": "Следить за группой; сейчас",
++  "flashMonitorUnavailable": "Недоступно в текущем профиле"
+ }
+diff --git a/arb/intl_zh_CN.arb b/arb/intl_zh_CN.arb
+index b44010cd7a25283e2211c66c1078b607dcb9049b..5d3f7774dd04de4e1d581516299bf34653d21227 100644
+--- a/arb/intl_zh_CN.arb
++++ b/arb/intl_zh_CN.arb
+@@ -1076,5 +1076,9 @@
+   "fakeipFilterDesc": "这些域名不使用 Fake-IP，返回真实 IP；过滤模式为 whitelist 时则只有它们使用 Fake-IP。",
+   "fallbackFilterGeositeDesc": "属于这些 GeoSite 分类的域名直接使用 Fallback 解析。",
+   "fallbackFilterIpcidrDesc": "Nameserver 返回这些网段内的 IP 时，改用 Fallback 的结果。",
+-  "fallbackFilterDomainDesc": "这些域名直接使用 Fallback 解析。"
++  "fallbackFilterDomainDesc": "这些域名直接使用 Fallback 解析。",
++  "flashMonitorTarget": "监测目标",
++  "flashMonitorRules": "按分流规则",
++  "flashMonitorGroup": "监测此组；当前",
++  "flashMonitorUnavailable": "当前配置中不可用"
+ }
 diff --git a/assets/images/icon.png b/assets/images/icon.png
 index a9bb8015721883bf00f0a7ea2fe9f6113439e18c..688f8d7bf6c55b9677f88d2f02fecdde6ef63693 100644
 GIT binary patch
@@ -1122,19 +1227,19 @@ zcOg!gWknBv!;Q_Ryv>Va)#)D?{{L^u4P8GCR!-MY9~t`g4L^oZ)>0~c`1Ixf0XGL@
 AuK)l5
 
 diff --git a/lib/common/constant.dart b/lib/common/constant.dart
-index f5b22e0465d3f7805c69e15bef5d0a95fb1bf14d..e14ed02fa0f8283658631f0a65d4f4b93e9e3e96 100644
+index 6dcbd6c8b1f864adbcbf4bec3aa4975bf56bd661..9786a9ec1086bcf310967bb60fdaa459ddd57718 100644
 --- a/lib/common/constant.dart
 +++ b/lib/common/constant.dart
 @@ -9,7 +9,7 @@ import 'package:fl_clash/enum/enum.dart';
  import 'package:fl_clash/models/models.dart';
- import 'package:material_ui/material_ui.dart';
+ import 'package:flutter/widgets.dart';
  
 -const appName = 'FlClash';
 +const appName = 'Flash';
  const appHelperService = 'FlClashHelperService';
  const coreManifestName = 'manifest.json';
  const browserUa =
-@@ -121,7 +121,7 @@ const systemDnsRecordKey = 'system_dns_record';
+@@ -129,7 +129,7 @@ const systemDnsRecordKey = 'system_dns_record';
  const bootRecordKey = 'boot_record';
  const appliedConfigMd5Key = 'applied_config_md5';
  const defaultSystemDnsFallback = '223.5.5.5';
@@ -1169,11 +1274,119 @@ index e3632c50c7c701ae71f036379f0eb5f2319debb4..7950924cae5941bb3a7d006793fe8fb7
      await io.File(localPath).safeWriteAsBytes(bytes);
    }
  }
+diff --git a/lib/common/flash_monitor.dart b/lib/common/flash_monitor.dart
+new file mode 100644
+index 0000000000000000000000000000000000000000..2f92dee0c8c4d6f91a145fca1cb80fecae0d1386
+--- /dev/null
++++ b/lib/common/flash_monitor.dart
+@@ -0,0 +1,102 @@
++import 'app_localizations.dart';
++import 'dart:async';
++
++import 'package:fl_clash/common/service_probe.dart';
++import 'package:fl_clash/models/models.dart';
++import 'package:fl_clash/enum/enum.dart';
++import 'package:riverpod/riverpod.dart';
++import 'package:shared_preferences/shared_preferences.dart';
++import 'package:tray/tray.dart';
++
++final flashMonitorTargetProvider = NotifierProvider<FlashMonitorTarget, String>(
++  FlashMonitorTarget.new,
++);
++
++class FlashMonitorTarget extends Notifier<String> {
++  static const preferenceKey = 'flash.monitorTarget';
++  int _revision = 0;
++  Future<void> _writes = Future.value();
++
++  @override
++  String build() {
++    unawaited(_restore());
++    return routedOutbound;
++  }
++
++  Future<void> _restore() async {
++    try {
++      final store = await SharedPreferences.getInstance();
++      if (ref.mounted && _revision == 0) {
++        state = store.getString(preferenceKey) ?? routedOutbound;
++      }
++    } catch (_) {
++      // A missing preference store must not prevent tray startup.
++    }
++  }
++
++  Future<void> select(String target) {
++    _revision++;
++    state = target;
++    return _writes = _writes
++        .then((_) async {
++          final store = await SharedPreferences.getInstance();
++          await store.setString(preferenceKey, target);
++        })
++        .catchError((Object error) {});
++  }
++}
++
++List<TrayMenuItem> flashMonitorMenu(
++  List<Group> groups,
++  String selected,
++  void Function(String) select,
++) {
++  final localizations = currentAppLocalizations;
++  final byName = {for (final group in groups) group.name: group};
++  final expanded = <String>{};
++  final names = <String>{
++    for (final group in groups) ...[
++      group.name,
++      for (final proxy in group.all) proxy.name,
++    ],
++  };
++  TrayMenuCheckbox choice(String name, String label) => TrayMenuCheckbox(
++    label: label,
++    checked: selected == name,
++    onSelected: () => select(name),
++  );
++  TrayMenuItem target(String name) {
++    final group = byName[name];
++    if (group == null) return choice(name, name);
++    return TrayMenuSubmenu(
++      label: name,
++      items: [
++        choice(name, '${localizations.flashMonitorGroup}: ${group.now ?? "—"}'),
++        if (expanded.add(name)) ...[
++          const TrayMenuSeparator(),
++          for (final proxy in group.all) target(proxy.name),
++        ],
++      ],
++    );
++  }
++
++  return [
++    choice(routedOutbound, localizations.flashMonitorRules),
++    if (selected.isNotEmpty && !names.contains(selected))
++      TrayMenuCheckbox(
++        label: '$selected (${localizations.flashMonitorUnavailable})',
++        checked: true,
++        enabled: false,
++      ),
++    const TrayMenuSeparator(),
++    for (final group in [
++      ...groups.where(
++        (group) => group.type == GroupType.Selector && group.name != 'GLOBAL',
++      ),
++      ...groups.where(
++        (group) => group.type != GroupType.Selector || group.name == 'GLOBAL',
++      ),
++    ])
++      if (!expanded.contains(group.name)) target(group.name),
++  ];
++}
 diff --git a/lib/common/request.dart b/lib/common/request.dart
-index cf7ca860e32144223fc0854bed8bc781b8293be9..6bea356e3d43e859bb6894e10b237935765a4a82 100644
+index 0f00bf0f92716e9afd60795330b006a920273683..d6f97967e74a30bdb7f84eb4b0591b882d5248af 100644
 --- a/lib/common/request.dart
 +++ b/lib/common/request.dart
-@@ -89,7 +89,8 @@ class Request {
+@@ -108,7 +108,8 @@ class Request {
    Future<Map<String, dynamic>?> checkForUpdate() async {
      final release = await latestRelease();
      final remoteVersion = release['tag_name'] as String;
@@ -1184,24 +1397,27 @@ index cf7ca860e32144223fc0854bed8bc781b8293be9..6bea356e3d43e859bb6894e10b237935
          compareVersions(remoteVersion.replaceAll('v', ''), version) > 0;
      return hasUpdate ? release : null;
 diff --git a/lib/common/tray.dart b/lib/common/tray.dart
-index 77ef5f03ed7cbc5b5a20fea13cae5af5a26a88e3..a5db973e87ea3cc4986b7910747247d3c4ac3e52 100644
+index 77ef5f03ed7cbc5b5a20fea13cae5af5a26a88e3..5eb063d3541caa32b9c49ec28b4210d59523e679 100644
 --- a/lib/common/tray.dart
 +++ b/lib/common/tray.dart
-@@ -3,8 +3,13 @@ import 'package:fl_clash/models/models.dart';
+@@ -1,10 +1,16 @@
++import 'dart:async';
++import 'flash_monitor.dart';
+ import 'package:fl_clash/enum/enum.dart';
+ import 'package:fl_clash/models/models.dart';
  import 'package:fl_clash/providers/providers.dart';
  import 'package:flutter/foundation.dart' show visibleForTesting;
  import 'package:tray/tray.dart';
 +import 'package:riverpod/riverpod.dart';
  
  import 'app_localizations.dart';
-+import 'service_probe.dart';
 +import 'package:fl_clash/providers/outbound_ip.dart';
 +import 'package:fl_clash/providers/routed_probe.dart';
 +import 'package:fl_clash/providers/ip_quality.dart';
  import 'l10n_labels.dart';
  import 'app_ports.dart';
  import 'constant.dart';
-@@ -39,6 +44,10 @@ class AppTray implements TrayPort {
+@@ -39,6 +45,10 @@ class AppTray implements TrayPort {
      return AppTray._internal(isMacOS: isMacOS, isWindows: isWindows);
    }
  
@@ -1212,13 +1428,15 @@ index 77ef5f03ed7cbc5b5a20fea13cae5af5a26a88e3..a5db973e87ea3cc4986b7910747247d3
    String get _trayIconSuffix {
      return isWindows ? 'ico' : 'png';
    }
-@@ -93,20 +102,53 @@ class AppTray implements TrayPort {
+@@ -93,20 +103,55 @@ class AppTray implements TrayPort {
      if (_isShutDown) {
        return;
      }
 +    final flash = _usesFlashStatusIcon && !trayState.safeMode;
 +    final entry = flash
-+        ? read(outboundIpProbeProvider).entryOf(routedOutbound)
++        ? read(
++            outboundIpProbeProvider,
++          ).entryOf(read(flashMonitorTargetProvider))
 +        : null;
 +    final running = trayState.isStart && !trayState.suspended;
 +    final ip = running && entry?.phase == ProbePhase.fresh
@@ -1272,11 +1490,34 @@ index 77ef5f03ed7cbc5b5a20fea13cae5af5a26a88e3..a5db973e87ea3cc4986b7910747247d3
          toolTip: trayState.safeMode
              ? currentAppLocalizations.safeModeAppTitle(appName)
 +            : flash
-+            ? 'Flash • $country • $status • Core rule probe; OS entry unverified'
++            ? 'Flash • ${read(flashMonitorTargetProvider).isEmpty ? currentAppLocalizations.flashMonitorRules : read(flashMonitorTargetProvider)} • ${ip ?? '—'} • $country • $status'
              : appName,
          menu: _buildMenu(trayState: trayState, read: read),
        ),
-@@ -164,11 +206,12 @@ class AppTray implements TrayPort {
+@@ -149,6 +194,22 @@ class AppTray implements TrayPort {
+     );
+ 
+     return [
++      if (_usesFlashStatusIcon && !trayState.safeMode) ...[
++        TrayMenuSubmenu(
++          label:
++              '${appLocalizations.flashMonitorTarget}: ${read(flashMonitorTargetProvider).isEmpty ? currentAppLocalizations.flashMonitorRules : read(flashMonitorTargetProvider)}',
++          items: flashMonitorMenu(
++            read(groupsProvider),
++            read(flashMonitorTargetProvider),
++            (target) {
++              unawaited(
++                read(flashMonitorTargetProvider.notifier).select(target),
++              );
++            },
++          ),
++        ),
++        const TrayMenuSeparator(),
++      ],
+       showItem,
+       TrayMenuCheckbox(
+         label: trayState.isStart
+@@ -164,11 +225,12 @@ class AppTray implements TrayPort {
            checked: trayState.showTrayTitle,
            onSelected: commonAction.updateSpeedStatistics,
          ),
@@ -1294,11 +1535,277 @@ index 77ef5f03ed7cbc5b5a20fea13cae5af5a26a88e3..a5db973e87ea3cc4986b7910747247d3
        ],
        const TrayMenuSeparator(),
        for (final mode in Mode.values)
+diff --git a/lib/l10n/intl/messages_en.dart b/lib/l10n/intl/messages_en.dart
+index 4cbb954bb65297ee89ec8933c01a5e5836e118fa..6ea086c4546275b28f7c129d439d7c7e75e8d209 100644
+--- a/lib/l10n/intl/messages_en.dart
++++ b/lib/l10n/intl/messages_en.dart
+@@ -877,6 +877,18 @@ class MessageLookup extends MessageLookupByLibrary {
+     "filter": MessageLookupByLibrary.simpleMessage("Filter"),
+     "filters": MessageLookupByLibrary.simpleMessage("Filters"),
+     "findProcessMode": MessageLookupByLibrary.simpleMessage("Find process"),
++    "flashMonitorGroup": MessageLookupByLibrary.simpleMessage(
++      "Monitor this group; current",
++    ),
++    "flashMonitorRules": MessageLookupByLibrary.simpleMessage(
++      "Follow routing rules",
++    ),
++    "flashMonitorTarget": MessageLookupByLibrary.simpleMessage(
++      "Monitor target",
++    ),
++    "flashMonitorUnavailable": MessageLookupByLibrary.simpleMessage(
++      "Unavailable in current profile",
++    ),
+     "floating": MessageLookupByLibrary.simpleMessage("Floating"),
+     "followProfile": MessageLookupByLibrary.simpleMessage("Follow profile"),
+     "followSystem": MessageLookupByLibrary.simpleMessage("Follow system"),
+@@ -1048,9 +1060,10 @@ class MessageLookup extends MessageLookupByLibrary {
+     "installCertificateSuccess": MessageLookupByLibrary.simpleMessage(
+       "Certificate installed",
+     ),
+-    "installedAppsPermissionDeniedMessage": MessageLookupByLibrary.simpleMessage(
+-      "The app list permission was denied, so installed apps cannot be listed. Please grant it manually in system settings.",
+-    ),
++    "installedAppsPermissionDeniedMessage":
++        MessageLookupByLibrary.simpleMessage(
++          "The app list permission was denied, so installed apps cannot be listed. Please grant it manually in system settings.",
++        ),
+     "installedAppsPermissionDesc": MessageLookupByLibrary.simpleMessage(
+       "This system hides the installed app list until the permission is granted. Authorize it to configure the per-app proxy.",
+     ),
+diff --git a/lib/l10n/intl/messages_es.dart b/lib/l10n/intl/messages_es.dart
+index bff3857cdee2f2119e7379085ac8ce2a58e2ec9d..3a1d3a35f6bb8e0eabdb7dd40026bc3c69e76ff7 100644
+--- a/lib/l10n/intl/messages_es.dart
++++ b/lib/l10n/intl/messages_es.dart
+@@ -942,6 +942,18 @@ class MessageLookup extends MessageLookupByLibrary {
+     "filter": MessageLookupByLibrary.simpleMessage("Filtro"),
+     "filters": MessageLookupByLibrary.simpleMessage("Filtros"),
+     "findProcessMode": MessageLookupByLibrary.simpleMessage("Buscar proceso"),
++    "flashMonitorGroup": MessageLookupByLibrary.simpleMessage(
++      "Supervisar este grupo; actual",
++    ),
++    "flashMonitorRules": MessageLookupByLibrary.simpleMessage(
++      "Seguir las reglas",
++    ),
++    "flashMonitorTarget": MessageLookupByLibrary.simpleMessage(
++      "Destino de supervisión",
++    ),
++    "flashMonitorUnavailable": MessageLookupByLibrary.simpleMessage(
++      "No disponible en este perfil",
++    ),
+     "floating": MessageLookupByLibrary.simpleMessage("Flotante"),
+     "followProfile": MessageLookupByLibrary.simpleMessage("Seguir perfil"),
+     "followSystem": MessageLookupByLibrary.simpleMessage("Seguir el sistema"),
+@@ -1125,9 +1137,10 @@ class MessageLookup extends MessageLookupByLibrary {
+     "installCertificateSuccess": MessageLookupByLibrary.simpleMessage(
+       "Certificado instalado",
+     ),
+-    "installedAppsPermissionDeniedMessage": MessageLookupByLibrary.simpleMessage(
+-      "Se denegó el permiso de lista de apps, por lo que no se pueden mostrar las apps instaladas. Concédelo manualmente en los ajustes del sistema.",
+-    ),
++    "installedAppsPermissionDeniedMessage":
++        MessageLookupByLibrary.simpleMessage(
++          "Se denegó el permiso de lista de apps, por lo que no se pueden mostrar las apps instaladas. Concédelo manualmente en los ajustes del sistema.",
++        ),
+     "installedAppsPermissionDesc": MessageLookupByLibrary.simpleMessage(
+       "Este sistema oculta la lista de apps instaladas hasta que se concede el permiso. Autorízalo para configurar el proxy por app.",
+     ),
+diff --git a/lib/l10n/intl/messages_fr.dart b/lib/l10n/intl/messages_fr.dart
+index 346168b18ef1051191b94316a778e0fdefd536d4..ac7fb092bcc237e8933db30e45e8ce2880af3be1 100644
+--- a/lib/l10n/intl/messages_fr.dart
++++ b/lib/l10n/intl/messages_fr.dart
+@@ -938,6 +938,18 @@ class MessageLookup extends MessageLookupByLibrary {
+     "findProcessMode": MessageLookupByLibrary.simpleMessage(
+       "Recherche de processus",
+     ),
++    "flashMonitorGroup": MessageLookupByLibrary.simpleMessage(
++      "Surveiller ce groupe ; actuel",
++    ),
++    "flashMonitorRules": MessageLookupByLibrary.simpleMessage(
++      "Suivre les règles",
++    ),
++    "flashMonitorTarget": MessageLookupByLibrary.simpleMessage(
++      "Cible de surveillance",
++    ),
++    "flashMonitorUnavailable": MessageLookupByLibrary.simpleMessage(
++      "Indisponible dans ce profil",
++    ),
+     "floating": MessageLookupByLibrary.simpleMessage("Flottante"),
+     "followProfile": MessageLookupByLibrary.simpleMessage("Suivre le profil"),
+     "followSystem": MessageLookupByLibrary.simpleMessage("Suivre le système"),
+@@ -1127,9 +1139,10 @@ class MessageLookup extends MessageLookupByLibrary {
+     "installCertificateSuccess": MessageLookupByLibrary.simpleMessage(
+       "Certificat installé",
+     ),
+-    "installedAppsPermissionDeniedMessage": MessageLookupByLibrary.simpleMessage(
+-      "L’autorisation de la liste des apps a été refusée ; les apps installées ne peuvent donc pas être listées. Veuillez l’accorder manuellement dans les réglages du système.",
+-    ),
++    "installedAppsPermissionDeniedMessage":
++        MessageLookupByLibrary.simpleMessage(
++          "L’autorisation de la liste des apps a été refusée ; les apps installées ne peuvent donc pas être listées. Veuillez l’accorder manuellement dans les réglages du système.",
++        ),
+     "installedAppsPermissionDesc": MessageLookupByLibrary.simpleMessage(
+       "Ce système masque la liste des apps installées tant que l’autorisation n’est pas accordée. Accordez-la pour configurer le proxy par app.",
+     ),
+diff --git a/lib/l10n/intl/messages_ja.dart b/lib/l10n/intl/messages_ja.dart
+index 7d3c0d13f8db982bb1c8389cd77968e75d3ff029..de8c8bf6374d49e28d3fb7e1a1b6ab93346cd930 100644
+--- a/lib/l10n/intl/messages_ja.dart
++++ b/lib/l10n/intl/messages_ja.dart
+@@ -742,6 +742,12 @@ class MessageLookup extends MessageLookupByLibrary {
+     "filter": MessageLookupByLibrary.simpleMessage("フィルター"),
+     "filters": MessageLookupByLibrary.simpleMessage("フィルター"),
+     "findProcessMode": MessageLookupByLibrary.simpleMessage("プロセス検出"),
++    "flashMonitorGroup": MessageLookupByLibrary.simpleMessage("このグループを監視・現在"),
++    "flashMonitorRules": MessageLookupByLibrary.simpleMessage("ルーティングルールに従う"),
++    "flashMonitorTarget": MessageLookupByLibrary.simpleMessage("監視対象"),
++    "flashMonitorUnavailable": MessageLookupByLibrary.simpleMessage(
++      "現在の設定では利用不可",
++    ),
+     "floating": MessageLookupByLibrary.simpleMessage("フローティング"),
+     "followProfile": MessageLookupByLibrary.simpleMessage("プロファイルに従う"),
+     "followSystem": MessageLookupByLibrary.simpleMessage("システムに従う"),
+diff --git a/lib/l10n/intl/messages_ko.dart b/lib/l10n/intl/messages_ko.dart
+index b940cc8a956fecfe13a516a071d79d47e1a41a2b..4e7e81110514684c884851dd03d2b859dbecdb09 100644
+--- a/lib/l10n/intl/messages_ko.dart
++++ b/lib/l10n/intl/messages_ko.dart
+@@ -732,6 +732,12 @@ class MessageLookup extends MessageLookupByLibrary {
+     "filter": MessageLookupByLibrary.simpleMessage("필터"),
+     "filters": MessageLookupByLibrary.simpleMessage("필터"),
+     "findProcessMode": MessageLookupByLibrary.simpleMessage("프로세스 찾기"),
++    "flashMonitorGroup": MessageLookupByLibrary.simpleMessage("이 그룹 모니터링 · 현재"),
++    "flashMonitorRules": MessageLookupByLibrary.simpleMessage("라우팅 규칙 따르기"),
++    "flashMonitorTarget": MessageLookupByLibrary.simpleMessage("모니터링 대상"),
++    "flashMonitorUnavailable": MessageLookupByLibrary.simpleMessage(
++      "현재 프로필에서 사용 불가",
++    ),
+     "floating": MessageLookupByLibrary.simpleMessage("플로팅"),
+     "followProfile": MessageLookupByLibrary.simpleMessage("프로필 따르기"),
+     "followSystem": MessageLookupByLibrary.simpleMessage("시스템 설정 따르기"),
+diff --git a/lib/l10n/intl/messages_ru.dart b/lib/l10n/intl/messages_ru.dart
+index 6ef68214e43b1d56c2e3dba3364042d218e0efca..661551af4c3e213ad46b5f3d3031d900a997a90a 100644
+--- a/lib/l10n/intl/messages_ru.dart
++++ b/lib/l10n/intl/messages_ru.dart
+@@ -917,6 +917,18 @@ class MessageLookup extends MessageLookupByLibrary {
+     "filter": MessageLookupByLibrary.simpleMessage("Фильтр"),
+     "filters": MessageLookupByLibrary.simpleMessage("Фильтры"),
+     "findProcessMode": MessageLookupByLibrary.simpleMessage("Поиск процесса"),
++    "flashMonitorGroup": MessageLookupByLibrary.simpleMessage(
++      "Следить за группой; сейчас",
++    ),
++    "flashMonitorRules": MessageLookupByLibrary.simpleMessage(
++      "Следовать правилам",
++    ),
++    "flashMonitorTarget": MessageLookupByLibrary.simpleMessage(
++      "Объект мониторинга",
++    ),
++    "flashMonitorUnavailable": MessageLookupByLibrary.simpleMessage(
++      "Недоступно в текущем профиле",
++    ),
+     "floating": MessageLookupByLibrary.simpleMessage("Плавающая"),
+     "followProfile": MessageLookupByLibrary.simpleMessage("Как в профиле"),
+     "followSystem": MessageLookupByLibrary.simpleMessage("Как в системе"),
+@@ -1096,9 +1108,10 @@ class MessageLookup extends MessageLookupByLibrary {
+     "installCertificateSuccess": MessageLookupByLibrary.simpleMessage(
+       "Сертификат установлен",
+     ),
+-    "installedAppsPermissionDeniedMessage": MessageLookupByLibrary.simpleMessage(
+-      "Разрешение на список приложений отклонено, поэтому установленные приложения недоступны. Предоставьте его вручную в системных настройках.",
+-    ),
++    "installedAppsPermissionDeniedMessage":
++        MessageLookupByLibrary.simpleMessage(
++          "Разрешение на список приложений отклонено, поэтому установленные приложения недоступны. Предоставьте его вручную в системных настройках.",
++        ),
+     "installedAppsPermissionDesc": MessageLookupByLibrary.simpleMessage(
+       "Эта система не выдаёт список установленных приложений без разрешения. Предоставьте его, чтобы настроить прокси для отдельных приложений.",
+     ),
+diff --git a/lib/l10n/intl/messages_zh_CN.dart b/lib/l10n/intl/messages_zh_CN.dart
+index e50efba8a9cd9829a128ac51a35947030ca02ca1..74f1b91f58f9b778a561b4ed32a90c255a52ebf5 100644
+--- a/lib/l10n/intl/messages_zh_CN.dart
++++ b/lib/l10n/intl/messages_zh_CN.dart
+@@ -684,6 +684,10 @@ class MessageLookup extends MessageLookupByLibrary {
+     "filter": MessageLookupByLibrary.simpleMessage("筛选"),
+     "filters": MessageLookupByLibrary.simpleMessage("筛选"),
+     "findProcessMode": MessageLookupByLibrary.simpleMessage("查找进程"),
++    "flashMonitorGroup": MessageLookupByLibrary.simpleMessage("监测此组；当前"),
++    "flashMonitorRules": MessageLookupByLibrary.simpleMessage("按分流规则"),
++    "flashMonitorTarget": MessageLookupByLibrary.simpleMessage("监测目标"),
++    "flashMonitorUnavailable": MessageLookupByLibrary.simpleMessage("当前配置中不可用"),
+     "floating": MessageLookupByLibrary.simpleMessage("悬浮"),
+     "followProfile": MessageLookupByLibrary.simpleMessage("跟随配置"),
+     "followSystem": MessageLookupByLibrary.simpleMessage("跟随系统"),
+diff --git a/lib/l10n/l10n.dart b/lib/l10n/l10n.dart
+index ffb158e5005286c686e13120f1b03f3fd7bc09da..ac2ae9867cf9b4ee7b33f2eab32d0a5e47695847 100644
+--- a/lib/l10n/l10n.dart
++++ b/lib/l10n/l10n.dart
+@@ -7663,8 +7663,7 @@ class AppLocalizations {
+   String customImportDroppedSubRules(num count, Object label) {
+     return Intl.plural(
+       count,
+-      one:
+-          '1 SUB-RULE rule was dropped, since custom profiles do not support sub-rules',
++      one: '1 SUB-RULE rule was dropped, since custom profiles do not support sub-rules',
+       other:
+           '$label SUB-RULE rules were dropped, since custom profiles do not support sub-rules',
+       name: 'customImportDroppedSubRules',
+@@ -9072,6 +9071,46 @@ class AppLocalizations {
+       args: [],
+     );
+   }
++
++  /// `Monitor target`
++  String get flashMonitorTarget {
++    return Intl.message(
++      'Monitor target',
++      name: 'flashMonitorTarget',
++      desc: '',
++      args: [],
++    );
++  }
++
++  /// `Follow routing rules`
++  String get flashMonitorRules {
++    return Intl.message(
++      'Follow routing rules',
++      name: 'flashMonitorRules',
++      desc: '',
++      args: [],
++    );
++  }
++
++  /// `Monitor this group; current`
++  String get flashMonitorGroup {
++    return Intl.message(
++      'Monitor this group; current',
++      name: 'flashMonitorGroup',
++      desc: '',
++      args: [],
++    );
++  }
++
++  /// `Unavailable in current profile`
++  String get flashMonitorUnavailable {
++    return Intl.message(
++      'Unavailable in current profile',
++      name: 'flashMonitorUnavailable',
++      desc: '',
++      args: [],
++    );
++  }
+ }
+ 
+ class AppLocalizationDelegate extends LocalizationsDelegate<AppLocalizations> {
 diff --git a/lib/manager/tray_manager.dart b/lib/manager/tray_manager.dart
-index 57094292db4666e6f13153cd03f37cee8ee4f9dc..85a8150f9e3d25da362cb3e16c43f8a1656a3c55 100755
+index 7e8753df1b496503e1830c76faa2374826aceb9b..c161753493556cd9095c182b1d9e623741d52d9a 100755
 --- a/lib/manager/tray_manager.dart
 +++ b/lib/manager/tray_manager.dart
-@@ -8,6 +8,12 @@ import 'package:fl_clash/enum/enum.dart';
+@@ -1,5 +1,7 @@
+ import 'dart:async';
+ 
++import 'package:fl_clash/common/flash_monitor.dart';
++
+ import 'package:collection/collection.dart';
+ import 'package:fl_clash/common/common.dart';
+ import 'package:fl_clash/common/tray.dart';
+@@ -8,6 +10,11 @@ import 'package:fl_clash/enum/enum.dart';
  import 'package:fl_clash/providers/action.dart';
  import 'package:fl_clash/providers/app.dart';
  import 'package:fl_clash/providers/state.dart';
@@ -1307,11 +1814,10 @@ index 57094292db4666e6f13153cd03f37cee8ee4f9dc..85a8150f9e3d25da362cb3e16c43f8a1
 +import 'package:fl_clash/providers/routed_probe.dart';
 +import 'package:fl_clash/models/models.dart';
 +import 'package:fl_clash/providers/route_state.dart';
-+import 'package:fl_clash/common/service_probe.dart';
- import 'package:material_ui/material_ui.dart';
+ import 'package:flutter/widgets.dart';
  import 'package:flutter_riverpod/flutter_riverpod.dart';
  import 'package:tray/tray.dart';
-@@ -23,6 +29,12 @@ class TrayManager extends ConsumerStatefulWidget {
+@@ -23,6 +30,13 @@ class TrayManager extends ConsumerStatefulWidget {
  
  class _TrayManagerState extends ConsumerState<TrayManager> {
    StreamSubscription<TrayEvent>? _subscription;
@@ -1319,17 +1825,23 @@ index 57094292db4666e6f13153cd03f37cee8ee4f9dc..85a8150f9e3d25da362cb3e16c43f8a1
 +  ProviderSubscription<AsyncValue<IpQuality>>? _qualitySubscription;
 +  String? _qualityIp;
 +  bool _flashWatching = false;
++  String? _flashTarget;
 +  OutboundIpProbe? _flashProbe;
 +  RouteTracker? _flashRoute;
    bool _isUpdating = false;
    bool _hasPendingUpdate = false;
  
-@@ -40,6 +52,18 @@ class _TrayManagerState extends ConsumerState<TrayManager> {
+@@ -40,6 +54,23 @@ class _TrayManagerState extends ConsumerState<TrayManager> {
          _requestUpdate();
        }
      });
 +    if (system.isMacOS &&
 +        const bool.fromEnvironment('FLASH_STATUS_ICON', defaultValue: true)) {
++      ref.listenManual(flashMonitorTargetProvider, (_, _) {
++        scheduleMicrotask(_syncFlashWatch);
++        _requestUpdate();
++      });
++      ref.listenManual(groupsProvider, (_, _) => _requestUpdate());
 +      scheduleMicrotask(_syncFlashWatch);
 +      ref.listenManual(
 +        trayStateProvider,
@@ -1343,7 +1855,7 @@ index 57094292db4666e6f13153cd03f37cee8ee4f9dc..85a8150f9e3d25da362cb3e16c43f8a1
      if (system.isMacOS) {
        ref.listenManual(trayDelaysProvider, (prev, next) {
          if (!const DeepCollectionEquality().equals(prev, next)) {
-@@ -59,6 +83,53 @@ class _TrayManagerState extends ConsumerState<TrayManager> {
+@@ -59,6 +90,61 @@ class _TrayManagerState extends ConsumerState<TrayManager> {
      }
    }
  
@@ -1352,20 +1864,26 @@ index 57094292db4666e6f13153cd03f37cee8ee4f9dc..85a8150f9e3d25da362cb3e16c43f8a1
 +    final tray = ref.read(trayStateProvider);
 +    _syncFlashQuality();
 +    final wanted = !tray.safeMode && tray.isStart && !tray.suspended;
-+    if (wanted == _flashWatching) return;
++    final target = ref.read(flashMonitorTargetProvider);
++    if (wanted == _flashWatching && target == _flashTarget) return;
++    if (_flashWatching) {
++      _flashTimer?.cancel();
++      _flashProbe?.unwatch(_flashTarget!);
++      _flashRoute?.detachBackground();
++    }
 +    _flashWatching = wanted;
++    _flashTarget = target;
 +    if (wanted) {
 +      _flashRoute = ref.read(routeTrackerProvider.notifier);
 +      _flashProbe = ref.read(outboundIpProbeProvider.notifier);
 +      _flashRoute!.attachBackground();
-+      _flashProbe!.watch(routedOutbound);
++      _flashProbe!.watch(target);
++      _flashProbe!.refresh([target]);
 +      _flashTimer = Timer.periodic(const Duration(seconds: 60), (_) {
-+        ref.read(outboundIpProbeProvider.notifier).refresh([routedOutbound]);
++        ref.read(outboundIpProbeProvider.notifier).refresh([target]);
 +      });
 +    } else {
 +      _flashTimer?.cancel();
-+      _flashProbe?.unwatch(routedOutbound);
-+      _flashRoute?.detachBackground();
 +      _flashProbe = null;
 +      _flashRoute = null;
 +    }
@@ -1374,7 +1892,9 @@ index 57094292db4666e6f13153cd03f37cee8ee4f9dc..85a8150f9e3d25da362cb3e16c43f8a1
 +  void _syncFlashQuality() {
 +    if (!mounted) return;
 +    final tray = ref.read(trayStateProvider);
-+    final entry = ref.read(outboundIpProbeProvider).entryOf(routedOutbound);
++    final entry = ref
++        .read(outboundIpProbeProvider)
++        .entryOf(ref.read(flashMonitorTargetProvider));
 +    final ip =
 +        !tray.safeMode &&
 +            tray.isStart &&
@@ -1397,14 +1917,14 @@ index 57094292db4666e6f13153cd03f37cee8ee4f9dc..85a8150f9e3d25da362cb3e16c43f8a1
    /// A delay test changes the menu per proxy, so updates in flight coalesce.
    void _requestUpdate() {
      if (_isUpdating) {
-@@ -115,6 +186,14 @@ class _TrayManagerState extends ConsumerState<TrayManager> {
+@@ -115,6 +201,14 @@ class _TrayManagerState extends ConsumerState<TrayManager> {
  
    @override
    void dispose() {
 +    _qualitySubscription?.close();
 +    _flashTimer?.cancel();
 +    if (_flashWatching) {
-+      _flashProbe?.unwatch(routedOutbound);
++      _flashProbe?.unwatch(_flashTarget!);
 +      _flashRoute?.detachBackground();
 +      _flashProbe = null;
 +      _flashRoute = null;
@@ -1413,59 +1933,104 @@ index 57094292db4666e6f13153cd03f37cee8ee4f9dc..85a8150f9e3d25da362cb3e16c43f8a1
      super.dispose();
    }
 diff --git a/lib/providers/generated/action.g.dart b/lib/providers/generated/action.g.dart
-index 8185064382d4710fbff0b451660772e98c312d25..87c47663240d6fad1acd2f460722367a938bdfd5 100644
+index 3f2bea0323f4c31cdc2f1322c7d2d8c7e786619e..05e282e5e69a38303310843264bf12fc33121cad 100644
 --- a/lib/providers/generated/action.g.dart
 +++ b/lib/providers/generated/action.g.dart
-@@ -91,7 +91,7 @@ final class SetupActionProvider extends $NotifierProvider<SetupAction, void> {
+@@ -40,7 +40,7 @@ final class CommonActionProvider extends $NotifierProvider<CommonAction, void> {
    }
  }
  
--String _$setupActionHash() => r'4b4da5c3157fbaaecd36d35fd0406dc7e07807ed';
-+String _$setupActionHash() => r'60f2e7b847e66636232a90c7bac583f560361a06';
+-String _$commonActionHash() => r'c0861209c71a2996971e25c98f59f20770a8b848';
++String _$commonActionHash() => r'15baafcc30c4fd1bdaada3a060879e8430541bdc';
  
- abstract class _$SetupAction extends $Notifier<void> {
+ abstract class _$CommonAction extends $Notifier<void> {
+   void build();
+@@ -193,7 +193,7 @@ final class CoreActionProvider extends $NotifierProvider<CoreAction, void> {
+   }
+ }
+ 
+-String _$coreActionHash() => r'66ca02d5e03d6de90ff4cf7849fd42b48c0d1313';
++String _$coreActionHash() => r'942a3b5732a4bf200f8e7d685fb5d6e37c01af9f';
+ 
+ abstract class _$CoreAction extends $Notifier<void> {
+   void build();
+@@ -244,7 +244,7 @@ final class SystemActionProvider extends $NotifierProvider<SystemAction, void> {
+   }
+ }
+ 
+-String _$systemActionHash() => r'9e7580ff094045c6261a66512301f98a7a505c3d';
++String _$systemActionHash() => r'2f2033a14a30caee435e12e4b0bcfaf407fdaffb';
+ 
+ abstract class _$SystemAction extends $Notifier<void> {
+   void build();
+@@ -554,7 +554,7 @@ final class MitmModulesActionProvider
+   }
+ }
+ 
+-String _$mitmModulesActionHash() => r'cd33ffb399209820ebc80ad9d649c30e1f2ddec0';
++String _$mitmModulesActionHash() => r'99278008215d7cbe518bc879470ce01920fea82f';
+ 
+ abstract class _$MitmModulesAction extends $Notifier<void> {
+   void build();
+@@ -763,7 +763,7 @@ final class ResourcesActionProvider
+   }
+ }
+ 
+-String _$resourcesActionHash() => r'2034421cda9f4889f496aea8cd40e17c724ec4f9';
++String _$resourcesActionHash() => r'1d35501f1e3d2306e58da6b1759cb5d86c5de529';
+ 
+ abstract class _$ResourcesAction extends $Notifier<void> {
    void build();
 diff --git a/lib/providers/generated/outbound_ip.g.dart b/lib/providers/generated/outbound_ip.g.dart
-index 682c6fc5cf99c03e5b0f30167998618a7ca1e867..f86f82a10984452546a8dfc41cf7fe2859744191 100644
+index 6aca6c30accd3b59f11df6097c19897eca0abcb7..83ff66c3ec43bc5bf462ec5b97ed0cf2be1613e4 100644
 --- a/lib/providers/generated/outbound_ip.g.dart
 +++ b/lib/providers/generated/outbound_ip.g.dart
 @@ -50,7 +50,7 @@ final class OutboundIpProbeProvider
    }
  }
  
--String _$outboundIpProbeHash() => r'57bf3b25a465eb52e125ba920f0c5f31a7c231f9';
-+String _$outboundIpProbeHash() => r'9578385857695aad7e3f569481cc6707f9478ec0';
+-String _$outboundIpProbeHash() => r'6ca9b0ac7d8041e21352e36ea7c5e8bf53fef80e';
++String _$outboundIpProbeHash() => r'dd269503ab082c0b27f6bbb945c826549e86f59b';
  
  /// Keyed by the outbound a lookup pins: a node name, `DIRECT`, or
  /// [routedOutbound] for whatever the rules pick right now.
 diff --git a/lib/providers/generated/route_state.g.dart b/lib/providers/generated/route_state.g.dart
-index ab99d55ff804eade5752512bfeb49fbc606bd29c..cd3b7e7eebfdbbc044588d4db61f99f4dc1a0e70 100644
+index 18e20d5a0dca4f4caec6277d1082aab3e964440e..e1fc83e1ae513cc18efca063ca77726bbaa70a50 100644
 --- a/lib/providers/generated/route_state.g.dart
 +++ b/lib/providers/generated/route_state.g.dart
 @@ -41,7 +41,7 @@ final class RouteTrackerProvider
    }
  }
  
--String _$routeTrackerHash() => r'615631b73c0a1149cb972e5c4e119ede26b7773b';
-+String _$routeTrackerHash() => r'0d6a040bc5807054a46fa571840b5b532d7e38da';
+-String _$routeTrackerHash() => r'adc5d0f4fb64d12a0bc0d6cdaea1503245f30318';
++String _$routeTrackerHash() => r'52ecf2113001aafa3b9a2075be3581e90986d04d';
  
  abstract class _$RouteTracker extends $Notifier<RouteState> {
    RouteState build();
 diff --git a/lib/providers/generated/state.g.dart b/lib/providers/generated/state.g.dart
-index 3d7c651fb0df04f042c508e95189e759a89eeafa..d499948fdb27e135c103d3da1882c18d228647d3 100644
+index 083081b3340d08cbe310faa0962b20b27be6432d..e6a3c8f833708462e34be30d7503c5b7380914ee 100644
 --- a/lib/providers/generated/state.g.dart
 +++ b/lib/providers/generated/state.g.dart
-@@ -138,7 +138,7 @@ final class SetupPatchProvider
+@@ -89,7 +89,7 @@ final class CoreOptionsProvider
    }
  }
  
--String _$setupPatchHash() => r'283e94846903bafab1c22985b6f90d4c0e2a4697';
-+String _$setupPatchHash() => r'd09fb41d40ced4cd47c9131fe55e983e35128724';
+-String _$coreOptionsHash() => r'ef7cb84b1c8ad89180f56c91cf863376c1ff9db5';
++String _$coreOptionsHash() => r'43945407c97ebce7e8106973f53ca83ce95c861a';
  
- @ProviderFor(trayState)
- final trayStateProvider = TrayStateProvider._();
+ @ProviderFor(setupPatch)
+ final setupPatchProvider = SetupPatchProvider._();
+@@ -3659,7 +3659,7 @@ final class SetupStateProvider
+   }
+ }
+ 
+-String _$setupStateHash() => r'4cfdb0a779dc8097c8c1027b73252f19f925a3ad';
++String _$setupStateHash() => r'e8c7cc4742b6e4cf4227071dc01ec6a943334dd0';
+ 
+ final class SetupStateFamily extends $Family
+     with $FunctionalFamilyOverride<FutureOr<SetupState>, int?> {
 diff --git a/lib/providers/outbound_ip.dart b/lib/providers/outbound_ip.dart
-index 401001114e2af816cc751abf1af9b706e803fa60..4dd4765a37af022ce71d27ce3c7526544e28cc4e 100644
+index 491225a6dad012a19152376835d884e325e22f23..e05fdd75290070829711c707e4a961b7c9ae7b68 100644
 --- a/lib/providers/outbound_ip.dart
 +++ b/lib/providers/outbound_ip.dart
 @@ -1,4 +1,5 @@
@@ -1487,7 +2052,7 @@ index 401001114e2af816cc751abf1af9b706e803fa60..4dd4765a37af022ce71d27ce3c752654
  
    @override
 diff --git a/lib/providers/route_state.dart b/lib/providers/route_state.dart
-index e74bb91eb4f64ad378cae9ac0d56121baec4d1ca..d4bff013a41e00c5633b9cc4d9db2ceb42ad4dfc 100644
+index affd859d88c448811769b65babde8160b124d2cf..fb3a4756e1a26fe03cc80a4f19b77820642e7736 100644
 --- a/lib/providers/route_state.dart
 +++ b/lib/providers/route_state.dart
 @@ -146,6 +146,7 @@ class RouteTracker extends _$RouteTracker {
@@ -1537,7 +2102,7 @@ index e74bb91eb4f64ad378cae9ac0d56121baec4d1ca..d4bff013a41e00c5633b9cc4d9db2ceb
      if (++_watchers == 1) {
        _subscribe();
 diff --git a/lib/providers/routed_probe.dart b/lib/providers/routed_probe.dart
-index 6f705454a6ee1f7a3b72e64fbb9b658e2c8abefd..a881eb18cd5af803971757807f22f150d9a8a870 100644
+index 4215fc17014af91a3c281d0325e6f83b3e1fbf6c..7711a6f3efef97697624ef3611b6a17fe08fcbef 100644
 --- a/lib/providers/routed_probe.dart
 +++ b/lib/providers/routed_probe.dart
 @@ -103,6 +103,8 @@ mixin RoutedProbe<K, V>
@@ -1560,6 +2125,17 @@ index 6f705454a6ee1f7a3b72e64fbb9b658e2c8abefd..a881eb18cd5af803971757807f22f150
        return;
      }
      final route = _route;
+@@ -431,7 +435,9 @@ mixin RoutedProbe<K, V>
+       _reverify = true;
+       return;
+     }
+-    if (!ref.mounted || !_route.live || !ref.read(appVisibleProvider)) {
++    if (!ref.mounted ||
++        !_route.live ||
++        (!runsInBackground && !ref.read(appVisibleProvider))) {
+       return;
+     }
+     final stamps = <K, RouteStamp>{};
 diff --git a/macos/Runner.xcodeproj/project.pbxproj b/macos/Runner.xcodeproj/project.pbxproj
 index 645231d59ef2bd4d5267fc3cb47dc058f8520bd5..b0580e59888445ac3b1864abc845cc5625535d9d 100644
 --- a/macos/Runner.xcodeproj/project.pbxproj
@@ -6459,20 +7035,103 @@ index 78825c3794bcd17edcfe5dd935d7b6a2308148ab..76e2c5874dfe884627e4fc710ad41648
      test('download reports the status the server sent', () async {
        await expectLater(
          buildClient().download(join(root.path, 'missing.zip')),
+diff --git a/test/common/flash_monitor_test.dart b/test/common/flash_monitor_test.dart
+new file mode 100644
+index 0000000000000000000000000000000000000000..1e134420c27551d33f94d4a91a4e673a7884553a
+--- /dev/null
++++ b/test/common/flash_monitor_test.dart
+@@ -0,0 +1,77 @@
++import 'package:fl_clash/common/flash_monitor.dart';
++import 'package:fl_clash/enum/enum.dart';
++import 'package:fl_clash/l10n/l10n.dart';
++import 'package:fl_clash/models/models.dart';
++import 'package:flutter/widgets.dart';
++import 'package:flutter_test/flutter_test.dart';
++import 'package:riverpod/riverpod.dart';
++import 'package:shared_preferences/shared_preferences.dart';
++import 'package:tray/tray.dart';
++
++void main() {
++  TestWidgetsFlutterBinding.ensureInitialized();
++  setUp(() async {
++    SharedPreferences.setMockInitialValues({});
++    await AppLocalizations.load(const Locale('en'));
++  });
++
++  test('nested automatic group and concrete node select only the monitor', () {
++    final picks = <String>[];
++    final menu = flashMonitorMenu(
++      const [
++        Group(
++          name: 'Manual',
++          type: GroupType.Selector,
++          now: 'Auto',
++          all: [Proxy(name: 'Auto', type: 'URLTest')],
++        ),
++        Group(
++          name: 'Auto',
++          type: GroupType.URLTest,
++          now: 'Japan',
++          all: [
++            Proxy(name: 'Japan', type: 'SS'),
++            Proxy(name: 'Manual', type: 'Selector'),
++          ],
++        ),
++      ],
++      'Auto',
++      picks.add,
++    );
++    final manual = menu.whereType<TrayMenuSubmenu>().first;
++    final auto = manual.items.whereType<TrayMenuSubmenu>().first;
++    final group = auto.items.whereType<TrayMenuCheckbox>().first;
++    expect(group.checked, isTrue);
++    group.onSelected!();
++    auto.items.whereType<TrayMenuCheckbox>().last.onSelected!();
++    expect(picks, ['Auto', 'Japan']);
++    expect(auto.items.whereType<TrayMenuSubmenu>().single.items, hasLength(1));
++  });
++
++  test(
++    'missing target stays selected and unavailable instead of falling back',
++    () {
++      final menu = flashMonitorMenu([], 'Removed', (_) {});
++      final unavailable = menu.whereType<TrayMenuCheckbox>().last;
++      expect(unavailable.checked, isTrue);
++      expect(unavailable.enabled, isFalse);
++      expect(unavailable.label, contains('Removed'));
++    },
++  );
++
++  test(
++    'selection survives restart and last selection wins persistence',
++    () async {
++      final first = ProviderContainer();
++      await first.read(flashMonitorTargetProvider.notifier).select('Manual');
++      await first.read(flashMonitorTargetProvider.notifier).select('Auto');
++      expect(first.read(flashMonitorTargetProvider), 'Auto');
++      first.dispose();
++      final second = ProviderContainer();
++      addTearDown(second.dispose);
++      second.read(flashMonitorTargetProvider);
++      await Future<void>.delayed(Duration.zero);
++      expect(second.read(flashMonitorTargetProvider), 'Auto');
++    },
++  );
++}
 diff --git a/test/common/request_test.dart b/test/common/request_test.dart
-index 2f98e2aba1fef7cfadc0c2b7f907ae69f675887a..3e097717e89542987f0873cfce22f3e869a7d8b8 100644
+index b664a8d8e424107dcaf25e9c1563b0160c234a38..a4a7dc5e7f7055941ca2f15134a4fe41a7df3a07 100644
 --- a/test/common/request_test.dart
 +++ b/test/common/request_test.dart
-@@ -6,6 +6,8 @@ import 'dart:typed_data';
- import 'package:dio/dio.dart';
+@@ -8,6 +8,8 @@ import 'package:dio/dio.dart';
  import 'package:fl_clash/common/constant.dart';
+ import 'package:fl_clash/common/exception.dart';
  import 'package:fl_clash/common/request.dart';
 +import 'package:fl_clash/state.dart';
 +import 'package:package_info_plus/package_info_plus.dart';
  import 'package:flutter_test/flutter_test.dart';
  
  class _StalledHttpClient extends Fake implements HttpClient {
-@@ -74,6 +76,30 @@ void main() {
+@@ -94,6 +96,30 @@ void main() {
        return Request()..dio.httpClientAdapter = _HostAdapter(byHost);
      }
  
@@ -6504,10 +7163,15 @@ index 2f98e2aba1fef7cfadc0c2b7f907ae69f675887a..3e097717e89542987f0873cfce22f3e8
        final request = requestAnswering({
          'api.github.com': () => ResponseBody.fromString(
 diff --git a/test/common/tray_menu_test.dart b/test/common/tray_menu_test.dart
-index ec0f9d34f9a00db5724997bf84e0f2fec49fce2e..156c8ba1584c0c8a126b264832eaab5adf9b99e7 100644
+index 08404809b339dd664f0706a95104e03cb563e3d3..1391905fc348ab7e9c4a07358f491552df8bb9e4 100644
 --- a/test/common/tray_menu_test.dart
 +++ b/test/common/tray_menu_test.dart
-@@ -11,6 +11,9 @@ import 'package:fl_clash/l10n/l10n.dart';
+@@ -1,3 +1,4 @@
++import 'package:fl_clash/common/flash_monitor.dart';
+ import 'dart:convert';
+ import 'dart:io';
+ 
+@@ -11,6 +12,9 @@ import 'package:fl_clash/l10n/l10n.dart';
  import 'package:fl_clash/models/models.dart';
  import 'package:fl_clash/providers/action.dart';
  import 'package:fl_clash/providers/state.dart';
@@ -6516,15 +7180,15 @@ index ec0f9d34f9a00db5724997bf84e0f2fec49fce2e..156c8ba1584c0c8a126b264832eaab5a
 +import 'package:fl_clash/providers/routed_probe.dart';
  import 'package:fl_clash/state.dart';
  import 'package:flutter/foundation.dart';
- import 'package:material_ui/material_ui.dart';
-@@ -232,35 +235,161 @@ void main() {
+ import 'package:flutter/services.dart';
+@@ -232,35 +236,202 @@ void main() {
      expect(showCalls, hasLength(1));
  
      final arguments = showCalls.single.arguments as Map;
 -    expect(arguments['toolTip'], appName);
 +    expect(
 +      arguments['toolTip'],
-+      contains('Core rule probe; OS entry unverified'),
++      contains(currentAppLocalizations.flashMonitorRules),
 +    );
      expect(arguments['menu'], isNotEmpty);
 -    final reps = ((arguments['icon'] as Map)['reps'] as List).cast<Map>();
@@ -6590,6 +7254,47 @@ index ec0f9d34f9a00db5724997bf84e0f2fec49fce2e..156c8ba1584c0c8a126b264832eaab5a
 -    expect(
 -      _item(showCall(), currentAppLocalizations.monochromeIcon)['checked'],
 -      isFalse,
++  test(
++    'selected monitor supplies country and quality instead of routed IP',
++    () async {
++      container.dispose();
++      container = ProviderContainer(
++        overrides: [
++          outboundIpProbeProvider.overrideWithBuild(
++            (_, _) => const RoutedProbeState({
++              '': ProbeEntry(
++                phase: ProbePhase.fresh,
++                value: IpInfo(ip: '1.1.1.1', countryCode: 'US'),
++              ),
++              'Manual': ProbeEntry(
++                phase: ProbePhase.fresh,
++                value: IpInfo(ip: '2.2.2.2', countryCode: 'JP'),
++              ),
++            }),
++          ),
++          ipQualityProvider('2.2.2.2').overrideWithValue(
++            const AsyncData(
++              IpQuality(
++                ip: '2.2.2.2',
++                source: IpQualitySource.identMe,
++                type: IpType.residential,
++              ),
++            ),
++          ),
++        ],
++      );
++      await container
++          .read(flashMonitorTargetProvider.notifier)
++          .select('Manual');
++      await update(_trayState(isStart: true, tunEnable: true));
++      final icon = (showCall()!.arguments as Map)['icon'] as Map;
++      expect(icon['country'], 'JP');
++      expect(icon['isHighQuality'], true);
++      expect(icon['status'], 'tun');
++      expect(_labels(showCall()).first, contains('Manual'));
++    },
++  );
++
 +  test('quality changes text independently of the entry background', () async {
 +    const good = IpQuality(
 +      ip: '2.2.2.2',
@@ -6701,8 +7406,32 @@ index ec0f9d34f9a00db5724997bf84e0f2fec49fce2e..156c8ba1584c0c8a126b264832eaab5a
    test('skips the platform call when the tray state is unchanged', () async {
      await update(_trayState(isStart: true));
      await update(_trayState(isStart: true));
+@@ -295,9 +466,9 @@ void main() {
+       ),
+     );
+ 
+-    final submenu = _items(
+-      showCall(),
+-    ).firstWhere((item) => item['type'] == 'submenu');
++    final submenu = _items(showCall()).firstWhere(
++      (item) => item['type'] == 'submenu' && item['label'] == 'Proxy',
++    );
+     expect(submenu['label'], 'Proxy');
+     final children = (submenu['items'] as List).cast<Map<Object?, Object?>>();
+     expect(children.map((item) => item['label']), contains('A'));
+@@ -377,7 +548,9 @@ void main() {
+     );
+ 
+     final items = _items(showCall());
+-    final index = items.indexWhere((item) => item['type'] == 'submenu');
++    final index = items.indexWhere(
++      (item) => item['type'] == 'submenu' && item['label'] == 'Proxy',
++    );
+     expect(items[index + 1]['label'], HotAction.delayTest.label);
+     expect(items[index + 1]['detail'], '⌃⇧D');
+   });
 diff --git a/test/manager/tray_manager_test.dart b/test/manager/tray_manager_test.dart
-index 50e80d5c519e076959c193523a58e05f9a9ce862..d27fbd5ae4913d1c57eb40f41226b588ba82d2dd 100644
+index eeedbf0f9ebabbc85ed7521999733139f6ae4ff9..f7af0aac9a2abbb0dbcf9d70bbd7b95951583c17 100644
 --- a/test/manager/tray_manager_test.dart
 +++ b/test/manager/tray_manager_test.dart
 @@ -1,4 +1,10 @@
@@ -6714,8 +7443,8 @@ index 50e80d5c519e076959c193523a58e05f9a9ce862..d27fbd5ae4913d1c57eb40f41226b588
 +import 'package:fl_clash/providers/outbound_ip.dart';
 +import 'package:fl_clash/providers/routed_probe.dart';
  
- import 'package:fl_clash/common/app_localizations.dart';
  import 'package:fl_clash/l10n/l10n.dart';
+ import 'package:fl_clash/manager/locale_manager.dart';
 @@ -81,6 +87,69 @@ void main() {
      container.dispose();
    });
@@ -6761,7 +7490,7 @@ index 50e80d5c519e076959c193523a58e05f9a9ce862..d27fbd5ae4913d1c57eb40f41226b588
 +      await tester.pumpWidget(
 +        UncontrolledProviderScope(
 +          container: container,
-+          child: const MaterialApp(home: TrayManager(child: SizedBox.shrink())),
++          child: const TestApp(child: TrayManager(child: SizedBox.shrink())),
 +        ),
 +      );
 +      await tester.pump();
@@ -6787,10 +7516,10 @@ index 50e80d5c519e076959c193523a58e05f9a9ce862..d27fbd5ae4913d1c57eb40f41226b588
      await TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
          .handlePlatformMessage(
 diff --git a/test/providers/route_state_test.dart b/test/providers/route_state_test.dart
-index 6dbccc2581e3cc5b83a765228ff521a8880262b1..d5dbff0e25db2d43536ec9875a37f51f7f34e5c1 100644
+index 4e2bebd8dc4cc5554f7a353dc0b33288cc866aab..ecf7063abc9496613ff77840301705c7b5b61bc3 100644
 --- a/test/providers/route_state_test.dart
 +++ b/test/providers/route_state_test.dart
-@@ -228,6 +228,23 @@ void main() {
+@@ -229,6 +229,23 @@ void main() {
        },
      );
  
@@ -6812,5 +7541,5 @@ index 6dbccc2581e3cc5b83a765228ff521a8880262b1..d5dbff0e25db2d43536ec9875a37f51f
 +    );
 +
      test('a read asked for while one is on the way runs after it', () async {
-       final reads = <Completer<RouteSnapshot?>>[];
+       final reads = <Completer<RouteSnapshot>>[];
        when(() => core.watchRoute(true)).thenAnswer((_) {
