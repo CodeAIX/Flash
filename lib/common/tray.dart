@@ -194,22 +194,6 @@ class AppTray implements TrayPort {
     );
 
     return [
-      if (_usesFlashStatusIcon && !trayState.safeMode) ...[
-        TrayMenuSubmenu(
-          label:
-              '${appLocalizations.flashMonitorTarget}: ${read(flashMonitorTargetProvider).isEmpty ? currentAppLocalizations.flashMonitorRules : read(flashMonitorTargetProvider)}',
-          items: flashMonitorMenu(
-            read(groupsProvider),
-            read(flashMonitorTargetProvider),
-            (target) {
-              unawaited(
-                read(flashMonitorTargetProvider.notifier).select(target),
-              );
-            },
-          ),
-        ),
-        const TrayMenuSeparator(),
-      ],
       showItem,
       TrayMenuCheckbox(
         label: trayState.isStart
@@ -274,6 +258,37 @@ class AppTray implements TrayPort {
         onSelected: systemAction.copyProxyEnv,
       ),
       const TrayMenuSeparator(),
+      if (_usesFlashStatusIcon && !trayState.safeMode) ...[
+        TrayMenuSubmenu(
+          label: appLocalizations.flashMonitorOptions,
+          items: [
+            TrayMenuAction(
+              label:
+                  '${appLocalizations.flashMonitorTarget}: ${read(flashMonitorTargetProvider).isEmpty ? appLocalizations.flashMonitorRules : read(flashMonitorTargetProvider)}',
+              enabled: false,
+            ),
+            TrayMenuCheckbox(
+              label: appLocalizations.flashMonitorRules,
+              checked: read(flashMonitorTargetProvider).isEmpty,
+              onSelected: () => unawaited(
+                read(flashMonitorTargetProvider.notifier).select(''),
+              ),
+            ),
+            TrayMenuAction(
+              label: appLocalizations.flashMonitorRefresh,
+              onSelected: () {
+                final target = read(flashMonitorTargetProvider);
+                final ip = read(
+                  outboundIpProbeProvider,
+                ).entryOf(target).value?.ip;
+                read(outboundIpProbeProvider.notifier).refresh([target]);
+                if (ip != null) refreshFlashQuality(read, ip).ignore();
+              },
+            ),
+          ],
+        ),
+        const TrayMenuSeparator(),
+      ],
       exitItem,
     ];
   }
@@ -312,6 +327,15 @@ class AppTray implements TrayPort {
       for (final group in trayState.groups)
         _buildGroupSubmenu(
           group,
+          monitor: _usesFlashStatusIcon && !trayState.safeMode
+              ? (name) => TrayMenuAccessory(
+                  label: '${currentAppLocalizations.flashMonitorSet}: $name',
+                  selected: read(flashMonitorTargetProvider) == name,
+                  onSelected: () => unawaited(
+                    read(flashMonitorTargetProvider.notifier).select(name),
+                  ),
+                )
+              : null,
           selectedName: read(selectedProxyNameProvider(group.name)),
           delays: delays[group.name] ?? const {},
           onSelected: (proxyName) {
@@ -334,17 +358,20 @@ class AppTray implements TrayPort {
 
   TrayMenuSubmenu _buildGroupSubmenu(
     Group group, {
+    TrayMenuAccessory Function(String)? monitor,
     required String? selectedName,
     required Map<String, int> delays,
     required void Function(String proxyName) onSelected,
   }) {
     return TrayMenuSubmenu(
       label: group.name,
+      accessory: monitor?.call(group.name),
       detail: _delayText(delays[selectedName]),
       items: [
         for (final proxy in group.all)
           TrayMenuCheckbox(
             label: proxy.name,
+            accessory: monitor?.call(proxy.name),
             checked: selectedName == proxy.name,
             detail: _delayText(delays[proxy.name]),
             onSelected: () {

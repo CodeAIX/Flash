@@ -733,7 +733,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "filters": MessageLookupByLibrary.simpleMessage("필터"),
     "findProcessMode": MessageLookupByLibrary.simpleMessage("프로세스 찾기"),
     "flashMonitorGroup": MessageLookupByLibrary.simpleMessage("이 그룹 모니터링 · 현재"),
+    "flashMonitorOptions": MessageLookupByLibrary.simpleMessage("모니터링 옵션"),
+    "flashMonitorRefresh": MessageLookupByLibrary.simpleMessage("출구 및 품질 새로고침"),
     "flashMonitorRules": MessageLookupByLibrary.simpleMessage("라우팅 규칙 따르기"),
+    "flashMonitorSet": MessageLookupByLibrary.simpleMessage("모니터링 대상으로 설정"),
     "flashMonitorTarget": MessageLookupByLibrary.simpleMessage("모니터링 대상"),
     "flashMonitorUnavailable": MessageLookupByLibrary.simpleMessage(
       "현재 프로필에서 사용 불가",

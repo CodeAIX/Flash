@@ -1080,5 +1080,8 @@
   "flashMonitorTarget": "監視対象",
   "flashMonitorRules": "ルーティングルールに従う",
   "flashMonitorGroup": "このグループを監視・現在",
-  "flashMonitorUnavailable": "現在の設定では利用不可"
+  "flashMonitorUnavailable": "現在の設定では利用不可",
+  "flashMonitorOptions": "監視オプション",
+  "flashMonitorRefresh": "出口と品質を更新",
+  "flashMonitorSet": "監視対象に設定"
 }

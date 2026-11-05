@@ -1080,5 +1080,8 @@
   "flashMonitorTarget": "모니터링 대상",
   "flashMonitorRules": "라우팅 규칙 따르기",
   "flashMonitorGroup": "이 그룹 모니터링 · 현재",
-  "flashMonitorUnavailable": "현재 프로필에서 사용 불가"
+  "flashMonitorUnavailable": "현재 프로필에서 사용 불가",
+  "flashMonitorOptions": "모니터링 옵션",
+  "flashMonitorRefresh": "출구 및 품질 새로고침",
+  "flashMonitorSet": "모니터링 대상으로 설정"
 }

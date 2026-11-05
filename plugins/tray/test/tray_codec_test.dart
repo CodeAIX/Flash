@@ -57,6 +57,37 @@ void main() {
     expect(signatureWith(() {}), signatureWith(() {}));
   });
 
+  test('accessory has separate callback identity and selection signature', () {
+    var proxyCalls = 0;
+    var monitorCalls = 0;
+    EncodedTray encode(bool selected) => TrayCodec.encode(
+      _spec(
+        menu: [
+          TrayMenuCheckbox(
+            label: 'node',
+            checked: true,
+            onSelected: () => proxyCalls++,
+            accessory: TrayMenuAccessory(
+              label: 'Monitor node',
+              selected: selected,
+              onSelected: () => monitorCalls++,
+            ),
+          ),
+        ],
+      ),
+    );
+    final encoded = encode(false);
+    final row = encoded.menu.single as Map;
+    final accessory = row['accessory'] as Map;
+    expect(accessory['id'], isNot(row['id']));
+    (encoded.itemsById[accessory['id']] as TrayMenuAction).onSelected!();
+    expect(monitorCalls, 1);
+    expect(proxyCalls, 0);
+    (encoded.itemsById[row['id']] as TrayMenuCheckbox).onSelected!();
+    expect(proxyCalls, 1);
+    expect(encode(true).signature, isNot(encoded.signature));
+  });
+
   test('signature tracks label, checked state, tooltip and icon', () {
     final base = TrayCodec.encode(
       _spec(menu: const [TrayMenuCheckbox(label: 'a', checked: false)]),

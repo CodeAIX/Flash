@@ -9111,6 +9111,36 @@ class AppLocalizations {
       args: [],
     );
   }
+
+  /// `Monitoring options`
+  String get flashMonitorOptions {
+    return Intl.message(
+      'Monitoring options',
+      name: 'flashMonitorOptions',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Refresh monitored exit and quality`
+  String get flashMonitorRefresh {
+    return Intl.message(
+      'Refresh monitored exit and quality',
+      name: 'flashMonitorRefresh',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Monitor this target`
+  String get flashMonitorSet {
+    return Intl.message(
+      'Monitor this target',
+      name: 'flashMonitorSet',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<AppLocalizations> {

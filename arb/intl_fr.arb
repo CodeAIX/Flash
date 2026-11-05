@@ -1080,5 +1080,8 @@
   "flashMonitorTarget": "Cible de surveillance",
   "flashMonitorRules": "Suivre les règles",
   "flashMonitorGroup": "Surveiller ce groupe ; actuel",
-  "flashMonitorUnavailable": "Indisponible dans ce profil"
+  "flashMonitorUnavailable": "Indisponible dans ce profil",
+  "flashMonitorOptions": "Options de surveillance",
+  "flashMonitorRefresh": "Actualiser la sortie et la qualité",
+  "flashMonitorSet": "Surveiller cette cible"
 }

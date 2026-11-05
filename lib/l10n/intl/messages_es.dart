@@ -945,8 +945,17 @@ class MessageLookup extends MessageLookupByLibrary {
     "flashMonitorGroup": MessageLookupByLibrary.simpleMessage(
       "Supervisar este grupo; actual",
     ),
+    "flashMonitorOptions": MessageLookupByLibrary.simpleMessage(
+      "Opciones de supervisión",
+    ),
+    "flashMonitorRefresh": MessageLookupByLibrary.simpleMessage(
+      "Actualizar salida y calidad",
+    ),
     "flashMonitorRules": MessageLookupByLibrary.simpleMessage(
       "Seguir las reglas",
+    ),
+    "flashMonitorSet": MessageLookupByLibrary.simpleMessage(
+      "Supervisar este destino",
     ),
     "flashMonitorTarget": MessageLookupByLibrary.simpleMessage(
       "Destino de supervisión",

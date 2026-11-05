@@ -39,9 +39,13 @@ macos/Runner/Assets.xcassets/AppIcon.appiconset/app_icon_64.png
 macos/Runner/Configs/AppInfo.xcconfig
 plugins/tray/lib/src/tray.dart
 plugins/tray/lib/src/tray_codec.dart
+plugins/tray/lib/src/tray_menu.dart
 plugins/tray/lib/src/tray_spec.dart
 plugins/tray/macos/tray/Sources/tray/FlashStatusImage.swift
+plugins/tray/macos/tray/Sources/tray/TrayMenu.swift
+plugins/tray/macos/tray/Sources/tray/TrayMenuItemView.swift
 plugins/tray/macos/tray/Sources/tray/TrayPlugin.swift
+plugins/tray/test/tray_codec_test.dart
 plugins/tray/test/tray_icon_test.dart
 test/common/dav_client_test.dart
 test/common/flash_monitor_test.dart

@@ -1080,5 +1080,8 @@
   "flashMonitorTarget": "Destino de supervisión",
   "flashMonitorRules": "Seguir las reglas",
   "flashMonitorGroup": "Supervisar este grupo; actual",
-  "flashMonitorUnavailable": "No disponible en este perfil"
+  "flashMonitorUnavailable": "No disponible en este perfil",
+  "flashMonitorOptions": "Opciones de supervisión",
+  "flashMonitorRefresh": "Actualizar salida y calidad",
+  "flashMonitorSet": "Supervisar este destino"
 }

@@ -743,7 +743,10 @@ class MessageLookup extends MessageLookupByLibrary {
     "filters": MessageLookupByLibrary.simpleMessage("フィルター"),
     "findProcessMode": MessageLookupByLibrary.simpleMessage("プロセス検出"),
     "flashMonitorGroup": MessageLookupByLibrary.simpleMessage("このグループを監視・現在"),
+    "flashMonitorOptions": MessageLookupByLibrary.simpleMessage("監視オプション"),
+    "flashMonitorRefresh": MessageLookupByLibrary.simpleMessage("出口と品質を更新"),
     "flashMonitorRules": MessageLookupByLibrary.simpleMessage("ルーティングルールに従う"),
+    "flashMonitorSet": MessageLookupByLibrary.simpleMessage("監視対象に設定"),
     "flashMonitorTarget": MessageLookupByLibrary.simpleMessage("監視対象"),
     "flashMonitorUnavailable": MessageLookupByLibrary.simpleMessage(
       "現在の設定では利用不可",

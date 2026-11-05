@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:fl_clash/common/flash_monitor.dart';
 import 'dart:convert';
 import 'dart:io';
@@ -320,7 +321,62 @@ void main() {
       expect(icon['country'], 'JP');
       expect(icon['isHighQuality'], true);
       expect(icon['status'], 'tun');
-      expect(_labels(showCall()).first, contains('Manual'));
+      expect(_labels(showCall()).first, currentAppLocalizations.show);
+      expect(
+        _item(
+          showCall(),
+          currentAppLocalizations.flashMonitorOptions,
+        )['items'].toString(),
+        contains('Manual'),
+      );
+    },
+  );
+
+  test(
+    'groups and their members expose independent monitor callbacks',
+    () async {
+      const groups = [
+        Group(
+          name: 'Manual',
+          type: GroupType.Selector,
+          all: [
+            Proxy(name: 'Auto', type: 'URLTest'),
+            Proxy(name: 'Japan', type: 'SS'),
+          ],
+        ),
+        Group(
+          name: 'Auto',
+          type: GroupType.URLTest,
+          all: [Proxy(name: 'Japan', type: 'SS')],
+        ),
+      ];
+      await update(_trayState(groups: groups));
+      final main = _items(
+        showCall(),
+      ).firstWhere((item) => item['label'] == 'Manual');
+      final auto = (main['items'] as List).cast<Map>().firstWhere(
+        (item) => item['label'] == 'Auto',
+      );
+      final japan = (main['items'] as List).cast<Map>().firstWhere(
+        (item) => item['label'] == 'Japan',
+      );
+      final before = container.read(selectedMapProvider);
+      for (final entry in [main, auto, japan]) {
+        final accessory = entry['accessory'] as Map;
+        expect(accessory['id'], isNot(entry['id']));
+        final done = Completer<void>();
+        await TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
+            .handlePlatformMessage(
+              'tray',
+              const StandardMethodCodec().encodeMethodCall(
+                MethodCall('onMenuItemSelected', {'id': accessory['id']}),
+              ),
+              (_) => done.complete(),
+            );
+        await done.future;
+        expect(container.read(flashMonitorTargetProvider), entry['label']);
+        expect(container.read(selectedMapProvider), before);
+      }
     },
   );
 
