@@ -920,8 +920,17 @@ class MessageLookup extends MessageLookupByLibrary {
     "flashMonitorGroup": MessageLookupByLibrary.simpleMessage(
       "Следить за группой; сейчас",
     ),
+    "flashMonitorOptions": MessageLookupByLibrary.simpleMessage(
+      "Параметры мониторинга",
+    ),
+    "flashMonitorRefresh": MessageLookupByLibrary.simpleMessage(
+      "Обновить выход и качество",
+    ),
     "flashMonitorRules": MessageLookupByLibrary.simpleMessage(
       "Следовать правилам",
+    ),
+    "flashMonitorSet": MessageLookupByLibrary.simpleMessage(
+      "Следить за этим объектом",
     ),
     "flashMonitorTarget": MessageLookupByLibrary.simpleMessage(
       "Объект мониторинга",

@@ -1080,5 +1080,8 @@
   "flashMonitorTarget": "Объект мониторинга",
   "flashMonitorRules": "Следовать правилам",
   "flashMonitorGroup": "Следить за группой; сейчас",
-  "flashMonitorUnavailable": "Недоступно в текущем профиле"
+  "flashMonitorUnavailable": "Недоступно в текущем профиле",
+  "flashMonitorOptions": "Параметры мониторинга",
+  "flashMonitorRefresh": "Обновить выход и качество",
+  "flashMonitorSet": "Следить за этим объектом"
 }

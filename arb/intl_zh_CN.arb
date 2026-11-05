@@ -1080,5 +1080,8 @@
   "flashMonitorTarget": "监测目标",
   "flashMonitorRules": "按分流规则",
   "flashMonitorGroup": "监测此组；当前",
-  "flashMonitorUnavailable": "当前配置中不可用"
+  "flashMonitorUnavailable": "当前配置中不可用",
+  "flashMonitorOptions": "监测选项",
+  "flashMonitorRefresh": "刷新监测出口与质量",
+  "flashMonitorSet": "设为监测目标"
 }

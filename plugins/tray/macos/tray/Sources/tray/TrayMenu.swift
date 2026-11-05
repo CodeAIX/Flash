@@ -3,6 +3,7 @@ import AppKit
 final class TrayMenu: NSMenu, NSMenuDelegate {
     private let onSelect: (Int) -> Void
     private let onClose: (() -> Void)?
+    private var accessories: [Int: Int] = [:]
     private var contents: [TrayMenuItemView.Content?] = []
 
     init(items: [[String: Any]], onSelect: @escaping (Int) -> Void, onClose: (() -> Void)? = nil) {
@@ -38,6 +39,19 @@ final class TrayMenu: NSMenu, NSMenuDelegate {
         let item = NSMenuItem()
         item.title = entry["label"] as? String ?? ""
         item.tag = entry["id"] as? Int ?? 0
+        if let accessory = entry["accessory"] as? [String: Any], let id = accessory["id"] as? Int {
+            accessories[item.tag] = id
+            if let label = accessory["label"] as? String {
+                item.setAccessibilityCustomActions([NSAccessibilityCustomAction(name: label, handler: { [weak self, weak item] in
+                    guard let self = self, let item = item, item.isEnabled else { return false }
+                    var root: NSMenu = self
+                    while let parent = root.supermenu { root = parent }
+                    root.cancelTracking()
+                    self.onSelect(id)
+                    return true
+                })])
+            }
+        }
         item.isEnabled = entry["enabled"] as? Bool ?? true
         item.state = type == "checkbox" && entry["checked"] as? Bool == true ? .on : .off
 
@@ -57,7 +71,11 @@ final class TrayMenu: NSMenu, NSMenuDelegate {
             detail: detail(entry),
             checked: item.state == .on,
             enabled: item.isEnabled,
-            hasSubmenu: item.hasSubmenu
+            hasSubmenu: item.hasSubmenu,
+            accessory: (entry["accessory"] as? [String: Any]).flatMap { value in
+                guard let id = value["id"] as? Int, let label = value["label"] as? String else { return nil }
+                return TrayMenuItemView.Accessory(id: id, label: label, selected: value["selected"] as? Bool ?? false)
+            }
         )
     }
 
@@ -68,10 +86,22 @@ final class TrayMenu: NSMenu, NSMenuDelegate {
         }
         for (item, content) in zip(items, contents) {
             if let content = content {
-                item.view = TrayMenuItemView(content: content)
+                item.view = TrayMenuItemView(content: content, onAccessory: onSelect)
             }
         }
         contents = []
+    }
+
+    override func performKeyEquivalent(with event: NSEvent) -> Bool {
+        if event.modifierFlags.contains(.option), [36, 76].contains(Int(event.keyCode)),
+           let item = highlightedItem, item.isEnabled, let id = accessories[item.tag] {
+            var root: NSMenu = self
+            while let parent = root.supermenu { root = parent }
+            root.cancelTracking()
+            onSelect(id)
+            return true
+        }
+        return super.performKeyEquivalent(with: event)
     }
 
     // AppKit does not redraw an item's view when its highlight changes.

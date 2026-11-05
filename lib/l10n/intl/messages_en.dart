@@ -880,8 +880,17 @@ class MessageLookup extends MessageLookupByLibrary {
     "flashMonitorGroup": MessageLookupByLibrary.simpleMessage(
       "Monitor this group; current",
     ),
+    "flashMonitorOptions": MessageLookupByLibrary.simpleMessage(
+      "Monitoring options",
+    ),
+    "flashMonitorRefresh": MessageLookupByLibrary.simpleMessage(
+      "Refresh monitored exit and quality",
+    ),
     "flashMonitorRules": MessageLookupByLibrary.simpleMessage(
       "Follow routing rules",
+    ),
+    "flashMonitorSet": MessageLookupByLibrary.simpleMessage(
+      "Monitor this target",
     ),
     "flashMonitorTarget": MessageLookupByLibrary.simpleMessage(
       "Monitor target",

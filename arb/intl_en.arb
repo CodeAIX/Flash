@@ -1080,5 +1080,8 @@
   "flashMonitorTarget": "Monitor target",
   "flashMonitorRules": "Follow routing rules",
   "flashMonitorGroup": "Monitor this group; current",
-  "flashMonitorUnavailable": "Unavailable in current profile"
+  "flashMonitorUnavailable": "Unavailable in current profile",
+  "flashMonitorOptions": "Monitoring options",
+  "flashMonitorRefresh": "Refresh monitored exit and quality",
+  "flashMonitorSet": "Monitor this target"
 }

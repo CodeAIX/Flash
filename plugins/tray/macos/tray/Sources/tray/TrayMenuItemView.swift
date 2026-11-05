@@ -4,12 +4,19 @@ import AppKit
 // here to keep a detail next to the arrow. The metrics copy the native menu so
 // these rows line up with the separators the menu still draws.
 final class TrayMenuItemView: NSView {
+    struct Accessory {
+        let id: Int
+        let label: String
+        let selected: Bool
+    }
+
     struct Content {
         let label: String
         let detail: String?
         let checked: Bool
         let enabled: Bool
         let hasSubmenu: Bool
+        var accessory: Accessory? = nil
     }
 
     private struct Metrics {
@@ -59,8 +66,12 @@ final class TrayMenuItemView: NSView {
     private static let arrow = symbol("chevron.right", weight: .semibold)
 
     private let content: Content
+    private let onAccessory: (Int) -> Void
+    private var accessoryButton: NSButton?
+    private static let accessoryWidth: CGFloat = 28
 
-    init(content: Content) {
+    init(content: Content, onAccessory: @escaping (Int) -> Void = { _ in }) {
+        self.onAccessory = onAccessory
         self.content = content
         let metrics = TrayMenuItemView.metrics
         var width = metrics.titleX + TrayMenuItemView.width(content.label) + metrics.trailing
@@ -70,12 +81,26 @@ final class TrayMenuItemView: NSView {
         if content.hasSubmenu {
             width += TrayMenuItemView.arrowGap + TrayMenuItemView.arrow.size.width
         }
+        if content.accessory != nil { width += TrayMenuItemView.accessoryWidth }
         super.init(frame: NSRect(x: 0, y: 0, width: ceil(width), height: metrics.height))
         autoresizingMask = [.width]
         setAccessibilityElement(true)
         setAccessibilityRole(.menuItem)
         setAccessibilityLabel([content.label, content.detail].compactMap { $0 }.joined(separator: ", "))
         setAccessibilityEnabled(content.enabled)
+        if let accessory = content.accessory {
+            let button = NSButton(image: TrayMenuItemView.monitorSymbol(accessory.selected), target: self, action: #selector(selectAccessory))
+            button.isBordered = false
+            button.imagePosition = .imageOnly
+            button.toolTip = accessory.label + " (⌥↩)"
+            button.setAccessibilityLabel(accessory.label)
+            button.setAccessibilityValue(accessory.selected ? 1 : 0)
+            button.isEnabled = content.enabled
+            accessoryButton = button
+            addSubview(button)
+            setAccessibilityChildren([button])
+            setAccessibilityCustomActions([NSAccessibilityCustomAction(name: accessory.label, target: self, selector: #selector(accessibleAccessory))])
+        }
     }
 
     required init?(coder: NSCoder) {
@@ -130,10 +155,20 @@ final class TrayMenuItemView: NSView {
             trailingX -= detailWidth + TrayMenuItemView.detailGap
         }
 
+        if let button = accessoryButton {
+            button.frame = NSRect(x: trailingX - 24, y: 0, width: 24, height: bounds.height)
+            button.contentTintColor = primary
+            button.alphaValue = highlighted || content.accessory?.selected == true ? 1 : 0
+            trailingX -= TrayMenuItemView.accessoryWidth
+        }
         drawText(content.label, x: metrics.titleX, width: trailingX - metrics.titleX, color: primary, font: metrics.font)
     }
 
     override func mouseUp(with event: NSEvent) {
+        if content.enabled, let button = accessoryButton, button.frame.contains(convert(event.locationInWindow, from: nil)) {
+            selectAccessory()
+            return
+        }
         guard content.enabled, !content.hasSubmenu, let item = enclosingMenuItem,
               let action = item.action else {
             return
@@ -144,6 +179,40 @@ final class TrayMenuItemView: NSView {
         }
         root?.cancelTracking()
         NSApp.sendAction(action, to: item.target, from: item)
+    }
+
+    @objc private func accessibleAccessory() -> Bool {
+        guard content.enabled, content.accessory != nil else { return false }
+        selectAccessory()
+        return true
+    }
+
+    @objc private func selectAccessory() {
+        guard content.enabled, let accessory = content.accessory else { return }
+        var root = enclosingMenuItem?.menu
+        while let parent = root?.supermenu { root = parent }
+        root?.cancelTracking()
+        onAccessory(accessory.id)
+    }
+
+    private static func monitorSymbol(_ selected: Bool) -> NSImage {
+        let image = NSImage(size: NSSize(width: 16, height: 16), flipped: false) { _ in
+            NSColor.black.setStroke()
+            NSColor.black.setFill()
+            let ring = NSBezierPath(ovalIn: NSRect(x: 3.5, y: 3.5, width: 9, height: 9))
+            ring.lineWidth = 1.2
+            ring.stroke()
+            let cross = NSBezierPath()
+            for (a, b) in [(NSPoint(x: 8,y: 0),NSPoint(x: 8,y: 4)), (NSPoint(x: 8,y: 12),NSPoint(x: 8,y: 16)), (NSPoint(x: 0,y: 8),NSPoint(x: 4,y: 8)), (NSPoint(x: 12,y: 8),NSPoint(x: 16,y: 8))] {
+                cross.move(to: a); cross.line(to: b)
+            }
+            cross.lineWidth = 1.2
+            cross.stroke()
+            if selected { NSBezierPath(ovalIn: NSRect(x: 5.5, y: 5.5, width: 5, height: 5)).fill() }
+            return true
+        }
+        image.isTemplate = true
+        return image
     }
 
     private func drawText(_ text: String, x: CGFloat, width: CGFloat, color: NSColor, font: NSFont) {

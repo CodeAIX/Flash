@@ -1,8 +1,8 @@
 diff --git a/arb/intl_en.arb b/arb/intl_en.arb
-index cbda0e3be9bbc7121847cb304fdf53977fa6a86e..5bd643f88fb84efeccdd7d56af7774065a8a0878 100644
+index cbda0e3be9bbc7121847cb304fdf53977fa6a86e..797c963e6374739ec323f21f7ebda9041c8e0a1d 100644
 --- a/arb/intl_en.arb
 +++ b/arb/intl_en.arb
-@@ -1076,5 +1076,9 @@
+@@ -1076,5 +1076,12 @@
    "fakeipFilterDesc": "These domains get real IPs instead of Fake-IPs. In whitelist mode, only they get Fake-IPs.",
    "fallbackFilterGeositeDesc": "Domains in these GeoSite categories are resolved by Fallback directly.",
    "fallbackFilterIpcidrDesc": "When Nameserver returns an IP in these ranges, the Fallback answer is used.",
@@ -11,13 +11,16 @@ index cbda0e3be9bbc7121847cb304fdf53977fa6a86e..5bd643f88fb84efeccdd7d56af777406
 +  "flashMonitorTarget": "Monitor target",
 +  "flashMonitorRules": "Follow routing rules",
 +  "flashMonitorGroup": "Monitor this group; current",
-+  "flashMonitorUnavailable": "Unavailable in current profile"
++  "flashMonitorUnavailable": "Unavailable in current profile",
++  "flashMonitorOptions": "Monitoring options",
++  "flashMonitorRefresh": "Refresh monitored exit and quality",
++  "flashMonitorSet": "Monitor this target"
  }
 diff --git a/arb/intl_es.arb b/arb/intl_es.arb
-index 417db6b6ea59d216140df1f147e2ebd508a74543..4160e9f89aadfcc8e80d0c5a650f0049f4b7eaf0 100644
+index 417db6b6ea59d216140df1f147e2ebd508a74543..cebe987fffdbef897054f13c695b3ddf304bcc9a 100644
 --- a/arb/intl_es.arb
 +++ b/arb/intl_es.arb
-@@ -1076,5 +1076,9 @@
+@@ -1076,5 +1076,12 @@
    "fakeipFilterDesc": "Estos dominios reciben su IP real en lugar de una Fake-IP. En modo whitelist, solo ellos reciben Fake-IP.",
    "fallbackFilterGeositeDesc": "Los dominios de estas categorías GeoSite se resuelven directamente con Fallback.",
    "fallbackFilterIpcidrDesc": "Si Nameserver devuelve una IP de estos rangos, se usa la respuesta de Fallback.",
@@ -26,13 +29,16 @@ index 417db6b6ea59d216140df1f147e2ebd508a74543..4160e9f89aadfcc8e80d0c5a650f0049
 +  "flashMonitorTarget": "Destino de supervisión",
 +  "flashMonitorRules": "Seguir las reglas",
 +  "flashMonitorGroup": "Supervisar este grupo; actual",
-+  "flashMonitorUnavailable": "No disponible en este perfil"
++  "flashMonitorUnavailable": "No disponible en este perfil",
++  "flashMonitorOptions": "Opciones de supervisión",
++  "flashMonitorRefresh": "Actualizar salida y calidad",
++  "flashMonitorSet": "Supervisar este destino"
  }
 diff --git a/arb/intl_fr.arb b/arb/intl_fr.arb
-index aa4e778341e413a03fc3775189164207c05bbab6..6447a37af7bc5ec308aedccb6b36876eaa6cd5cd 100644
+index aa4e778341e413a03fc3775189164207c05bbab6..fa390db7f7d86b1a52b1b45fa3a158347a1d7447 100644
 --- a/arb/intl_fr.arb
 +++ b/arb/intl_fr.arb
-@@ -1076,5 +1076,9 @@
+@@ -1076,5 +1076,12 @@
    "fakeipFilterDesc": "Ces domaines reçoivent leur vraie IP au lieu d’une Fake-IP. En mode whitelist, eux seuls reçoivent une Fake-IP.",
    "fallbackFilterGeositeDesc": "Les domaines de ces catégories GeoSite sont résolus directement par Fallback.",
    "fallbackFilterIpcidrDesc": "Si Nameserver renvoie une IP de ces plages, la réponse de Fallback est utilisée.",
@@ -41,13 +47,16 @@ index aa4e778341e413a03fc3775189164207c05bbab6..6447a37af7bc5ec308aedccb6b36876e
 +  "flashMonitorTarget": "Cible de surveillance",
 +  "flashMonitorRules": "Suivre les règles",
 +  "flashMonitorGroup": "Surveiller ce groupe ; actuel",
-+  "flashMonitorUnavailable": "Indisponible dans ce profil"
++  "flashMonitorUnavailable": "Indisponible dans ce profil",
++  "flashMonitorOptions": "Options de surveillance",
++  "flashMonitorRefresh": "Actualiser la sortie et la qualité",
++  "flashMonitorSet": "Surveiller cette cible"
  }
 diff --git a/arb/intl_ja.arb b/arb/intl_ja.arb
-index d6ff2b33f73da48b7ade4dc2afc509e84e9bb74c..2d48fc79d37e713fa038dddacca5d57bd0b794e0 100644
+index d6ff2b33f73da48b7ade4dc2afc509e84e9bb74c..429f531eb8ce967b0ffa3fd8d969076903143674 100644
 --- a/arb/intl_ja.arb
 +++ b/arb/intl_ja.arb
-@@ -1076,5 +1076,9 @@
+@@ -1076,5 +1076,12 @@
    "fakeipFilterDesc": "これらのドメインには Fake-IP ではなく実際の IP を返します。whitelist モードでは、これらだけが Fake-IP を使います。",
    "fallbackFilterGeositeDesc": "これらの GeoSite カテゴリのドメインは、直接 Fallback で解決します。",
    "fallbackFilterIpcidrDesc": "Nameserver がこれらの範囲の IP を返したときは、Fallback の結果を使います。",
@@ -56,13 +65,16 @@ index d6ff2b33f73da48b7ade4dc2afc509e84e9bb74c..2d48fc79d37e713fa038dddacca5d57b
 +  "flashMonitorTarget": "監視対象",
 +  "flashMonitorRules": "ルーティングルールに従う",
 +  "flashMonitorGroup": "このグループを監視・現在",
-+  "flashMonitorUnavailable": "現在の設定では利用不可"
++  "flashMonitorUnavailable": "現在の設定では利用不可",
++  "flashMonitorOptions": "監視オプション",
++  "flashMonitorRefresh": "出口と品質を更新",
++  "flashMonitorSet": "監視対象に設定"
  }
 diff --git a/arb/intl_ko.arb b/arb/intl_ko.arb
-index ead8d29f808379bd3f639dd132914a663c53b20a..fae2d76e6b0757aafb5395d086e62d1946854c16 100644
+index ead8d29f808379bd3f639dd132914a663c53b20a..2ad25cb6c64f59056df3a2b3e8cbe5333ce065ab 100644
 --- a/arb/intl_ko.arb
 +++ b/arb/intl_ko.arb
-@@ -1076,5 +1076,9 @@
+@@ -1076,5 +1076,12 @@
    "fakeipFilterDesc": "이 도메인에는 Fake-IP 대신 실제 IP를 반환합니다. whitelist 모드에서는 이 도메인만 Fake-IP를 사용합니다.",
    "fallbackFilterGeositeDesc": "이 GeoSite 분류의 도메인은 바로 Fallback으로 확인합니다.",
    "fallbackFilterIpcidrDesc": "Nameserver가 이 범위의 IP를 반환하면 Fallback 결과를 사용합니다.",
@@ -71,13 +83,16 @@ index ead8d29f808379bd3f639dd132914a663c53b20a..fae2d76e6b0757aafb5395d086e62d19
 +  "flashMonitorTarget": "모니터링 대상",
 +  "flashMonitorRules": "라우팅 규칙 따르기",
 +  "flashMonitorGroup": "이 그룹 모니터링 · 현재",
-+  "flashMonitorUnavailable": "현재 프로필에서 사용 불가"
++  "flashMonitorUnavailable": "현재 프로필에서 사용 불가",
++  "flashMonitorOptions": "모니터링 옵션",
++  "flashMonitorRefresh": "출구 및 품질 새로고침",
++  "flashMonitorSet": "모니터링 대상으로 설정"
  }
 diff --git a/arb/intl_ru.arb b/arb/intl_ru.arb
-index 58e77e7135f96546cb8c59298f506d84027cb09a..8391d8b160bfb4e619cbb1744976e799bf9fe844 100644
+index 58e77e7135f96546cb8c59298f506d84027cb09a..24e2de5d56970b2f5f3850b7eb28472a68523705 100644
 --- a/arb/intl_ru.arb
 +++ b/arb/intl_ru.arb
-@@ -1076,5 +1076,9 @@
+@@ -1076,5 +1076,12 @@
    "fakeipFilterDesc": "Эти домены получают реальные IP вместо Fake-IP. В режиме whitelist Fake-IP получают только они.",
    "fallbackFilterGeositeDesc": "Домены из этих категорий GeoSite сразу разрешаются через Fallback.",
    "fallbackFilterIpcidrDesc": "Если Nameserver возвращает IP из этих диапазонов, используется ответ Fallback.",
@@ -86,13 +101,16 @@ index 58e77e7135f96546cb8c59298f506d84027cb09a..8391d8b160bfb4e619cbb1744976e799
 +  "flashMonitorTarget": "Объект мониторинга",
 +  "flashMonitorRules": "Следовать правилам",
 +  "flashMonitorGroup": "Следить за группой; сейчас",
-+  "flashMonitorUnavailable": "Недоступно в текущем профиле"
++  "flashMonitorUnavailable": "Недоступно в текущем профиле",
++  "flashMonitorOptions": "Параметры мониторинга",
++  "flashMonitorRefresh": "Обновить выход и качество",
++  "flashMonitorSet": "Следить за этим объектом"
  }
 diff --git a/arb/intl_zh_CN.arb b/arb/intl_zh_CN.arb
-index b44010cd7a25283e2211c66c1078b607dcb9049b..5d3f7774dd04de4e1d581516299bf34653d21227 100644
+index b44010cd7a25283e2211c66c1078b607dcb9049b..16d87e817ca29d4343187c88c05dd212fb7a816b 100644
 --- a/arb/intl_zh_CN.arb
 +++ b/arb/intl_zh_CN.arb
-@@ -1076,5 +1076,9 @@
+@@ -1076,5 +1076,12 @@
    "fakeipFilterDesc": "这些域名不使用 Fake-IP，返回真实 IP；过滤模式为 whitelist 时则只有它们使用 Fake-IP。",
    "fallbackFilterGeositeDesc": "属于这些 GeoSite 分类的域名直接使用 Fallback 解析。",
    "fallbackFilterIpcidrDesc": "Nameserver 返回这些网段内的 IP 时，改用 Fallback 的结果。",
@@ -101,7 +119,10 @@ index b44010cd7a25283e2211c66c1078b607dcb9049b..5d3f7774dd04de4e1d581516299bf346
 +  "flashMonitorTarget": "监测目标",
 +  "flashMonitorRules": "按分流规则",
 +  "flashMonitorGroup": "监测此组；当前",
-+  "flashMonitorUnavailable": "当前配置中不可用"
++  "flashMonitorUnavailable": "当前配置中不可用",
++  "flashMonitorOptions": "监测选项",
++  "flashMonitorRefresh": "刷新监测出口与质量",
++  "flashMonitorSet": "设为监测目标"
  }
 diff --git a/assets/images/icon.png b/assets/images/icon.png
 index a9bb8015721883bf00f0a7ea2fe9f6113439e18c..688f8d7bf6c55b9677f88d2f02fecdde6ef63693 100644
@@ -1276,19 +1297,18 @@ index e3632c50c7c701ae71f036379f0eb5f2319debb4..7950924cae5941bb3a7d006793fe8fb7
  }
 diff --git a/lib/common/flash_monitor.dart b/lib/common/flash_monitor.dart
 new file mode 100644
-index 0000000000000000000000000000000000000000..2f92dee0c8c4d6f91a145fca1cb80fecae0d1386
+index 0000000000000000000000000000000000000000..3b877769a0dd4982b9e2ff5f6ada61a9ed144abc
 --- /dev/null
 +++ b/lib/common/flash_monitor.dart
-@@ -0,0 +1,102 @@
-+import 'app_localizations.dart';
+@@ -0,0 +1,60 @@
 +import 'dart:async';
 +
++import 'package:fl_clash/common/provider_reader.dart';
++import 'package:fl_clash/providers/ip_quality.dart';
++
 +import 'package:fl_clash/common/service_probe.dart';
-+import 'package:fl_clash/models/models.dart';
-+import 'package:fl_clash/enum/enum.dart';
 +import 'package:riverpod/riverpod.dart';
 +import 'package:shared_preferences/shared_preferences.dart';
-+import 'package:tray/tray.dart';
 +
 +final flashMonitorTargetProvider = NotifierProvider<FlashMonitorTarget, String>(
 +  FlashMonitorTarget.new,
@@ -1328,60 +1348,19 @@ index 0000000000000000000000000000000000000000..2f92dee0c8c4d6f91a145fca1cb80fec
 +  }
 +}
 +
-+List<TrayMenuItem> flashMonitorMenu(
-+  List<Group> groups,
-+  String selected,
-+  void Function(String) select,
-+) {
-+  final localizations = currentAppLocalizations;
-+  final byName = {for (final group in groups) group.name: group};
-+  final expanded = <String>{};
-+  final names = <String>{
-+    for (final group in groups) ...[
-+      group.name,
-+      for (final proxy in group.all) proxy.name,
-+    ],
-+  };
-+  TrayMenuCheckbox choice(String name, String label) => TrayMenuCheckbox(
-+    label: label,
-+    checked: selected == name,
-+    onSelected: () => select(name),
-+  );
-+  TrayMenuItem target(String name) {
-+    final group = byName[name];
-+    if (group == null) return choice(name, name);
-+    return TrayMenuSubmenu(
-+      label: name,
-+      items: [
-+        choice(name, '${localizations.flashMonitorGroup}: ${group.now ?? "—"}'),
-+        if (expanded.add(name)) ...[
-+          const TrayMenuSeparator(),
-+          for (final proxy in group.all) target(proxy.name),
-+        ],
-+      ],
-+    );
-+  }
-+
-+  return [
-+    choice(routedOutbound, localizations.flashMonitorRules),
-+    if (selected.isNotEmpty && !names.contains(selected))
-+      TrayMenuCheckbox(
-+        label: '$selected (${localizations.flashMonitorUnavailable})',
-+        checked: true,
-+        enabled: false,
-+      ),
-+    const TrayMenuSeparator(),
-+    for (final group in [
-+      ...groups.where(
-+        (group) => group.type == GroupType.Selector && group.name != 'GLOBAL',
-+      ),
-+      ...groups.where(
-+        (group) => group.type != GroupType.Selector || group.name == 'GLOBAL',
-+      ),
-+    ])
-+      if (!expanded.contains(group.name)) target(group.name),
-+  ];
-+}
++final _qualityRefreshProvider = Provider<Future<void> Function(String)>(
++  (ref) => (ip) async {
++    final hold = ref.listen(ipQualityProvider(ip), (_, _) {});
++    try {
++      ref.invalidate(ipQualityProvider(ip));
++      await ref.read(ipQualityProvider(ip).future);
++    } finally {
++      hold.close();
++    }
++  },
++);
++Future<void> refreshFlashQuality(ProviderReader read, String ip) =>
++    read(_qualityRefreshProvider)(ip);
 diff --git a/lib/common/request.dart b/lib/common/request.dart
 index 0f00bf0f92716e9afd60795330b006a920273683..d6f97967e74a30bdb7f84eb4b0591b882d5248af 100644
 --- a/lib/common/request.dart
@@ -1397,7 +1376,7 @@ index 0f00bf0f92716e9afd60795330b006a920273683..d6f97967e74a30bdb7f84eb4b0591b88
          compareVersions(remoteVersion.replaceAll('v', ''), version) > 0;
      return hasUpdate ? release : null;
 diff --git a/lib/common/tray.dart b/lib/common/tray.dart
-index 77ef5f03ed7cbc5b5a20fea13cae5af5a26a88e3..5eb063d3541caa32b9c49ec28b4210d59523e679 100644
+index 77ef5f03ed7cbc5b5a20fea13cae5af5a26a88e3..8e1c639b8f348b262e4cc490fe7754a61df03885 100644
 --- a/lib/common/tray.dart
 +++ b/lib/common/tray.dart
 @@ -1,10 +1,16 @@
@@ -1494,30 +1473,7 @@ index 77ef5f03ed7cbc5b5a20fea13cae5af5a26a88e3..5eb063d3541caa32b9c49ec28b4210d5
              : appName,
          menu: _buildMenu(trayState: trayState, read: read),
        ),
-@@ -149,6 +194,22 @@ class AppTray implements TrayPort {
-     );
- 
-     return [
-+      if (_usesFlashStatusIcon && !trayState.safeMode) ...[
-+        TrayMenuSubmenu(
-+          label:
-+              '${appLocalizations.flashMonitorTarget}: ${read(flashMonitorTargetProvider).isEmpty ? currentAppLocalizations.flashMonitorRules : read(flashMonitorTargetProvider)}',
-+          items: flashMonitorMenu(
-+            read(groupsProvider),
-+            read(flashMonitorTargetProvider),
-+            (target) {
-+              unawaited(
-+                read(flashMonitorTargetProvider.notifier).select(target),
-+              );
-+            },
-+          ),
-+        ),
-+        const TrayMenuSeparator(),
-+      ],
-       showItem,
-       TrayMenuCheckbox(
-         label: trayState.isStart
-@@ -164,11 +225,12 @@ class AppTray implements TrayPort {
+@@ -164,11 +209,12 @@ class AppTray implements TrayPort {
            checked: trayState.showTrayTitle,
            onSelected: commonAction.updateSpeedStatistics,
          ),
@@ -1535,19 +1491,103 @@ index 77ef5f03ed7cbc5b5a20fea13cae5af5a26a88e3..5eb063d3541caa32b9c49ec28b4210d5
        ],
        const TrayMenuSeparator(),
        for (final mode in Mode.values)
+@@ -212,6 +258,37 @@ class AppTray implements TrayPort {
+         onSelected: systemAction.copyProxyEnv,
+       ),
+       const TrayMenuSeparator(),
++      if (_usesFlashStatusIcon && !trayState.safeMode) ...[
++        TrayMenuSubmenu(
++          label: appLocalizations.flashMonitorOptions,
++          items: [
++            TrayMenuAction(
++              label:
++                  '${appLocalizations.flashMonitorTarget}: ${read(flashMonitorTargetProvider).isEmpty ? appLocalizations.flashMonitorRules : read(flashMonitorTargetProvider)}',
++              enabled: false,
++            ),
++            TrayMenuCheckbox(
++              label: appLocalizations.flashMonitorRules,
++              checked: read(flashMonitorTargetProvider).isEmpty,
++              onSelected: () => unawaited(
++                read(flashMonitorTargetProvider.notifier).select(''),
++              ),
++            ),
++            TrayMenuAction(
++              label: appLocalizations.flashMonitorRefresh,
++              onSelected: () {
++                final target = read(flashMonitorTargetProvider);
++                final ip = read(
++                  outboundIpProbeProvider,
++                ).entryOf(target).value?.ip;
++                read(outboundIpProbeProvider.notifier).refresh([target]);
++                if (ip != null) refreshFlashQuality(read, ip).ignore();
++              },
++            ),
++          ],
++        ),
++        const TrayMenuSeparator(),
++      ],
+       exitItem,
+     ];
+   }
+@@ -250,6 +327,15 @@ class AppTray implements TrayPort {
+       for (final group in trayState.groups)
+         _buildGroupSubmenu(
+           group,
++          monitor: _usesFlashStatusIcon && !trayState.safeMode
++              ? (name) => TrayMenuAccessory(
++                  label: '${currentAppLocalizations.flashMonitorSet}: $name',
++                  selected: read(flashMonitorTargetProvider) == name,
++                  onSelected: () => unawaited(
++                    read(flashMonitorTargetProvider.notifier).select(name),
++                  ),
++                )
++              : null,
+           selectedName: read(selectedProxyNameProvider(group.name)),
+           delays: delays[group.name] ?? const {},
+           onSelected: (proxyName) {
+@@ -272,17 +358,20 @@ class AppTray implements TrayPort {
+ 
+   TrayMenuSubmenu _buildGroupSubmenu(
+     Group group, {
++    TrayMenuAccessory Function(String)? monitor,
+     required String? selectedName,
+     required Map<String, int> delays,
+     required void Function(String proxyName) onSelected,
+   }) {
+     return TrayMenuSubmenu(
+       label: group.name,
++      accessory: monitor?.call(group.name),
+       detail: _delayText(delays[selectedName]),
+       items: [
+         for (final proxy in group.all)
+           TrayMenuCheckbox(
+             label: proxy.name,
++            accessory: monitor?.call(proxy.name),
+             checked: selectedName == proxy.name,
+             detail: _delayText(delays[proxy.name]),
+             onSelected: () {
 diff --git a/lib/l10n/intl/messages_en.dart b/lib/l10n/intl/messages_en.dart
-index 4cbb954bb65297ee89ec8933c01a5e5836e118fa..6ea086c4546275b28f7c129d439d7c7e75e8d209 100644
+index 4cbb954bb65297ee89ec8933c01a5e5836e118fa..8bdc3ca0d52733d22c6d934f53487c010da4b295 100644
 --- a/lib/l10n/intl/messages_en.dart
 +++ b/lib/l10n/intl/messages_en.dart
-@@ -877,6 +877,18 @@ class MessageLookup extends MessageLookupByLibrary {
+@@ -877,6 +877,27 @@ class MessageLookup extends MessageLookupByLibrary {
      "filter": MessageLookupByLibrary.simpleMessage("Filter"),
      "filters": MessageLookupByLibrary.simpleMessage("Filters"),
      "findProcessMode": MessageLookupByLibrary.simpleMessage("Find process"),
 +    "flashMonitorGroup": MessageLookupByLibrary.simpleMessage(
 +      "Monitor this group; current",
 +    ),
++    "flashMonitorOptions": MessageLookupByLibrary.simpleMessage(
++      "Monitoring options",
++    ),
++    "flashMonitorRefresh": MessageLookupByLibrary.simpleMessage(
++      "Refresh monitored exit and quality",
++    ),
 +    "flashMonitorRules": MessageLookupByLibrary.simpleMessage(
 +      "Follow routing rules",
++    ),
++    "flashMonitorSet": MessageLookupByLibrary.simpleMessage(
++      "Monitor this target",
 +    ),
 +    "flashMonitorTarget": MessageLookupByLibrary.simpleMessage(
 +      "Monitor target",
@@ -1558,7 +1598,7 @@ index 4cbb954bb65297ee89ec8933c01a5e5836e118fa..6ea086c4546275b28f7c129d439d7c7e
      "floating": MessageLookupByLibrary.simpleMessage("Floating"),
      "followProfile": MessageLookupByLibrary.simpleMessage("Follow profile"),
      "followSystem": MessageLookupByLibrary.simpleMessage("Follow system"),
-@@ -1048,9 +1060,10 @@ class MessageLookup extends MessageLookupByLibrary {
+@@ -1048,9 +1069,10 @@ class MessageLookup extends MessageLookupByLibrary {
      "installCertificateSuccess": MessageLookupByLibrary.simpleMessage(
        "Certificate installed",
      ),
@@ -1573,18 +1613,27 @@ index 4cbb954bb65297ee89ec8933c01a5e5836e118fa..6ea086c4546275b28f7c129d439d7c7e
        "This system hides the installed app list until the permission is granted. Authorize it to configure the per-app proxy.",
      ),
 diff --git a/lib/l10n/intl/messages_es.dart b/lib/l10n/intl/messages_es.dart
-index bff3857cdee2f2119e7379085ac8ce2a58e2ec9d..3a1d3a35f6bb8e0eabdb7dd40026bc3c69e76ff7 100644
+index bff3857cdee2f2119e7379085ac8ce2a58e2ec9d..d59659e3d01b2748fc6900d93df361b92401f8de 100644
 --- a/lib/l10n/intl/messages_es.dart
 +++ b/lib/l10n/intl/messages_es.dart
-@@ -942,6 +942,18 @@ class MessageLookup extends MessageLookupByLibrary {
+@@ -942,6 +942,27 @@ class MessageLookup extends MessageLookupByLibrary {
      "filter": MessageLookupByLibrary.simpleMessage("Filtro"),
      "filters": MessageLookupByLibrary.simpleMessage("Filtros"),
      "findProcessMode": MessageLookupByLibrary.simpleMessage("Buscar proceso"),
 +    "flashMonitorGroup": MessageLookupByLibrary.simpleMessage(
 +      "Supervisar este grupo; actual",
 +    ),
++    "flashMonitorOptions": MessageLookupByLibrary.simpleMessage(
++      "Opciones de supervisión",
++    ),
++    "flashMonitorRefresh": MessageLookupByLibrary.simpleMessage(
++      "Actualizar salida y calidad",
++    ),
 +    "flashMonitorRules": MessageLookupByLibrary.simpleMessage(
 +      "Seguir las reglas",
++    ),
++    "flashMonitorSet": MessageLookupByLibrary.simpleMessage(
++      "Supervisar este destino",
 +    ),
 +    "flashMonitorTarget": MessageLookupByLibrary.simpleMessage(
 +      "Destino de supervisión",
@@ -1595,7 +1644,7 @@ index bff3857cdee2f2119e7379085ac8ce2a58e2ec9d..3a1d3a35f6bb8e0eabdb7dd40026bc3c
      "floating": MessageLookupByLibrary.simpleMessage("Flotante"),
      "followProfile": MessageLookupByLibrary.simpleMessage("Seguir perfil"),
      "followSystem": MessageLookupByLibrary.simpleMessage("Seguir el sistema"),
-@@ -1125,9 +1137,10 @@ class MessageLookup extends MessageLookupByLibrary {
+@@ -1125,9 +1146,10 @@ class MessageLookup extends MessageLookupByLibrary {
      "installCertificateSuccess": MessageLookupByLibrary.simpleMessage(
        "Certificado instalado",
      ),
@@ -1610,18 +1659,27 @@ index bff3857cdee2f2119e7379085ac8ce2a58e2ec9d..3a1d3a35f6bb8e0eabdb7dd40026bc3c
        "Este sistema oculta la lista de apps instaladas hasta que se concede el permiso. Autorízalo para configurar el proxy por app.",
      ),
 diff --git a/lib/l10n/intl/messages_fr.dart b/lib/l10n/intl/messages_fr.dart
-index 346168b18ef1051191b94316a778e0fdefd536d4..ac7fb092bcc237e8933db30e45e8ce2880af3be1 100644
+index 346168b18ef1051191b94316a778e0fdefd536d4..f77d9a14603f02f326ec9e0a5b1b3a7c0447a2bb 100644
 --- a/lib/l10n/intl/messages_fr.dart
 +++ b/lib/l10n/intl/messages_fr.dart
-@@ -938,6 +938,18 @@ class MessageLookup extends MessageLookupByLibrary {
+@@ -938,6 +938,27 @@ class MessageLookup extends MessageLookupByLibrary {
      "findProcessMode": MessageLookupByLibrary.simpleMessage(
        "Recherche de processus",
      ),
 +    "flashMonitorGroup": MessageLookupByLibrary.simpleMessage(
 +      "Surveiller ce groupe ; actuel",
 +    ),
++    "flashMonitorOptions": MessageLookupByLibrary.simpleMessage(
++      "Options de surveillance",
++    ),
++    "flashMonitorRefresh": MessageLookupByLibrary.simpleMessage(
++      "Actualiser la sortie et la qualité",
++    ),
 +    "flashMonitorRules": MessageLookupByLibrary.simpleMessage(
 +      "Suivre les règles",
++    ),
++    "flashMonitorSet": MessageLookupByLibrary.simpleMessage(
++      "Surveiller cette cible",
 +    ),
 +    "flashMonitorTarget": MessageLookupByLibrary.simpleMessage(
 +      "Cible de surveillance",
@@ -1632,7 +1690,7 @@ index 346168b18ef1051191b94316a778e0fdefd536d4..ac7fb092bcc237e8933db30e45e8ce28
      "floating": MessageLookupByLibrary.simpleMessage("Flottante"),
      "followProfile": MessageLookupByLibrary.simpleMessage("Suivre le profil"),
      "followSystem": MessageLookupByLibrary.simpleMessage("Suivre le système"),
-@@ -1127,9 +1139,10 @@ class MessageLookup extends MessageLookupByLibrary {
+@@ -1127,9 +1148,10 @@ class MessageLookup extends MessageLookupByLibrary {
      "installCertificateSuccess": MessageLookupByLibrary.simpleMessage(
        "Certificat installé",
      ),
@@ -1647,15 +1705,18 @@ index 346168b18ef1051191b94316a778e0fdefd536d4..ac7fb092bcc237e8933db30e45e8ce28
        "Ce système masque la liste des apps installées tant que l’autorisation n’est pas accordée. Accordez-la pour configurer le proxy par app.",
      ),
 diff --git a/lib/l10n/intl/messages_ja.dart b/lib/l10n/intl/messages_ja.dart
-index 7d3c0d13f8db982bb1c8389cd77968e75d3ff029..de8c8bf6374d49e28d3fb7e1a1b6ab93346cd930 100644
+index 7d3c0d13f8db982bb1c8389cd77968e75d3ff029..71ae3bb1dbc6c419bd76820991fc28c516b39f7b 100644
 --- a/lib/l10n/intl/messages_ja.dart
 +++ b/lib/l10n/intl/messages_ja.dart
-@@ -742,6 +742,12 @@ class MessageLookup extends MessageLookupByLibrary {
+@@ -742,6 +742,15 @@ class MessageLookup extends MessageLookupByLibrary {
      "filter": MessageLookupByLibrary.simpleMessage("フィルター"),
      "filters": MessageLookupByLibrary.simpleMessage("フィルター"),
      "findProcessMode": MessageLookupByLibrary.simpleMessage("プロセス検出"),
 +    "flashMonitorGroup": MessageLookupByLibrary.simpleMessage("このグループを監視・現在"),
++    "flashMonitorOptions": MessageLookupByLibrary.simpleMessage("監視オプション"),
++    "flashMonitorRefresh": MessageLookupByLibrary.simpleMessage("出口と品質を更新"),
 +    "flashMonitorRules": MessageLookupByLibrary.simpleMessage("ルーティングルールに従う"),
++    "flashMonitorSet": MessageLookupByLibrary.simpleMessage("監視対象に設定"),
 +    "flashMonitorTarget": MessageLookupByLibrary.simpleMessage("監視対象"),
 +    "flashMonitorUnavailable": MessageLookupByLibrary.simpleMessage(
 +      "現在の設定では利用不可",
@@ -1664,15 +1725,18 @@ index 7d3c0d13f8db982bb1c8389cd77968e75d3ff029..de8c8bf6374d49e28d3fb7e1a1b6ab93
      "followProfile": MessageLookupByLibrary.simpleMessage("プロファイルに従う"),
      "followSystem": MessageLookupByLibrary.simpleMessage("システムに従う"),
 diff --git a/lib/l10n/intl/messages_ko.dart b/lib/l10n/intl/messages_ko.dart
-index b940cc8a956fecfe13a516a071d79d47e1a41a2b..4e7e81110514684c884851dd03d2b859dbecdb09 100644
+index b940cc8a956fecfe13a516a071d79d47e1a41a2b..12c18ffc62388a4d3494471dd156619e5ed800be 100644
 --- a/lib/l10n/intl/messages_ko.dart
 +++ b/lib/l10n/intl/messages_ko.dart
-@@ -732,6 +732,12 @@ class MessageLookup extends MessageLookupByLibrary {
+@@ -732,6 +732,15 @@ class MessageLookup extends MessageLookupByLibrary {
      "filter": MessageLookupByLibrary.simpleMessage("필터"),
      "filters": MessageLookupByLibrary.simpleMessage("필터"),
      "findProcessMode": MessageLookupByLibrary.simpleMessage("프로세스 찾기"),
 +    "flashMonitorGroup": MessageLookupByLibrary.simpleMessage("이 그룹 모니터링 · 현재"),
++    "flashMonitorOptions": MessageLookupByLibrary.simpleMessage("모니터링 옵션"),
++    "flashMonitorRefresh": MessageLookupByLibrary.simpleMessage("출구 및 품질 새로고침"),
 +    "flashMonitorRules": MessageLookupByLibrary.simpleMessage("라우팅 규칙 따르기"),
++    "flashMonitorSet": MessageLookupByLibrary.simpleMessage("모니터링 대상으로 설정"),
 +    "flashMonitorTarget": MessageLookupByLibrary.simpleMessage("모니터링 대상"),
 +    "flashMonitorUnavailable": MessageLookupByLibrary.simpleMessage(
 +      "현재 프로필에서 사용 불가",
@@ -1681,18 +1745,27 @@ index b940cc8a956fecfe13a516a071d79d47e1a41a2b..4e7e81110514684c884851dd03d2b859
      "followProfile": MessageLookupByLibrary.simpleMessage("프로필 따르기"),
      "followSystem": MessageLookupByLibrary.simpleMessage("시스템 설정 따르기"),
 diff --git a/lib/l10n/intl/messages_ru.dart b/lib/l10n/intl/messages_ru.dart
-index 6ef68214e43b1d56c2e3dba3364042d218e0efca..661551af4c3e213ad46b5f3d3031d900a997a90a 100644
+index 6ef68214e43b1d56c2e3dba3364042d218e0efca..565f58b03decf73d27725c806a19961dacfaf8ed 100644
 --- a/lib/l10n/intl/messages_ru.dart
 +++ b/lib/l10n/intl/messages_ru.dart
-@@ -917,6 +917,18 @@ class MessageLookup extends MessageLookupByLibrary {
+@@ -917,6 +917,27 @@ class MessageLookup extends MessageLookupByLibrary {
      "filter": MessageLookupByLibrary.simpleMessage("Фильтр"),
      "filters": MessageLookupByLibrary.simpleMessage("Фильтры"),
      "findProcessMode": MessageLookupByLibrary.simpleMessage("Поиск процесса"),
 +    "flashMonitorGroup": MessageLookupByLibrary.simpleMessage(
 +      "Следить за группой; сейчас",
 +    ),
++    "flashMonitorOptions": MessageLookupByLibrary.simpleMessage(
++      "Параметры мониторинга",
++    ),
++    "flashMonitorRefresh": MessageLookupByLibrary.simpleMessage(
++      "Обновить выход и качество",
++    ),
 +    "flashMonitorRules": MessageLookupByLibrary.simpleMessage(
 +      "Следовать правилам",
++    ),
++    "flashMonitorSet": MessageLookupByLibrary.simpleMessage(
++      "Следить за этим объектом",
 +    ),
 +    "flashMonitorTarget": MessageLookupByLibrary.simpleMessage(
 +      "Объект мониторинга",
@@ -1703,7 +1776,7 @@ index 6ef68214e43b1d56c2e3dba3364042d218e0efca..661551af4c3e213ad46b5f3d3031d900
      "floating": MessageLookupByLibrary.simpleMessage("Плавающая"),
      "followProfile": MessageLookupByLibrary.simpleMessage("Как в профиле"),
      "followSystem": MessageLookupByLibrary.simpleMessage("Как в системе"),
-@@ -1096,9 +1108,10 @@ class MessageLookup extends MessageLookupByLibrary {
+@@ -1096,9 +1117,10 @@ class MessageLookup extends MessageLookupByLibrary {
      "installCertificateSuccess": MessageLookupByLibrary.simpleMessage(
        "Сертификат установлен",
      ),
@@ -1718,22 +1791,25 @@ index 6ef68214e43b1d56c2e3dba3364042d218e0efca..661551af4c3e213ad46b5f3d3031d900
        "Эта система не выдаёт список установленных приложений без разрешения. Предоставьте его, чтобы настроить прокси для отдельных приложений.",
      ),
 diff --git a/lib/l10n/intl/messages_zh_CN.dart b/lib/l10n/intl/messages_zh_CN.dart
-index e50efba8a9cd9829a128ac51a35947030ca02ca1..74f1b91f58f9b778a561b4ed32a90c255a52ebf5 100644
+index e50efba8a9cd9829a128ac51a35947030ca02ca1..2d5fb7ff992fb5388cb00c3ec30182fb70d6045a 100644
 --- a/lib/l10n/intl/messages_zh_CN.dart
 +++ b/lib/l10n/intl/messages_zh_CN.dart
-@@ -684,6 +684,10 @@ class MessageLookup extends MessageLookupByLibrary {
+@@ -684,6 +684,13 @@ class MessageLookup extends MessageLookupByLibrary {
      "filter": MessageLookupByLibrary.simpleMessage("筛选"),
      "filters": MessageLookupByLibrary.simpleMessage("筛选"),
      "findProcessMode": MessageLookupByLibrary.simpleMessage("查找进程"),
 +    "flashMonitorGroup": MessageLookupByLibrary.simpleMessage("监测此组；当前"),
++    "flashMonitorOptions": MessageLookupByLibrary.simpleMessage("监测选项"),
++    "flashMonitorRefresh": MessageLookupByLibrary.simpleMessage("刷新监测出口与质量"),
 +    "flashMonitorRules": MessageLookupByLibrary.simpleMessage("按分流规则"),
++    "flashMonitorSet": MessageLookupByLibrary.simpleMessage("设为监测目标"),
 +    "flashMonitorTarget": MessageLookupByLibrary.simpleMessage("监测目标"),
 +    "flashMonitorUnavailable": MessageLookupByLibrary.simpleMessage("当前配置中不可用"),
      "floating": MessageLookupByLibrary.simpleMessage("悬浮"),
      "followProfile": MessageLookupByLibrary.simpleMessage("跟随配置"),
      "followSystem": MessageLookupByLibrary.simpleMessage("跟随系统"),
 diff --git a/lib/l10n/l10n.dart b/lib/l10n/l10n.dart
-index ffb158e5005286c686e13120f1b03f3fd7bc09da..ac2ae9867cf9b4ee7b33f2eab32d0a5e47695847 100644
+index ffb158e5005286c686e13120f1b03f3fd7bc09da..001152ff154f4d87209ea7b3d2c4ef1a292ad468 100644
 --- a/lib/l10n/l10n.dart
 +++ b/lib/l10n/l10n.dart
 @@ -7663,8 +7663,7 @@ class AppLocalizations {
@@ -1746,7 +1822,7 @@ index ffb158e5005286c686e13120f1b03f3fd7bc09da..ac2ae9867cf9b4ee7b33f2eab32d0a5e
        other:
            '$label SUB-RULE rules were dropped, since custom profiles do not support sub-rules',
        name: 'customImportDroppedSubRules',
-@@ -9072,6 +9071,46 @@ class AppLocalizations {
+@@ -9072,6 +9071,76 @@ class AppLocalizations {
        args: [],
      );
    }
@@ -1786,6 +1862,36 @@ index ffb158e5005286c686e13120f1b03f3fd7bc09da..ac2ae9867cf9b4ee7b33f2eab32d0a5e
 +    return Intl.message(
 +      'Unavailable in current profile',
 +      name: 'flashMonitorUnavailable',
++      desc: '',
++      args: [],
++    );
++  }
++
++  /// `Monitoring options`
++  String get flashMonitorOptions {
++    return Intl.message(
++      'Monitoring options',
++      name: 'flashMonitorOptions',
++      desc: '',
++      args: [],
++    );
++  }
++
++  /// `Refresh monitored exit and quality`
++  String get flashMonitorRefresh {
++    return Intl.message(
++      'Refresh monitored exit and quality',
++      name: 'flashMonitorRefresh',
++      desc: '',
++      args: [],
++    );
++  }
++
++  /// `Monitor this target`
++  String get flashMonitorSet {
++    return Intl.message(
++      'Monitor this target',
++      name: 'flashMonitorSet',
 +      desc: '',
 +      args: [],
 +    );
@@ -6781,7 +6887,7 @@ index 5bd30926d57cbdf8a41e014b29acd15365be7159..4f0f7faf218ddd5bd821cd4eac54c643
        case TargetPlatform.linux:
          resolved['path'] = _largestBundledVariant(icon.asset);
 diff --git a/plugins/tray/lib/src/tray_codec.dart b/plugins/tray/lib/src/tray_codec.dart
-index dd200611d232bcdcfd1e6366082e3f64b51915b4..30e81f2a1f44ad6dd96bb3e2b35ba7bade2dea90 100644
+index dd200611d232bcdcfd1e6366082e3f64b51915b4..97152a95425ca8ab91caec5e9d10e52e41419e44 100644
 --- a/plugins/tray/lib/src/tray_codec.dart
 +++ b/plugins/tray/lib/src/tray_codec.dart
 @@ -27,6 +27,9 @@ abstract final class TrayCodec {
@@ -6794,6 +6900,110 @@ index dd200611d232bcdcfd1e6366082e3f64b51915b4..30e81f2a1f44ad6dd96bb3e2b35ba7ba
        'isTemplate': spec.icon.isTemplate,
        'size': spec.icon.size,
        'position': spec.icon.position.name,
+@@ -44,6 +47,19 @@ abstract final class TrayCodec {
+     );
+   }
+ 
++  static Map<String, Object?> _encodeAccessory(
++    TrayMenuAccessory accessory,
++    Map<int, TrayMenuItem> sink,
++    _IdAllocator allocator,
++  ) {
++    final id = allocator.next();
++    sink[id] = TrayMenuAction(
++      label: accessory.label,
++      onSelected: accessory.onSelected,
++    );
++    return {'id': id, 'label': accessory.label, 'selected': accessory.selected};
++  }
++
+   static List<Object?> _encodeItems(
+     List<TrayMenuItem> items,
+     Map<int, TrayMenuItem> sink,
+@@ -63,6 +79,7 @@ abstract final class TrayCodec {
+             'enabled': enabled,
+           },
+         TrayMenuCheckbox(
++          :final accessory,
+           :final label,
+           :final detail,
+           :final enabled,
+@@ -71,12 +88,15 @@ abstract final class TrayCodec {
+           <String, Object?>{
+             'id': id,
+             'type': 'checkbox',
++            if (accessory != null)
++              'accessory': _encodeAccessory(accessory, sink, allocator),
+             'label': label,
+             if (detail != null && detail.isNotEmpty) 'detail': detail,
+             'enabled': enabled,
+             'checked': checked,
+           },
+         TrayMenuSubmenu(
++          :final accessory,
+           :final label,
+           :final detail,
+           :final enabled,
+@@ -85,6 +105,8 @@ abstract final class TrayCodec {
+           <String, Object?>{
+             'id': id,
+             'type': 'submenu',
++            if (accessory != null)
++              'accessory': _encodeAccessory(accessory, sink, allocator),
+             'label': label,
+             if (detail != null && detail.isNotEmpty) 'detail': detail,
+             'enabled': enabled,
+diff --git a/plugins/tray/lib/src/tray_menu.dart b/plugins/tray/lib/src/tray_menu.dart
+index efdd40f50cc0e820b22bc3fbe20400107a829d58..11ff772817708d6400b184bdd7cbb924fa3ee476 100644
+--- a/plugins/tray/lib/src/tray_menu.dart
++++ b/plugins/tray/lib/src/tray_menu.dart
+@@ -18,11 +18,23 @@ final class TrayMenuAction extends TrayMenuItem {
+   final TrayMenuItemSelectedCallback? onSelected;
+ }
+ 
++final class TrayMenuAccessory {
++  const TrayMenuAccessory({
++    required this.label,
++    required this.selected,
++    required this.onSelected,
++  });
++  final String label;
++  final bool selected;
++  final TrayMenuItemSelectedCallback onSelected;
++}
++
+ final class TrayMenuCheckbox extends TrayMenuItem {
+   const TrayMenuCheckbox({
+     required this.label,
+     required this.checked,
+     this.detail,
++    this.accessory,
+     this.enabled = true,
+     this.onSelected,
+   });
+@@ -30,6 +42,7 @@ final class TrayMenuCheckbox extends TrayMenuItem {
+   final String label;
+   final bool checked;
+   final String? detail;
++  final TrayMenuAccessory? accessory;
+   final bool enabled;
+   final TrayMenuItemSelectedCallback? onSelected;
+ }
+@@ -39,12 +52,14 @@ final class TrayMenuSubmenu extends TrayMenuItem {
+     required this.label,
+     required this.items,
+     this.detail,
++    this.accessory,
+     this.enabled = true,
+   });
+ 
+   final String label;
+   final List<TrayMenuItem> items;
+   final String? detail;
++  final TrayMenuAccessory? accessory;
+   final bool enabled;
+ }
+ 
 diff --git a/plugins/tray/lib/src/tray_spec.dart b/plugins/tray/lib/src/tray_spec.dart
 index ad91c0e7274d13540f83eee487ee1a93cd8f9e29..45afd315466bcb00fbdafed880c4b5e623dbcb10 100644
 --- a/plugins/tray/lib/src/tray_spec.dart
@@ -6906,6 +7116,204 @@ index 0000000000000000000000000000000000000000..5d74dec68ca5d28fc1025b1114a7bdc4
 +                                   width: radius * 2, height: radius * 2)).fill()
 +    }
 +}
+diff --git a/plugins/tray/macos/tray/Sources/tray/TrayMenu.swift b/plugins/tray/macos/tray/Sources/tray/TrayMenu.swift
+index 2a24bfc8058fd18ca3744ae58e424bd792444173..2c8af356dc684c2da36af6ae95026ce63b368830 100644
+--- a/plugins/tray/macos/tray/Sources/tray/TrayMenu.swift
++++ b/plugins/tray/macos/tray/Sources/tray/TrayMenu.swift
+@@ -3,6 +3,7 @@ import AppKit
+ final class TrayMenu: NSMenu, NSMenuDelegate {
+     private let onSelect: (Int) -> Void
+     private let onClose: (() -> Void)?
++    private var accessories: [Int: Int] = [:]
+     private var contents: [TrayMenuItemView.Content?] = []
+ 
+     init(items: [[String: Any]], onSelect: @escaping (Int) -> Void, onClose: (() -> Void)? = nil) {
+@@ -38,6 +39,19 @@ final class TrayMenu: NSMenu, NSMenuDelegate {
+         let item = NSMenuItem()
+         item.title = entry["label"] as? String ?? ""
+         item.tag = entry["id"] as? Int ?? 0
++        if let accessory = entry["accessory"] as? [String: Any], let id = accessory["id"] as? Int {
++            accessories[item.tag] = id
++            if let label = accessory["label"] as? String {
++                item.setAccessibilityCustomActions([NSAccessibilityCustomAction(name: label, handler: { [weak self, weak item] in
++                    guard let self = self, let item = item, item.isEnabled else { return false }
++                    var root: NSMenu = self
++                    while let parent = root.supermenu { root = parent }
++                    root.cancelTracking()
++                    self.onSelect(id)
++                    return true
++                })])
++            }
++        }
+         item.isEnabled = entry["enabled"] as? Bool ?? true
+         item.state = type == "checkbox" && entry["checked"] as? Bool == true ? .on : .off
+ 
+@@ -57,7 +71,11 @@ final class TrayMenu: NSMenu, NSMenuDelegate {
+             detail: detail(entry),
+             checked: item.state == .on,
+             enabled: item.isEnabled,
+-            hasSubmenu: item.hasSubmenu
++            hasSubmenu: item.hasSubmenu,
++            accessory: (entry["accessory"] as? [String: Any]).flatMap { value in
++                guard let id = value["id"] as? Int, let label = value["label"] as? String else { return nil }
++                return TrayMenuItemView.Accessory(id: id, label: label, selected: value["selected"] as? Bool ?? false)
++            }
+         )
+     }
+ 
+@@ -68,12 +86,24 @@ final class TrayMenu: NSMenu, NSMenuDelegate {
+         }
+         for (item, content) in zip(items, contents) {
+             if let content = content {
+-                item.view = TrayMenuItemView(content: content)
++                item.view = TrayMenuItemView(content: content, onAccessory: onSelect)
+             }
+         }
+         contents = []
+     }
+ 
++    override func performKeyEquivalent(with event: NSEvent) -> Bool {
++        if event.modifierFlags.contains(.option), [36, 76].contains(Int(event.keyCode)),
++           let item = highlightedItem, item.isEnabled, let id = accessories[item.tag] {
++            var root: NSMenu = self
++            while let parent = root.supermenu { root = parent }
++            root.cancelTracking()
++            onSelect(id)
++            return true
++        }
++        return super.performKeyEquivalent(with: event)
++    }
++
+     // AppKit does not redraw an item's view when its highlight changes.
+     func menu(_ menu: NSMenu, willHighlight item: NSMenuItem?) {
+         highlightedItem?.view?.needsDisplay = true
+diff --git a/plugins/tray/macos/tray/Sources/tray/TrayMenuItemView.swift b/plugins/tray/macos/tray/Sources/tray/TrayMenuItemView.swift
+index e5f4ae3814a41505300b3dba502c1f58ac82860b..71fb45c72487d3a9fd4bd5aa79cf9c555b6a2de6 100644
+--- a/plugins/tray/macos/tray/Sources/tray/TrayMenuItemView.swift
++++ b/plugins/tray/macos/tray/Sources/tray/TrayMenuItemView.swift
+@@ -4,12 +4,19 @@ import AppKit
+ // here to keep a detail next to the arrow. The metrics copy the native menu so
+ // these rows line up with the separators the menu still draws.
+ final class TrayMenuItemView: NSView {
++    struct Accessory {
++        let id: Int
++        let label: String
++        let selected: Bool
++    }
++
+     struct Content {
+         let label: String
+         let detail: String?
+         let checked: Bool
+         let enabled: Bool
+         let hasSubmenu: Bool
++        var accessory: Accessory? = nil
+     }
+ 
+     private struct Metrics {
+@@ -59,8 +66,12 @@ final class TrayMenuItemView: NSView {
+     private static let arrow = symbol("chevron.right", weight: .semibold)
+ 
+     private let content: Content
++    private let onAccessory: (Int) -> Void
++    private var accessoryButton: NSButton?
++    private static let accessoryWidth: CGFloat = 28
+ 
+-    init(content: Content) {
++    init(content: Content, onAccessory: @escaping (Int) -> Void = { _ in }) {
++        self.onAccessory = onAccessory
+         self.content = content
+         let metrics = TrayMenuItemView.metrics
+         var width = metrics.titleX + TrayMenuItemView.width(content.label) + metrics.trailing
+@@ -70,12 +81,26 @@ final class TrayMenuItemView: NSView {
+         if content.hasSubmenu {
+             width += TrayMenuItemView.arrowGap + TrayMenuItemView.arrow.size.width
+         }
++        if content.accessory != nil { width += TrayMenuItemView.accessoryWidth }
+         super.init(frame: NSRect(x: 0, y: 0, width: ceil(width), height: metrics.height))
+         autoresizingMask = [.width]
+         setAccessibilityElement(true)
+         setAccessibilityRole(.menuItem)
+         setAccessibilityLabel([content.label, content.detail].compactMap { $0 }.joined(separator: ", "))
+         setAccessibilityEnabled(content.enabled)
++        if let accessory = content.accessory {
++            let button = NSButton(image: TrayMenuItemView.monitorSymbol(accessory.selected), target: self, action: #selector(selectAccessory))
++            button.isBordered = false
++            button.imagePosition = .imageOnly
++            button.toolTip = accessory.label + " (⌥↩)"
++            button.setAccessibilityLabel(accessory.label)
++            button.setAccessibilityValue(accessory.selected ? 1 : 0)
++            button.isEnabled = content.enabled
++            accessoryButton = button
++            addSubview(button)
++            setAccessibilityChildren([button])
++            setAccessibilityCustomActions([NSAccessibilityCustomAction(name: accessory.label, target: self, selector: #selector(accessibleAccessory))])
++        }
+     }
+ 
+     required init?(coder: NSCoder) {
+@@ -130,10 +155,20 @@ final class TrayMenuItemView: NSView {
+             trailingX -= detailWidth + TrayMenuItemView.detailGap
+         }
+ 
++        if let button = accessoryButton {
++            button.frame = NSRect(x: trailingX - 24, y: 0, width: 24, height: bounds.height)
++            button.contentTintColor = primary
++            button.alphaValue = highlighted || content.accessory?.selected == true ? 1 : 0
++            trailingX -= TrayMenuItemView.accessoryWidth
++        }
+         drawText(content.label, x: metrics.titleX, width: trailingX - metrics.titleX, color: primary, font: metrics.font)
+     }
+ 
+     override func mouseUp(with event: NSEvent) {
++        if content.enabled, let button = accessoryButton, button.frame.contains(convert(event.locationInWindow, from: nil)) {
++            selectAccessory()
++            return
++        }
+         guard content.enabled, !content.hasSubmenu, let item = enclosingMenuItem,
+               let action = item.action else {
+             return
+@@ -146,6 +181,40 @@ final class TrayMenuItemView: NSView {
+         NSApp.sendAction(action, to: item.target, from: item)
+     }
+ 
++    @objc private func accessibleAccessory() -> Bool {
++        guard content.enabled, content.accessory != nil else { return false }
++        selectAccessory()
++        return true
++    }
++
++    @objc private func selectAccessory() {
++        guard content.enabled, let accessory = content.accessory else { return }
++        var root = enclosingMenuItem?.menu
++        while let parent = root?.supermenu { root = parent }
++        root?.cancelTracking()
++        onAccessory(accessory.id)
++    }
++
++    private static func monitorSymbol(_ selected: Bool) -> NSImage {
++        let image = NSImage(size: NSSize(width: 16, height: 16), flipped: false) { _ in
++            NSColor.black.setStroke()
++            NSColor.black.setFill()
++            let ring = NSBezierPath(ovalIn: NSRect(x: 3.5, y: 3.5, width: 9, height: 9))
++            ring.lineWidth = 1.2
++            ring.stroke()
++            let cross = NSBezierPath()
++            for (a, b) in [(NSPoint(x: 8,y: 0),NSPoint(x: 8,y: 4)), (NSPoint(x: 8,y: 12),NSPoint(x: 8,y: 16)), (NSPoint(x: 0,y: 8),NSPoint(x: 4,y: 8)), (NSPoint(x: 12,y: 8),NSPoint(x: 16,y: 8))] {
++                cross.move(to: a); cross.line(to: b)
++            }
++            cross.lineWidth = 1.2
++            cross.stroke()
++            if selected { NSBezierPath(ovalIn: NSRect(x: 5.5, y: 5.5, width: 5, height: 5)).fill() }
++            return true
++        }
++        image.isTemplate = true
++        return image
++    }
++
+     private func drawText(_ text: String, x: CGFloat, width: CGFloat, color: NSColor, font: NSFont) {
+         let style = NSMutableParagraphStyle()
+         style.lineBreakMode = .byTruncatingTail
 diff --git a/plugins/tray/macos/tray/Sources/tray/TrayPlugin.swift b/plugins/tray/macos/tray/Sources/tray/TrayPlugin.swift
 index a62f49cf95814f2b47242ea3324184c75468cf7a..0570c96b940e1cd6263ef077c50c2a7feb92bc6e 100644
 --- a/plugins/tray/macos/tray/Sources/tray/TrayPlugin.swift
@@ -6921,6 +7329,48 @@ index a62f49cf95814f2b47242ea3324184c75468cf7a..0570c96b940e1cd6263ef077c50c2a7f
          let size = icon["size"] as? Int ?? 18
          let pointSize = NSSize(width: size, height: size)
          let image = NSImage(size: pointSize)
+diff --git a/plugins/tray/test/tray_codec_test.dart b/plugins/tray/test/tray_codec_test.dart
+index 8457a75e3de39e857f5037e4e52395e3142b0090..a1b552e0b2715aaae338fe532b2c15f7591ebfda 100644
+--- a/plugins/tray/test/tray_codec_test.dart
++++ b/plugins/tray/test/tray_codec_test.dart
+@@ -57,6 +57,37 @@ void main() {
+     expect(signatureWith(() {}), signatureWith(() {}));
+   });
+ 
++  test('accessory has separate callback identity and selection signature', () {
++    var proxyCalls = 0;
++    var monitorCalls = 0;
++    EncodedTray encode(bool selected) => TrayCodec.encode(
++      _spec(
++        menu: [
++          TrayMenuCheckbox(
++            label: 'node',
++            checked: true,
++            onSelected: () => proxyCalls++,
++            accessory: TrayMenuAccessory(
++              label: 'Monitor node',
++              selected: selected,
++              onSelected: () => monitorCalls++,
++            ),
++          ),
++        ],
++      ),
++    );
++    final encoded = encode(false);
++    final row = encoded.menu.single as Map;
++    final accessory = row['accessory'] as Map;
++    expect(accessory['id'], isNot(row['id']));
++    (encoded.itemsById[accessory['id']] as TrayMenuAction).onSelected!();
++    expect(monitorCalls, 1);
++    expect(proxyCalls, 0);
++    (encoded.itemsById[row['id']] as TrayMenuCheckbox).onSelected!();
++    expect(proxyCalls, 1);
++    expect(encode(true).signature, isNot(encoded.signature));
++  });
++
+   test('signature tracks label, checked state, tooltip and icon', () {
+     final base = TrayCodec.encode(
+       _spec(menu: const [TrayMenuCheckbox(label: 'a', checked: false)]),
 diff --git a/plugins/tray/test/tray_icon_test.dart b/plugins/tray/test/tray_icon_test.dart
 index da7dd95371d5175663510442e27160f72ee3895b..fbcb3633b902a1d7bae30de5089e7f86c465e356 100644
 --- a/plugins/tray/test/tray_icon_test.dart
@@ -7037,19 +7487,20 @@ index 78825c3794bcd17edcfe5dd935d7b6a2308148ab..76e2c5874dfe884627e4fc710ad41648
          buildClient().download(join(root.path, 'missing.zip')),
 diff --git a/test/common/flash_monitor_test.dart b/test/common/flash_monitor_test.dart
 new file mode 100644
-index 0000000000000000000000000000000000000000..1e134420c27551d33f94d4a91a4e673a7884553a
+index 0000000000000000000000000000000000000000..f3df4a172ac18d99a1221647861b99bfbe2cfdda
 --- /dev/null
 +++ b/test/common/flash_monitor_test.dart
-@@ -0,0 +1,77 @@
-+import 'package:fl_clash/common/flash_monitor.dart';
-+import 'package:fl_clash/enum/enum.dart';
-+import 'package:fl_clash/l10n/l10n.dart';
+@@ -0,0 +1,76 @@
++import 'dart:async';
++import 'package:fl_clash/providers/ip_quality.dart';
 +import 'package:fl_clash/models/models.dart';
++import 'package:fl_clash/enum/enum.dart';
++import 'package:fl_clash/common/flash_monitor.dart';
++import 'package:fl_clash/l10n/l10n.dart';
 +import 'package:flutter/widgets.dart';
 +import 'package:flutter_test/flutter_test.dart';
 +import 'package:riverpod/riverpod.dart';
 +import 'package:shared_preferences/shared_preferences.dart';
-+import 'package:tray/tray.dart';
 +
 +void main() {
 +  TestWidgetsFlutterBinding.ensureInitialized();
@@ -7058,47 +7509,45 @@ index 0000000000000000000000000000000000000000..1e134420c27551d33f94d4a91a4e673a
 +    await AppLocalizations.load(const Locale('en'));
 +  });
 +
-+  test('nested automatic group and concrete node select only the monitor', () {
-+    final picks = <String>[];
-+    final menu = flashMonitorMenu(
-+      const [
-+        Group(
-+          name: 'Manual',
-+          type: GroupType.Selector,
-+          now: 'Auto',
-+          all: [Proxy(name: 'Auto', type: 'URLTest')],
-+        ),
-+        Group(
-+          name: 'Auto',
-+          type: GroupType.URLTest,
-+          now: 'Japan',
-+          all: [
-+            Proxy(name: 'Japan', type: 'SS'),
-+            Proxy(name: 'Manual', type: 'Selector'),
-+          ],
-+        ),
-+      ],
-+      'Auto',
-+      picks.add,
-+    );
-+    final manual = menu.whereType<TrayMenuSubmenu>().first;
-+    final auto = manual.items.whereType<TrayMenuSubmenu>().first;
-+    final group = auto.items.whereType<TrayMenuCheckbox>().first;
-+    expect(group.checked, isTrue);
-+    group.onSelected!();
-+    auto.items.whereType<TrayMenuCheckbox>().last.onSelected!();
-+    expect(picks, ['Auto', 'Japan']);
-+    expect(auto.items.whereType<TrayMenuSubmenu>().single.items, hasLength(1));
-+  });
++  test(
++    'quality refresh survives the tray temporarily releasing its listener',
++    () async {
++      var calls = 0;
++      final answer = Completer<IpQuality>();
++      const quality = IpQuality(
++        ip: '2.2.2.2',
++        source: IpQualitySource.identMe,
++        type: IpType.residential,
++      );
++      final container = ProviderContainer(
++        overrides: [
++          ipQualityProvider('2.2.2.2').overrideWith((ref) async {
++            calls++;
++            return calls == 1 ? quality : answer.future;
++          }),
++        ],
++      );
++      addTearDown(container.dispose);
++      final ui = container.listen(ipQualityProvider('2.2.2.2'), (_, _) {});
++      await container.read(ipQualityProvider('2.2.2.2').future);
++      final refresh = refreshFlashQuality(container.read, '2.2.2.2');
++      ui.close();
++      await Future<void>.delayed(Duration.zero);
++      expect(calls, 2);
++      answer.complete(quality);
++      await refresh;
++    },
++  );
 +
 +  test(
-+    'missing target stays selected and unavailable instead of falling back',
-+    () {
-+      final menu = flashMonitorMenu([], 'Removed', (_) {});
-+      final unavailable = menu.whereType<TrayMenuCheckbox>().last;
-+      expect(unavailable.checked, isTrue);
-+      expect(unavailable.enabled, isFalse);
-+      expect(unavailable.label, contains('Removed'));
++    'missing target remains explicit instead of reverting to rules',
++    () async {
++      final container = ProviderContainer();
++      addTearDown(container.dispose);
++      await container
++          .read(flashMonitorTargetProvider.notifier)
++          .select('Removed');
++      expect(container.read(flashMonitorTargetProvider), 'Removed');
 +    },
 +  );
 +
@@ -7163,15 +7612,16 @@ index b664a8d8e424107dcaf25e9c1563b0160c234a38..a4a7dc5e7f7055941ca2f15134a4fe41
        final request = requestAnswering({
          'api.github.com': () => ResponseBody.fromString(
 diff --git a/test/common/tray_menu_test.dart b/test/common/tray_menu_test.dart
-index 08404809b339dd664f0706a95104e03cb563e3d3..1391905fc348ab7e9c4a07358f491552df8bb9e4 100644
+index 08404809b339dd664f0706a95104e03cb563e3d3..84315e6a64549f2c67649504038e77e1c8431c73 100644
 --- a/test/common/tray_menu_test.dart
 +++ b/test/common/tray_menu_test.dart
-@@ -1,3 +1,4 @@
+@@ -1,3 +1,5 @@
++import 'dart:async';
 +import 'package:fl_clash/common/flash_monitor.dart';
  import 'dart:convert';
  import 'dart:io';
  
-@@ -11,6 +12,9 @@ import 'package:fl_clash/l10n/l10n.dart';
+@@ -11,6 +13,9 @@ import 'package:fl_clash/l10n/l10n.dart';
  import 'package:fl_clash/models/models.dart';
  import 'package:fl_clash/providers/action.dart';
  import 'package:fl_clash/providers/state.dart';
@@ -7181,7 +7631,7 @@ index 08404809b339dd664f0706a95104e03cb563e3d3..1391905fc348ab7e9c4a07358f491552
  import 'package:fl_clash/state.dart';
  import 'package:flutter/foundation.dart';
  import 'package:flutter/services.dart';
-@@ -232,35 +236,202 @@ void main() {
+@@ -232,35 +237,257 @@ void main() {
      expect(showCalls, hasLength(1));
  
      final arguments = showCalls.single.arguments as Map;
@@ -7291,7 +7741,62 @@ index 08404809b339dd664f0706a95104e03cb563e3d3..1391905fc348ab7e9c4a07358f491552
 +      expect(icon['country'], 'JP');
 +      expect(icon['isHighQuality'], true);
 +      expect(icon['status'], 'tun');
-+      expect(_labels(showCall()).first, contains('Manual'));
++      expect(_labels(showCall()).first, currentAppLocalizations.show);
++      expect(
++        _item(
++          showCall(),
++          currentAppLocalizations.flashMonitorOptions,
++        )['items'].toString(),
++        contains('Manual'),
++      );
++    },
++  );
++
++  test(
++    'groups and their members expose independent monitor callbacks',
++    () async {
++      const groups = [
++        Group(
++          name: 'Manual',
++          type: GroupType.Selector,
++          all: [
++            Proxy(name: 'Auto', type: 'URLTest'),
++            Proxy(name: 'Japan', type: 'SS'),
++          ],
++        ),
++        Group(
++          name: 'Auto',
++          type: GroupType.URLTest,
++          all: [Proxy(name: 'Japan', type: 'SS')],
++        ),
++      ];
++      await update(_trayState(groups: groups));
++      final main = _items(
++        showCall(),
++      ).firstWhere((item) => item['label'] == 'Manual');
++      final auto = (main['items'] as List).cast<Map>().firstWhere(
++        (item) => item['label'] == 'Auto',
++      );
++      final japan = (main['items'] as List).cast<Map>().firstWhere(
++        (item) => item['label'] == 'Japan',
++      );
++      final before = container.read(selectedMapProvider);
++      for (final entry in [main, auto, japan]) {
++        final accessory = entry['accessory'] as Map;
++        expect(accessory['id'], isNot(entry['id']));
++        final done = Completer<void>();
++        await TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
++            .handlePlatformMessage(
++              'tray',
++              const StandardMethodCodec().encodeMethodCall(
++                MethodCall('onMenuItemSelected', {'id': accessory['id']}),
++              ),
++              (_) => done.complete(),
++            );
++        await done.future;
++        expect(container.read(flashMonitorTargetProvider), entry['label']);
++        expect(container.read(selectedMapProvider), before);
++      }
 +    },
 +  );
 +
@@ -7406,7 +7911,7 @@ index 08404809b339dd664f0706a95104e03cb563e3d3..1391905fc348ab7e9c4a07358f491552
    test('skips the platform call when the tray state is unchanged', () async {
      await update(_trayState(isStart: true));
      await update(_trayState(isStart: true));
-@@ -295,9 +466,9 @@ void main() {
+@@ -295,9 +522,9 @@ void main() {
        ),
      );
  
@@ -7419,7 +7924,7 @@ index 08404809b339dd664f0706a95104e03cb563e3d3..1391905fc348ab7e9c4a07358f491552
      expect(submenu['label'], 'Proxy');
      final children = (submenu['items'] as List).cast<Map<Object?, Object?>>();
      expect(children.map((item) => item['label']), contains('A'));
-@@ -377,7 +548,9 @@ void main() {
+@@ -377,7 +604,9 @@ void main() {
      );
  
      final items = _items(showCall());

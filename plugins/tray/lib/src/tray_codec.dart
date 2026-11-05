@@ -47,6 +47,19 @@ abstract final class TrayCodec {
     );
   }
 
+  static Map<String, Object?> _encodeAccessory(
+    TrayMenuAccessory accessory,
+    Map<int, TrayMenuItem> sink,
+    _IdAllocator allocator,
+  ) {
+    final id = allocator.next();
+    sink[id] = TrayMenuAction(
+      label: accessory.label,
+      onSelected: accessory.onSelected,
+    );
+    return {'id': id, 'label': accessory.label, 'selected': accessory.selected};
+  }
+
   static List<Object?> _encodeItems(
     List<TrayMenuItem> items,
     Map<int, TrayMenuItem> sink,
@@ -66,6 +79,7 @@ abstract final class TrayCodec {
             'enabled': enabled,
           },
         TrayMenuCheckbox(
+          :final accessory,
           :final label,
           :final detail,
           :final enabled,
@@ -74,12 +88,15 @@ abstract final class TrayCodec {
           <String, Object?>{
             'id': id,
             'type': 'checkbox',
+            if (accessory != null)
+              'accessory': _encodeAccessory(accessory, sink, allocator),
             'label': label,
             if (detail != null && detail.isNotEmpty) 'detail': detail,
             'enabled': enabled,
             'checked': checked,
           },
         TrayMenuSubmenu(
+          :final accessory,
           :final label,
           :final detail,
           :final enabled,
@@ -88,6 +105,8 @@ abstract final class TrayCodec {
           <String, Object?>{
             'id': id,
             'type': 'submenu',
+            if (accessory != null)
+              'accessory': _encodeAccessory(accessory, sink, allocator),
             'label': label,
             if (detail != null && detail.isNotEmpty) 'detail': detail,
             'enabled': enabled,

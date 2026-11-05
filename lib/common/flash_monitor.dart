@@ -1,12 +1,11 @@
-import 'app_localizations.dart';
 import 'dart:async';
 
+import 'package:fl_clash/common/provider_reader.dart';
+import 'package:fl_clash/providers/ip_quality.dart';
+
 import 'package:fl_clash/common/service_probe.dart';
-import 'package:fl_clash/models/models.dart';
-import 'package:fl_clash/enum/enum.dart';
 import 'package:riverpod/riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:tray/tray.dart';
 
 final flashMonitorTargetProvider = NotifierProvider<FlashMonitorTarget, String>(
   FlashMonitorTarget.new,
@@ -46,57 +45,16 @@ class FlashMonitorTarget extends Notifier<String> {
   }
 }
 
-List<TrayMenuItem> flashMonitorMenu(
-  List<Group> groups,
-  String selected,
-  void Function(String) select,
-) {
-  final localizations = currentAppLocalizations;
-  final byName = {for (final group in groups) group.name: group};
-  final expanded = <String>{};
-  final names = <String>{
-    for (final group in groups) ...[
-      group.name,
-      for (final proxy in group.all) proxy.name,
-    ],
-  };
-  TrayMenuCheckbox choice(String name, String label) => TrayMenuCheckbox(
-    label: label,
-    checked: selected == name,
-    onSelected: () => select(name),
-  );
-  TrayMenuItem target(String name) {
-    final group = byName[name];
-    if (group == null) return choice(name, name);
-    return TrayMenuSubmenu(
-      label: name,
-      items: [
-        choice(name, '${localizations.flashMonitorGroup}: ${group.now ?? "—"}'),
-        if (expanded.add(name)) ...[
-          const TrayMenuSeparator(),
-          for (final proxy in group.all) target(proxy.name),
-        ],
-      ],
-    );
-  }
-
-  return [
-    choice(routedOutbound, localizations.flashMonitorRules),
-    if (selected.isNotEmpty && !names.contains(selected))
-      TrayMenuCheckbox(
-        label: '$selected (${localizations.flashMonitorUnavailable})',
-        checked: true,
-        enabled: false,
-      ),
-    const TrayMenuSeparator(),
-    for (final group in [
-      ...groups.where(
-        (group) => group.type == GroupType.Selector && group.name != 'GLOBAL',
-      ),
-      ...groups.where(
-        (group) => group.type != GroupType.Selector || group.name == 'GLOBAL',
-      ),
-    ])
-      if (!expanded.contains(group.name)) target(group.name),
-  ];
-}
+final _qualityRefreshProvider = Provider<Future<void> Function(String)>(
+  (ref) => (ip) async {
+    final hold = ref.listen(ipQualityProvider(ip), (_, _) {});
+    try {
+      ref.invalidate(ipQualityProvider(ip));
+      await ref.read(ipQualityProvider(ip).future);
+    } finally {
+      hold.close();
+    }
+  },
+);
+Future<void> refreshFlashQuality(ProviderReader read, String ip) =>
+    read(_qualityRefreshProvider)(ip);
