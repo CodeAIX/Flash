@@ -12,6 +12,8 @@
 	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
+	<key>CFBundleDisplayName</key>
+	<string>$(PRODUCT_NAME)</string>
 	<key>CFBundleName</key>
 	<string>$(PRODUCT_NAME)</string>
 	<key>CFBundlePackageType</key>
@@ -24,9 +26,10 @@
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleURLName</key>
-			<string></string>
+			<string>com.codeaix.klash.import</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
+				<string>klash</string>
 				<string>clash</string>
 				<string>clashmeta</string>
 				<string>flclash</string>
@@ -44,6 +47,6 @@
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>FlClash needs location access to detect WiFi network name for connectivity features.</string>
+	<string>Klash needs location access to detect WiFi network name for connectivity features.</string>
 </dict>
 </plist>

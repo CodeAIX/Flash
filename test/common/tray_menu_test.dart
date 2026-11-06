@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:fl_clash/common/flash_monitor.dart';
+import 'package:fl_clash/common/klash_monitor.dart';
 import 'dart:convert';
 import 'dart:io';
 
@@ -239,7 +239,7 @@ void main() {
     final arguments = showCalls.single.arguments as Map;
     expect(
       arguments['toolTip'],
-      contains(currentAppLocalizations.flashMonitorRules),
+      contains(currentAppLocalizations.klashMonitorRules),
     );
     expect(arguments['menu'], isNotEmpty);
     final icon = arguments['icon'] as Map;
@@ -314,7 +314,7 @@ void main() {
         ],
       );
       await container
-          .read(flashMonitorTargetProvider.notifier)
+          .read(klashMonitorTargetProvider.notifier)
           .select('Manual');
       await update(_trayState(isStart: true, tunEnable: true));
       final icon = (showCall()!.arguments as Map)['icon'] as Map;
@@ -325,7 +325,7 @@ void main() {
       expect(
         _item(
           showCall(),
-          currentAppLocalizations.flashMonitorOptions,
+          currentAppLocalizations.klashMonitorOptions,
         )['items'].toString(),
         contains('Manual'),
       );
@@ -374,7 +374,7 @@ void main() {
               (_) => done.complete(),
             );
         await done.future;
-        expect(container.read(flashMonitorTargetProvider), entry['label']);
+        expect(container.read(klashMonitorTargetProvider), entry['label']);
         expect(container.read(selectedMapProvider), before);
       }
     },

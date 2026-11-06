@@ -99,8 +99,8 @@ void main() {
     for (final build in ['2026102301', '2026102302']) {
       test('compares repair release against installed build $build', () async {
         globalState.packageInfo = PackageInfo(
-          appName: 'Flash',
-          packageName: 'com.codeaix.flash',
+          appName: 'Klash',
+          packageName: 'com.codeaix.klash',
           version: '1.9.1',
           buildNumber: build,
         );

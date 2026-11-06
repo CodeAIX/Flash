@@ -1,4 +1,4 @@
-# Flash application icon
+# Klash application icon
 
 Approved 2026-10-23: white continuous-corner tile, emerald-to-jade-to-mint
 logo. The two bars and dot retain the geometry of FlClash's
@@ -13,7 +13,7 @@ color before the green vector glyph is composited.
 Regenerate the committed macOS 16–1024 px catalog and 550 px About-page asset:
 
 ```sh
-uv run --with cairosvg==2.8.2 --with pillow==13.0.0 python tool/flash/generate_icon.py
+uv run --with cairosvg==2.8.2 --with pillow==13.0.0 python tool/klash/generate_icon.py
 ```
 
 CairoSVG needs the system Cairo library. With Homebrew on Apple Silicon, prefix

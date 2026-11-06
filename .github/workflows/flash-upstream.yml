@@ -8,7 +8,7 @@ permissions:
   pull-requests: write
   actions: write
 concurrency:
-  group: flash-upstream-sync
+  group: klash-upstream-sync
   cancel-in-progress: false
 jobs:
   candidate:
@@ -23,12 +23,12 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           set -euo pipefail
-          git config user.name 'Flash release automation'
+          git config user.name 'Klash release automation'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          python3 tool/flash/sync_upstream.py 2>&1 | tee flash-sync.log
+          python3 tool/klash/sync_upstream.py 2>&1 | tee klash-sync.log
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: flash-upstream-sync-log
-          path: flash-sync.log
+          name: klash-upstream-sync-log
+          path: klash-sync.log
           if-no-files-found: ignore

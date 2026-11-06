@@ -1,102 +1,70 @@
-# Flash
+# Klash
 
-![Flash 应用图标](macos/Runner/Assets.xcassets/AppIcon.appiconset/app_icon_128.png)
+[简体中文](README_zh_CN.md)
 
-Flash 是基于 [FlClash](https://github.com/chen08209/FlClash) 的非官方衍生客户端，由 CodeAIX 维护。保留 FlClash 的代理内核、配置、订阅、规则、节点与原有交互，新增 macOS 状态栏可视化。Flash 不提供代理节点或订阅服务。
+![Klash application icon](macos/Runner/Assets.xcassets/AppIcon.appiconset/app_icon_128.png)
 
-## 下载
+Klash, formerly Flash, is an unofficial derivative of [FlClash](https://github.com/chen08209/FlClash), maintained by CodeAIX. It preserves the upstream Core, profiles, subscriptions, rules and proxy controls, and adds macOS menu-bar exit monitoring. Klash does not provide proxy servers or subscriptions. The original GPL-3.0 license and upstream credits are retained; see [KLASH-NOTICE.md](KLASH-NOTICE.md).
 
-从 [Flash Releases](https://github.com/CodeAIX/Flash/releases/latest) 下载 macOS 安装包：
+## Download and migration
 
-- `arm64`：Apple Silicon（M 系列）。
-- `x86_64`：Intel Mac。
+Download from [Klash Releases](https://github.com/CodeAIX/Klash/releases/latest): **arm64** for Apple Silicon, **x86_64** for Intel. Drag **Klash.app** from the DMG into Applications. Packages are ad-hoc signed and not notarized. Each binary includes its exact source archive with pinned Core/prism_ui, revision record and SHA256SUMS.
 
-打开 DMG，将 Flash 拖入 Applications。安装包采用 ad-hoc 签名，尚未经过 Apple 公证。每个版本附 SHA-256 校验、准确源码及内核子模块源码。
+Klash 1.9.3 revision 3 uses build **2026110601** and bundle ID **com.codeaix.klash**. Its data directory and permission identity are separate. Export a local backup from Flash, stop Flash before switching network clients, then restore the backup in Klash. No active database is automatically copied and no old data is overwritten. Select the monitored target again if needed. This release does not automatically replace your installed Flash. Historical Flash releases and their original filenames remain available.
 
-## Flash 特性
+New WebDAV backups use **/Klash/&lt;filename&gt;**, normally backup.zip. Restore tries /Klash, /Flash, then /FlClash, keeping the same filename and configured server base path. Only HTTP 404/409 advances to the next path; authentication and other errors remain errors. Old backup files are read without modifying or deleting them. A successful connectivity test does not prove that a backup exists.
 
-应用图标采用白底、翡翠绿到薄荷绿渐变，保留上游两条斜杠与圆点的图形结构，以及原版 macOS 底板的圆角曲率、边距与轻微投影。矢量源与生成方法见 [flash/branding](flash/branding)。
+## Status legend
 
-状态图标采用更柔和的圆角矩形，内嵌加大加粗的当前规则出口 IP 国家代码。**底色看代理入口，字色看 IP 质量**，两个维度分别判断。
+The approved white-tile, emerald-to-mint application icon is unchanged. Its original macOS corner curvature, margins and shadow are preserved. Artwork and generation instructions are in [klash/branding](klash/branding).
 
-![Flash 状态栏图例：深色和浅色外观](flash/images/status-legend.png)
+The menu-bar badge remains 26 × 18 pt with soft continuous corners and heavy country text. **Background shows entry configuration; text color shows IP quality.**
 
-图中上排为深色外观，下排为浅色外观；图标放大展示，实际大小为 26 × 18 pt。`US` 为美国出口示例，其他国家显示对应两位代码。
+![Dark and light status legend](klash/images/status-legend.png)
 
-| 底色 / 符号 | TUN | 系统代理 | 含义 |
-| --- | --- | --- | --- |
-| 🟩 绿色 | 开启 | 开启或关闭 | TUN 已配置开启，显示优先级高于系统代理 |
-| 🟦 蓝色 | 关闭 | 开启 | 仅系统代理已配置开启 |
-| 🟧 橙色 | 关闭 | 关闭 | 两种代理入口均未配置开启；不代表出口查询必然失败 |
-| 灰底原版风格符号 | — | — | 代理停止或暂停，隐藏国家代码 |
-| 中性底红色 `F` | — | — | 运行期间出口查询异常，隐藏国家代码；与 IP 质量差不同 |
-
-| 国家代码字色 | 判定 |
+| Background or symbol | Meaning |
 | --- | --- |
-| 白色 | 当前出口 IP 的内嵌质量评级为“优秀”（`IpQualityLevel.good`） |
-| 黑色 | 其他评级，以及未知、查询中或查询失败；不会把“尚未检测”当作优秀 |
+| Green | TUN configured on, taking priority over system proxy |
+| Blue | TUN off, system proxy configured on |
+| Orange | Both entry modes configured off |
+| Gray with upstream-style logo | Core stopped or paused; country hidden |
+| Neutral with red F | Exit lookup failed; F remains the failure indicator |
 
-例如：**绿底白字 US** = TUN 开启、美国出口、质量优秀；**蓝底黑字 JP** = 仅系统代理开启、日本出口、非优秀或尚未取得有效质量结果；**橙底白字 US** = 两种入口均关闭，但该次出口查询取得美国 IP 且评级优秀。字色不会改变底色。
+| Country text | Meaning |
+| --- | --- |
+| White | Built-in rating for this IP is excellent, IpQualityLevel.good |
+| Black | Other, unknown, loading or failed quality lookup |
+| -- | Country unknown |
 
-“优秀”复用内嵌检测的规则：住宅、移动或企业类型通常为优秀，Tor / 滥用标记优先降低评级，机房类型不算优秀。查询只使用当前出口 IP 对应的有效结果；切换节点后不会沿用旧 IP 的白字。
+Green/white US means TUN enabled, a US exit and excellent quality. Blue/black JP means system proxy only, a Japanese exit and other/unknown quality. A lookup may succeed with both entry modes off; it does not prove that every application uses this route. Residential, mobile and business IPs are usually good; Tor/abuse flags lower the rating and hosting IPs are not good. An old-IP result cannot turn a new IP white. Stopped/paused takes priority, followed by lookup failure and then normal country rendering.
 
-显示优先级为：**停止 / 暂停 → 出口查询异常 → 运行状态的底色与国家代码**。国家未知显示 `--`，质量未知使用黑字。后台约每 60 秒刷新，出口变化也会触发更新，网络请求完成前可能短暂显示未知状态。
+Revision 3 prepares finite glyph paths outside the drawing callback. Redraw fills paths rather than performing NSString text layout, bypassing the observed CoreText attributed-text crash chain. Weight and baseline are calibrated against the previous 12.5 pt Heavy renderer; missing glyph preparation falls back to the visible logo. Only A–Z and the hyphen are cached. Rendering stress tests do not replace long-running sleep/wake or display-switch acceptance.
 
-底色描述入口配置，国家代码描述该次规则出口查询，质量描述 IP 检测结果；它们不保证 TUN 实际接管所有流量，也不保证所有应用、规则或 AI 服务可用。
+## Independent monitor controls
 
-Flash 复用 FlClash 内核、出口与 IP 质量检测，不增加第二个代理内核。运行期间保持后台状态监测，定期刷新；切换出口后不会沿用前一个 IP 的质量结果。保留原有托盘菜单、节点操作与速度显示。
+Use the independent ◎ beside a group or node, just before its delay. The current target has a persistent filled marker; other buttons appear on the highlighted row. The left ✓ still represents proxy selection. Clicking a node name keeps the original switch action; group arrows open their submenus. ◎ changes only the monitored target.
 
-目前仅分发 macOS 版本。Windows 与 Android 的 Flash 品牌和状态显示适配尚未完成。
+Select a manual group, an automatic group appearing inside it, or a concrete node. Groups follow their current actual exit; a fixed node remains the target when another group changes. Monitoring options at the bottom show the target, restore rule routing and refresh exit IP/quality. Option+Return on a highlighted target and named accessibility actions are supported.
 
-## 与 FlClash 的关系及版本
+Selection is saved locally. Exit IP refreshes every 60 seconds while running and when the target changes. Quality is cached by IP for three days; manual refresh invalidates it. A removed target remains unavailable instead of choosing another exit. A load-balancing group's badge represents that particular probe, not all traffic or AI-service availability.
 
-Flash 不是 FlClash 官方发行版。上游功能、核心实现及主要界面归功于 FlClash、mihomo 和各第三方项目；原版权和 [GPL-3.0 许可证](LICENSE) 保留，修改说明见 [FLASH-NOTICE.md](FLASH-NOTICE.md)。
+## Upstream and independent overlay
 
-Flash 版本按上游正式版的 major 加 1，minor、patch 保持一致：`0.9.1 → 1.9.1`、`0.9.2 → 1.9.2`、`0.10.0 → 1.10.0`。这不是 SemVer 的 `+` 构建元数据语法。对应上游版本、commit 与 Flash 版本记录在 [flash/upstream.json](flash/upstream.json)。
+This revision is based on **FlClash v0.9.3**. Klash retains the application artwork, badge semantics, background monitoring, stable channel and file-picker entitlements. Private upstream module, Core executable and IPC names remain compatibility details rather than product identity. Windows and Android are not Klash distribution targets.
 
-同一上游版本的 Flash 修复使用递增构建号和独立修订标签，例如 `v1.9.1+2026102302`；应用版本仍为 `1.9.1`。原发布标签和安装包保留，下一次上游更新恢复正常版本映射。
+Version mapping adds one to the upstream major and keeps minor/patch: 0.9.3 → 1.9.3, 0.10.0 → 1.10.0. Same-upstream revisions use build metadata such as v1.9.3+2026110601; the app short version remains 1.9.3. See [klash/upstream.json](klash/upstream.json).
 
-## 备份与恢复
+The [independent patch](klash/runtime.patch) and explicit file list reconstruct customization from the pinned upstream. Daily stable-release checks stop on conflicts. Compatible candidates require analysis, regression tests, native menu/glyph checks and both macOS builds before merge/publication. Upstream changes may need manual adaptation. Historical workflow filenames remain stable dispatch IDs; their displayed names and artifacts use Klash.
 
-Flash 新远程备份写入 WebDAV 地址下的 `/Flash/<文件名>`，默认 `backup.zip`。恢复先读取此路径；仅当返回 404 或 409 时，尝试只读获取 `/FlClash/<同一文件名>`，以兼容原客户端备份。Flash 路径存在时优先使用，不覆盖或删除旧客户端备份。连通性检查成功仅表示服务器响应，不代表备份文件已存在或允许下载。
+## Build
 
-旧版 1.9.1 的打包步骤丢失文件选择权限，导致本地保存报 `ENTITLEMENT_REQUIRED_WRITE`、恢复时无法打开选择窗口；修订版恢复签名中的文件读写权限，并增加打包后校验。正式构建指定 `APP_ENV=stable`，去除默认 `pre` 标识。
+Current CI pins Flutter 3.47.6, Go 1.27.1 and Xcode 26 SDK; build hooks also require Rust.
 
-## FlClash 0.9.2 适配
-
-Flash 1.9.2 基于 FlClash v0.9.2，继承其 IP 质量三天缓存、内核和界面更新，保留 Flash 的绿色应用图标、状态栏颜色与国家码规则，以及本地/WebDAV 备份修复。Flash 国家码徽标固定使用状态颜色，因此不展示上游的“单色图标”开关；其他托盘菜单保留。
-
-## 独立定制与自动更新
-
-Flash 定制以 [flash/runtime.patch](flash/runtime.patch) 和文件清单维护，文档、品牌声明及工作流作为覆盖文件保留。更新器每天检查上游正式 Release，排除预发布；从固定 tag 重建源码并尝试应用定制补丁。
-
-补丁冲突即停止，不丢弃 Flash 改动。兼容时创建候选分支和 PR，显式触发检查、测试及 macOS 双架构构建；全部通过才合并并发布对应版本。构建成功不代替网络行为的人工验收。上游若修改托盘、provider、平台身份或工具链，仍可能需要人工适配。
-
-## 从源码构建
-
-使用源码包内固定版本的 Flutter、Go、Rust 要求；本次基线为 Flutter 3.47.6、Go 1.27、Rust 1.99.0，以及 Xcode 26 SDK 或兼容更新版本。
-
-```sh
-git clone --recursive https://github.com/CodeAIX/Flash.git
-cd Flash
+~~~sh
+git clone --recursive https://github.com/CodeAIX/Klash.git
+cd Klash
 flutter pub get
-flutter build macos --release --dart-define=FLASH_STATUS_ICON=true --dart-define=APP_ENV=stable
-```
+flutter build macos --release --dart-define=KLASH_STATUS_ICON=true --dart-define=APP_ENV=stable
+~~~
 
-本地调试请使用 `--dart-define=SAFE_MODE=true`，以免接管现有代理环境。使用 `--dart-define=FLASH_STATUS_ICON=false` 可回退原版模板托盘图标。
-
-## Flash 1.9.3：指定监测目标
-
-基于 FlClash v0.9.3。原有状态栏节点列表中的独立 ◎ 按钮可以选择手动节点组、其下嵌套的自动组或具体节点。点击组行的 ◎ 表示跟随该组当前实际出口；点击节点行的 ◎ 则固定监测该节点。此操作只改变监测对象，不切换代理节点、不修改分流规则。
-
-国家码显示所选目标实际出口的国家，白字表示原版质量判定为“优”，黑字表示其他/未知质量。绿色背景=TUN 开启，蓝色=仅系统代理开启，橙色=两者均未开启；背景不表示所选目标是否被其他应用使用。切换目标立即刷新，运行期间每 60 秒更新出口 IP；质量按 IP 缓存 3 天。目标选择在本机保存，配置中目标消失时显示不可用/失败，不自动改为其他出口。“按分流规则”可恢复原有探测行为。负载均衡组可能每次请求使用不同出口，因此徽标只代表该次探测结果。
-
-定制代码、七语言文案及测试均纳入 flash/runtime.patch 和 runtime-paths.txt；后续上游更新继续通过补丁重建、分析、测试和双架构构建门禁，真实冲突停止自动发布。
-
-## 1.9.3 修订 2：独立监测按钮
-
-移除顶部重复的“监测目标”选择树。在原有节点组及节点行、延迟数字左侧加入独立 ◎ 监测按钮；未选中按钮在高亮行出现，当前监测目标的实心标记常驻。左侧 ✓ 仍只表示代理选择。点击节点名称保持原来的切换代理操作，点击组箭头照常展开，点击 ◎ 只改变监测对象。
-
-可监测手动组、手动组成员中的自动组或具体节点；跟随组时采用该组实际出口，固定节点时不受其他组切换影响。TUN／系统代理背景颜色、国家码质量颜色、60秒出口刷新及目标持久化保持不变。底部“监测选项”仅显示当前目标、恢复规则监测及立即刷新出口与质量。高亮目标后可用 ⌥↩ 设为监测对象，也提供 VoiceOver 命名按钮及自定义操作。
-
-本次改动包括 Dart 菜单协议、macOS 原生按钮与事件、七语言文案和回归测试，全部纳入独立 runtime.patch；正式包附对应源码及完整子模块。
+Use --dart-define=SAFE_MODE=true for host development so the test client does not take over the current network. KLASH_STATUS_ICON=false restores upstream template tray icons. See [overlay maintenance](klash/README.md).

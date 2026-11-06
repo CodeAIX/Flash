@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Render the approved Flash SVG into application assets (CairoSVG 2.8.2)."""
+"""Render the approved Klash SVG into application assets (CairoSVG 2.8.2)."""
 from io import BytesIO
 from pathlib import Path
 from xml.etree import ElementTree
@@ -8,7 +8,7 @@ import cairosvg
 from PIL import Image
 
 ROOT = Path(__file__).resolve().parents[2]
-SOURCE = ROOT / 'flash/branding/app-icon.svg'
+SOURCE = ROOT / 'klash/branding/app-icon.svg'
 
 
 def main():
