@@ -7,12 +7,12 @@ import 'package:fl_clash/common/service_probe.dart';
 import 'package:riverpod/riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-final flashMonitorTargetProvider = NotifierProvider<FlashMonitorTarget, String>(
-  FlashMonitorTarget.new,
+final klashMonitorTargetProvider = NotifierProvider<KlashMonitorTarget, String>(
+  KlashMonitorTarget.new,
 );
 
-class FlashMonitorTarget extends Notifier<String> {
-  static const preferenceKey = 'flash.monitorTarget';
+class KlashMonitorTarget extends Notifier<String> {
+  static const preferenceKey = 'klash.monitorTarget';
   int _revision = 0;
   Future<void> _writes = Future.value();
 
@@ -26,7 +26,10 @@ class FlashMonitorTarget extends Notifier<String> {
     try {
       final store = await SharedPreferences.getInstance();
       if (ref.mounted && _revision == 0) {
-        state = store.getString(preferenceKey) ?? routedOutbound;
+        state =
+            store.getString(preferenceKey) ??
+            store.getString('flash.monitorTarget') ??
+            routedOutbound;
       }
     } catch (_) {
       // A missing preference store must not prevent tray startup.
@@ -56,5 +59,5 @@ final _qualityRefreshProvider = Provider<Future<void> Function(String)>(
     }
   },
 );
-Future<void> refreshFlashQuality(ProviderReader read, String ip) =>
+Future<void> refreshKlashQuality(ProviderReader read, String ip) =>
     read(_qualityRefreshProvider)(ip);

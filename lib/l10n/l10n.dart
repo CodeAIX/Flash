@@ -725,20 +725,20 @@ class AppLocalizations {
     );
   }
 
-  /// `Receiving a link from your phone needs the Nearby devices permission, which lets FlClash reach the local network. Turn it on in the app's settings.`
+  /// `Receiving a link from your phone needs the Nearby devices permission, which lets Klash reach the local network. Turn it on in the app's settings.`
   String get sendFromPhonePermissionDenied {
     return Intl.message(
-      'Receiving a link from your phone needs the Nearby devices permission, which lets FlClash reach the local network. Turn it on in the app\'s settings.',
+      'Receiving a link from your phone needs the Nearby devices permission, which lets Klash reach the local network. Turn it on in the app\'s settings.',
       name: 'sendFromPhonePermissionDenied',
       desc: '',
       args: [],
     );
   }
 
-  /// `Send a link to FlClash`
+  /// `Send a link to Klash`
   String get sendFromPhonePageTitle {
     return Intl.message(
-      'Send a link to FlClash',
+      'Send a link to Klash',
       name: 'sendFromPhonePageTitle',
       desc: '',
       args: [],
@@ -780,10 +780,10 @@ class AppLocalizations {
     );
   }
 
-  /// `Scan with FlClash on another device to import this profile.`
+  /// `Scan with Klash on another device to import this profile.`
   String get shareQrcodeTip {
     return Intl.message(
-      'Scan with FlClash on another device to import this profile.',
+      'Scan with Klash on another device to import this profile.',
       name: 'shareQrcodeTip',
       desc: '',
       args: [],
@@ -2331,10 +2331,10 @@ class AppLocalizations {
     return Intl.message('Disclaimer', name: 'disclaimer', desc: '', args: []);
   }
 
-  /// `Before using FlClash ("the Software"), please read this statement carefully and make sure you understand it. Tapping "Agree" means you have read and understood what follows. If you do not want to continue, tap "Exit".`
+  /// `Before using Klash ("the Software"), please read this statement carefully and make sure you understand it. Tapping "Agree" means you have read and understood what follows. If you do not want to continue, tap "Exit".`
   String get disclaimerDesc {
     return Intl.message(
-      'Before using FlClash ("the Software"), please read this statement carefully and make sure you understand it. Tapping "Agree" means you have read and understood what follows. If you do not want to continue, tap "Exit".',
+      'Before using Klash ("the Software"), please read this statement carefully and make sure you understand it. Tapping "Agree" means you have read and understood what follows. If you do not want to continue, tap "Exit".',
       name: 'disclaimerDesc',
       desc: '',
       args: [],
@@ -4646,10 +4646,10 @@ class AppLocalizations {
     );
   }
 
-  /// `Helper service unavailable; TUN mode cannot be enabled. Reinstall FlClash to restore it.`
+  /// `Helper service unavailable; TUN mode cannot be enabled. Reinstall Klash to restore it.`
   String get helperCorruptTip {
     return Intl.message(
-      'Helper service unavailable; TUN mode cannot be enabled. Reinstall FlClash to restore it.',
+      'Helper service unavailable; TUN mode cannot be enabled. Reinstall Klash to restore it.',
       name: 'helperCorruptTip',
       desc: '',
       args: [],
@@ -4676,20 +4676,20 @@ class AppLocalizations {
     );
   }
 
-  /// `Windows refused to run FlClashCore.exe (error {code}). An app control policy such as Smart App Control or AppLocker blocks unsigned programs; allow FlClash in that policy or turn it off, then try again.`
+  /// `Windows refused to run KlashCore.exe (error {code}). An app control policy such as Smart App Control or AppLocker blocks unsigned programs; allow Klash in that policy or turn it off, then try again.`
   String coreBlockedByPolicyTip(Object code) {
     return Intl.message(
-      'Windows refused to run FlClashCore.exe (error $code). An app control policy such as Smart App Control or AppLocker blocks unsigned programs; allow FlClash in that policy or turn it off, then try again.',
+      'Windows refused to run KlashCore.exe (error $code). An app control policy such as Smart App Control or AppLocker blocks unsigned programs; allow Klash in that policy or turn it off, then try again.',
       name: 'coreBlockedByPolicyTip',
       desc: '',
       args: [code],
     );
   }
 
-  /// `Windows Smart App Control blocked FlClashCore.exe because it is not signed. Open Windows Security → App & browser control → Smart App Control settings, choose Off, then start FlClash again. Smart App Control cannot be turned back on without reinstalling Windows.`
+  /// `Windows Smart App Control blocked KlashCore.exe because it is not signed. Open Windows Security → App & browser control → Smart App Control settings, choose Off, then start Klash again. Smart App Control cannot be turned back on without reinstalling Windows.`
   String get coreBlockedBySmartAppControlTip {
     return Intl.message(
-      'Windows Smart App Control blocked FlClashCore.exe because it is not signed. Open Windows Security → App & browser control → Smart App Control settings, choose Off, then start FlClash again. Smart App Control cannot be turned back on without reinstalling Windows.',
+      'Windows Smart App Control blocked KlashCore.exe because it is not signed. Open Windows Security → App & browser control → Smart App Control settings, choose Off, then start Klash again. Smart App Control cannot be turned back on without reinstalling Windows.',
       name: 'coreBlockedBySmartAppControlTip',
       desc: '',
       args: [],
@@ -6694,10 +6694,10 @@ class AppLocalizations {
     );
   }
 
-  /// `FlClash ran into an error while starting and can't continue. Copy the details to report the problem. If it keeps happening, clearing the data usually lets the app start again.`
+  /// `Klash ran into an error while starting and can't continue. Copy the details to report the problem. If it keeps happening, clearing the data usually lets the app start again.`
   String get initFailedTip {
     return Intl.message(
-      'FlClash ran into an error while starting and can\'t continue. Copy the details to report the problem. If it keeps happening, clearing the data usually lets the app start again.',
+      'Klash ran into an error while starting and can\'t continue. Copy the details to report the problem. If it keeps happening, clearing the data usually lets the app start again.',
       name: 'initFailedTip',
       desc: '',
       args: [],
@@ -8132,10 +8132,10 @@ class AppLocalizations {
     );
   }
 
-  /// `FlClash will be able to read everything sent to the decrypted hosts, cookies and passwords included. Turn this on only for hosts you mean to rewrite.`
+  /// `Klash will be able to read everything sent to the decrypted hosts, cookies and passwords included. Turn this on only for hosts you mean to rewrite.`
   String get mitmEnableTip {
     return Intl.message(
-      'FlClash will be able to read everything sent to the decrypted hosts, cookies and passwords included. Turn this on only for hosts you mean to rewrite.',
+      'Klash will be able to read everything sent to the decrypted hosts, cookies and passwords included. Turn this on only for hosts you mean to rewrite.',
       name: 'mitmEnableTip',
       desc: '',
       args: [],
@@ -8167,10 +8167,10 @@ class AppLocalizations {
     );
   }
 
-  /// `The new certificate replaces the current one, which FlClash takes out of this device's trusted roots where it can. Every other device that trusts the current one has to install the new one.`
+  /// `The new certificate replaces the current one, which Klash takes out of this device's trusted roots where it can. Every other device that trusts the current one has to install the new one.`
   String get regenerateCertificateTip {
     return Intl.message(
-      'The new certificate replaces the current one, which FlClash takes out of this device\'s trusted roots where it can. Every other device that trusts the current one has to install the new one.',
+      'The new certificate replaces the current one, which Klash takes out of this device\'s trusted roots where it can. Every other device that trusts the current one has to install the new one.',
       name: 'regenerateCertificateTip',
       desc: '',
       args: [],
@@ -8342,10 +8342,10 @@ class AppLocalizations {
     );
   }
 
-  /// `Root was found, so the certificate goes into the system's trusted certificates as a FlClash MITM CA module for Magisk, KernelSU or APatch. Every app on this device will then trust it, and anyone holding its private key could decrypt this device's HTTPS traffic. To undo it, regenerate the certificate or remove the module in the root manager and restart. If root is denied, it is installed as a user certificate instead.`
+  /// `Root was found, so the certificate goes into the system's trusted certificates as a Klash MITM CA module for Magisk, KernelSU or APatch. Every app on this device will then trust it, and anyone holding its private key could decrypt this device's HTTPS traffic. To undo it, regenerate the certificate or remove the module in the root manager and restart. If root is denied, it is installed as a user certificate instead.`
   String get mitmInstallSystemCaTip {
     return Intl.message(
-      'Root was found, so the certificate goes into the system\'s trusted certificates as a FlClash MITM CA module for Magisk, KernelSU or APatch. Every app on this device will then trust it, and anyone holding its private key could decrypt this device\'s HTTPS traffic. To undo it, regenerate the certificate or remove the module in the root manager and restart. If root is denied, it is installed as a user certificate instead.',
+      'Root was found, so the certificate goes into the system\'s trusted certificates as a Klash MITM CA module for Magisk, KernelSU or APatch. Every app on this device will then trust it, and anyone holding its private key could decrypt this device\'s HTTPS traffic. To undo it, regenerate the certificate or remove the module in the root manager and restart. If root is denied, it is installed as a user certificate instead.',
       name: 'mitmInstallSystemCaTip',
       desc: '',
       args: [],
@@ -8402,10 +8402,10 @@ class AppLocalizations {
     );
   }
 
-  /// `The old certificate, {name}, is still among the system's trusted CAs. Allow FlClash root access in your root manager and regenerate, or remove the FlClash MITM CA module there and restart.`
+  /// `The old certificate, {name}, is still among the system's trusted CAs. Allow Klash root access in your root manager and regenerate, or remove the Klash MITM CA module there and restart.`
   String mitmOldSystemCertificateLeftTip(Object name) {
     return Intl.message(
-      'The old certificate, $name, is still among the system\'s trusted CAs. Allow FlClash root access in your root manager and regenerate, or remove the FlClash MITM CA module there and restart.',
+      'The old certificate, $name, is still among the system\'s trusted CAs. Allow Klash root access in your root manager and regenerate, or remove the Klash MITM CA module there and restart.',
       name: 'mitmOldSystemCertificateLeftTip',
       desc: '',
       args: [name],
@@ -8422,10 +8422,10 @@ class AppLocalizations {
     );
   }
 
-  /// `Add {host} to the hostname list? FlClash can then read what is sent to it, cookies and passwords included.`
+  /// `Add {host} to the hostname list? Klash can then read what is sent to it, cookies and passwords included.`
   String mitmDecryptHostTip(Object host) {
     return Intl.message(
-      'Add $host to the hostname list? FlClash can then read what is sent to it, cookies and passwords included.',
+      'Add $host to the hostname list? Klash can then read what is sent to it, cookies and passwords included.',
       name: 'mitmDecryptHostTip',
       desc: '',
       args: [host],
@@ -8942,10 +8942,10 @@ class AppLocalizations {
     );
   }
 
-  /// `FlClash closes to install the update and opens again when it is done.`
+  /// `Klash closes to install the update and opens again when it is done.`
   String get updateRestartTip {
     return Intl.message(
-      'FlClash closes to install the update and opens again when it is done.',
+      'Klash closes to install the update and opens again when it is done.',
       name: 'updateRestartTip',
       desc: '',
       args: [],
@@ -9073,70 +9073,80 @@ class AppLocalizations {
   }
 
   /// `Monitor target`
-  String get flashMonitorTarget {
+  String get klashMonitorTarget {
     return Intl.message(
       'Monitor target',
-      name: 'flashMonitorTarget',
+      name: 'klashMonitorTarget',
       desc: '',
       args: [],
     );
   }
 
   /// `Follow routing rules`
-  String get flashMonitorRules {
+  String get klashMonitorRules {
     return Intl.message(
       'Follow routing rules',
-      name: 'flashMonitorRules',
+      name: 'klashMonitorRules',
       desc: '',
       args: [],
     );
   }
 
   /// `Monitor this group; current`
-  String get flashMonitorGroup {
+  String get klashMonitorGroup {
     return Intl.message(
       'Monitor this group; current',
-      name: 'flashMonitorGroup',
+      name: 'klashMonitorGroup',
       desc: '',
       args: [],
     );
   }
 
   /// `Unavailable in current profile`
-  String get flashMonitorUnavailable {
+  String get klashMonitorUnavailable {
     return Intl.message(
       'Unavailable in current profile',
-      name: 'flashMonitorUnavailable',
+      name: 'klashMonitorUnavailable',
       desc: '',
       args: [],
     );
   }
 
   /// `Monitoring options`
-  String get flashMonitorOptions {
+  String get klashMonitorOptions {
     return Intl.message(
       'Monitoring options',
-      name: 'flashMonitorOptions',
+      name: 'klashMonitorOptions',
       desc: '',
       args: [],
     );
   }
 
   /// `Refresh monitored exit and quality`
-  String get flashMonitorRefresh {
+  String get klashMonitorRefresh {
     return Intl.message(
       'Refresh monitored exit and quality',
-      name: 'flashMonitorRefresh',
+      name: 'klashMonitorRefresh',
       desc: '',
       args: [],
     );
   }
 
   /// `Monitor this target`
-  String get flashMonitorSet {
+  String get klashMonitorSet {
     return Intl.message(
       'Monitor this target',
-      name: 'flashMonitorSet',
+      name: 'klashMonitorSet',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Upstream FlClash`
+  String get klashUpstream {
+    return Intl.message(
+      'Upstream FlClash',
+      name: 'klashUpstream',
       desc: '',
       args: [],
     );

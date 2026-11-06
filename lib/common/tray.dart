@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'flash_monitor.dart';
+import 'klash_monitor.dart';
 import 'package:fl_clash/enum/enum.dart';
 import 'package:fl_clash/models/models.dart';
 import 'package:fl_clash/providers/providers.dart';
@@ -45,9 +45,9 @@ class AppTray implements TrayPort {
     return AppTray._internal(isMacOS: isMacOS, isWindows: isWindows);
   }
 
-  bool get _usesFlashStatusIcon =>
+  bool get _usesKlashStatusIcon =>
       isMacOS &&
-      const bool.fromEnvironment('FLASH_STATUS_ICON', defaultValue: true);
+      const bool.fromEnvironment('KLASH_STATUS_ICON', defaultValue: true);
 
   String get _trayIconSuffix {
     return isWindows ? 'ico' : 'png';
@@ -103,11 +103,11 @@ class AppTray implements TrayPort {
     if (_isShutDown) {
       return;
     }
-    final flash = _usesFlashStatusIcon && !trayState.safeMode;
-    final entry = flash
+    final klash = _usesKlashStatusIcon && !trayState.safeMode;
+    final entry = klash
         ? read(
             outboundIpProbeProvider,
-          ).entryOf(read(flashMonitorTargetProvider))
+          ).entryOf(read(klashMonitorTargetProvider))
         : null;
     final running = trayState.isStart && !trayState.suspended;
     final ip = running && entry?.phase == ProbePhase.fresh
@@ -136,7 +136,7 @@ class AppTray implements TrayPort {
         : '--';
     await Tray.instance.show(
       TraySpec(
-        icon: flash
+        icon: klash
             ? TrayIcon.status(country, status, isHighQuality: excellent)
             : TrayIcon.asset(
                 getTrayIcon(
@@ -150,8 +150,8 @@ class AppTray implements TrayPort {
               ),
         toolTip: trayState.safeMode
             ? currentAppLocalizations.safeModeAppTitle(appName)
-            : flash
-            ? 'Flash • ${read(flashMonitorTargetProvider).isEmpty ? currentAppLocalizations.flashMonitorRules : read(flashMonitorTargetProvider)} • ${ip ?? '—'} • $country • $status'
+            : klash
+            ? 'Klash • ${read(klashMonitorTargetProvider).isEmpty ? currentAppLocalizations.klashMonitorRules : read(klashMonitorTargetProvider)} • ${ip ?? '—'} • $country • $status'
             : appName,
         menu: _buildMenu(trayState: trayState, read: read),
       ),
@@ -209,7 +209,7 @@ class AppTray implements TrayPort {
           checked: trayState.showTrayTitle,
           onSelected: commonAction.updateSpeedStatistics,
         ),
-        if (!_usesFlashStatusIcon)
+        if (!_usesKlashStatusIcon)
           TrayMenuCheckbox(
             label: appLocalizations.monochromeIcon,
             checked: trayState.monochromeTrayIcon,
@@ -258,31 +258,31 @@ class AppTray implements TrayPort {
         onSelected: systemAction.copyProxyEnv,
       ),
       const TrayMenuSeparator(),
-      if (_usesFlashStatusIcon && !trayState.safeMode) ...[
+      if (_usesKlashStatusIcon && !trayState.safeMode) ...[
         TrayMenuSubmenu(
-          label: appLocalizations.flashMonitorOptions,
+          label: appLocalizations.klashMonitorOptions,
           items: [
             TrayMenuAction(
               label:
-                  '${appLocalizations.flashMonitorTarget}: ${read(flashMonitorTargetProvider).isEmpty ? appLocalizations.flashMonitorRules : read(flashMonitorTargetProvider)}',
+                  '${appLocalizations.klashMonitorTarget}: ${read(klashMonitorTargetProvider).isEmpty ? appLocalizations.klashMonitorRules : read(klashMonitorTargetProvider)}',
               enabled: false,
             ),
             TrayMenuCheckbox(
-              label: appLocalizations.flashMonitorRules,
-              checked: read(flashMonitorTargetProvider).isEmpty,
+              label: appLocalizations.klashMonitorRules,
+              checked: read(klashMonitorTargetProvider).isEmpty,
               onSelected: () => unawaited(
-                read(flashMonitorTargetProvider.notifier).select(''),
+                read(klashMonitorTargetProvider.notifier).select(''),
               ),
             ),
             TrayMenuAction(
-              label: appLocalizations.flashMonitorRefresh,
+              label: appLocalizations.klashMonitorRefresh,
               onSelected: () {
-                final target = read(flashMonitorTargetProvider);
+                final target = read(klashMonitorTargetProvider);
                 final ip = read(
                   outboundIpProbeProvider,
                 ).entryOf(target).value?.ip;
                 read(outboundIpProbeProvider.notifier).refresh([target]);
-                if (ip != null) refreshFlashQuality(read, ip).ignore();
+                if (ip != null) refreshKlashQuality(read, ip).ignore();
               },
             ),
           ],
@@ -327,12 +327,12 @@ class AppTray implements TrayPort {
       for (final group in trayState.groups)
         _buildGroupSubmenu(
           group,
-          monitor: _usesFlashStatusIcon && !trayState.safeMode
+          monitor: _usesKlashStatusIcon && !trayState.safeMode
               ? (name) => TrayMenuAccessory(
-                  label: '${currentAppLocalizations.flashMonitorSet}: $name',
-                  selected: read(flashMonitorTargetProvider) == name,
+                  label: '${currentAppLocalizations.klashMonitorSet}: $name',
+                  selected: read(klashMonitorTargetProvider) == name,
                   onSelected: () => unawaited(
-                    read(flashMonitorTargetProvider.notifier).select(name),
+                    read(klashMonitorTargetProvider.notifier).select(name),
                   ),
                 )
               : null,

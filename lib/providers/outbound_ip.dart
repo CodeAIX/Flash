@@ -17,7 +17,7 @@ class OutboundIpProbe extends _$OutboundIpProbe
   @override
   bool get runsInBackground =>
       system.isMacOS &&
-      const bool.fromEnvironment('FLASH_STATUS_ICON', defaultValue: true);
+      const bool.fromEnvironment('KLASH_STATUS_ICON', defaultValue: true);
 
   @override
   RoutedProbeState<String, IpInfo> build() => buildProbe();
